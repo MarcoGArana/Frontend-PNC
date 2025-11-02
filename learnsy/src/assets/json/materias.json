@@ -1,0 +1,26 @@
+{
+	"uri": "/api/materia",
+	"message": "Materias encontradas exitosamente",
+	"status": 200,
+	"time": "2025-06-24",
+	"data": [
+		{
+			"id": 3,
+			"nombre": "Base de gatos",
+			"visible": true,
+			"imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBtGDjSjd2ngq63zGpVeKy6siEcEfzcoWn2LF5Pa2b2QhlmtsNjY3xeHm7fvlwdBNVAVg&usqp=CAU"
+		},
+		{
+			"id": 4,
+			"nombre": "Base de platos",
+			"visible": true,
+			"imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBtGDjSjd2ngq63zGpVeKy6siEcEfzcoWn2LF5Pa2b2QhlmtsNjY3xeHm7fvlwdBNVAVg&usqp=CAU"
+		},
+		{
+			"id": 2,
+			"nombre": "Base de patos",
+			"visible": true,
+			"imagen": "https://img.freepik.com/vector-premium/base-datos-almacenar-grandes-cantidades-datos-nube-intercambio-masivo-informacion_68708-2949.jpg"
+		}
+	]
+}

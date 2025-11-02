@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #022873;
+  --color-secondary: #135bfb;
+  --color-ligthBlue: #5f94d8;
+
+  --font-spartan: League Spartan, 'sans-serif';
+}
+
+:root {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--color-secondary);
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-size: large;
+  display: grid;
+}
+
+#layout {
+  grid-template-columns: auto 1fr;
+}
+
+#sidebar {
+  box-sizing: border-box;
+  height: 100vh;
+  position: sticky;
+  background-color: var(--color-ligthBlue);
+  transition: 300ms ease-in-out;
+  overflow: hidden;
+  color: white;
+  top: 0px;
+  align-self: start;
+}
+
+#sidebar svg{
+  flex-shrink: 0;
+}
+
+#sidebar.open {
+  width: 200px;
+}
+
+#sidebar.open #toggle-btn svg{
+  rotate: 180deg;
+}
+
+#sidebar.close {
+  width: 0px;
+  overflow: hidden;
+  padding: 0px;
+}
+
+#sidebar ul {
+ list-style: none;
+}
+
+#sidebar ul li{
+  padding-left: 1em;
+}
+
+#sidebar ul li > *{
+  border-radius: .5em;
+  padding: .85em;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: .5em;
+}
+
+svg {
+  fill: white;
+}
+
+#modify {
+  fill: lightslategrey;
+}
+#delete {
+  fill: lightslategrey;
+}
+
+#profile {
+  fill: gray;
+}
+
+#toggle-btn {
+  margin-left: auto;
+  padding: 1em;
+  padding-right: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  svg {
+    transition: rotate 150ms ease;
+  }
+}
+
+#top {
+  justify-content: flex-end;
+}
+
+.active {
+  color: var(--color-primary);
+  margin-right: .5em;
+  background: white;
+  border-radius: 0 1em 1em 0;
+
+  svg {
+    fill: var(--color-primary);
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  position: relative;
+  max-width: 500px;
+  width: 90%;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.7rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.Toastify__toast {
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+}

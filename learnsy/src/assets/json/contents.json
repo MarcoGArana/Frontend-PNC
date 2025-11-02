@@ -1,0 +1,16 @@
+{
+    "data": [
+            {
+                "id": 1,
+                "name":"Normalizacion"
+            },
+            {
+                "id": 2,
+                "name":"Subconsultas"            
+            },
+            {
+                "id": 3,
+                "name":"Procedimientos almacenados"
+            }
+        ]
+}

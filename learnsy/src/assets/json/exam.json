@@ -1,0 +1,91 @@
+{
+	"uri": "/api/materia/2/exams",
+	"message": "Exams found",
+	"status": 200,
+	"time": "2025-06-24",
+	"data": [
+		{
+			"id": 1,
+			"name": "Examen de Biología",
+			"description": "aaaaaa",
+			"duration": 3600000,
+			"preguntaOpcionMultipleList": [
+				{
+					"id": 1,
+					"image": "https://mujeres360.org/wp-content/uploads/2021/09/programacion-M360.jpg",
+					"statement": "Mostrar todos los campos y todos los registros de usuarios cuyo idusuario es 'LEON'; [ SELECT idusuario, password, nombre, telefono FROM usuario WHERE idusuario='LEON' AND password='123' ]",
+					"responses": [
+						{
+							"id": 1,
+							"image": "Image",
+							"description": "El diablaso",
+							"isCorrect": true
+						},
+						{
+							"id": 2,
+							"image": "Image",
+							"description": "El mango",
+							"isCorrect": false
+						},
+						{
+							"id": 3,
+							"image": "Image",
+							"description": "El tango",
+							"isCorrect": false
+						},
+						{
+							"id": 4,
+							"image": "Image",
+							"description": "Mambo",
+							"isCorrect": false
+						}
+					]
+				},
+				{
+					"id": 2,
+					"image": "https://mujeres360.org/wp-content/uploads/2021/09/programacion-M360.jpg",
+					"statement": "Mostrar todos los campos y todos los registros de usuarios cuyo idusuario es 'LEON'; [ SELECT idusuario, password, nombre, telefono FROM usuario WHERE idusuario='LEON' AND password='123' ]",
+					"responses": [
+						{
+							"id": 5,
+							"image": "Image",
+							"description": "Mambo",
+							"isCorrect": false
+						},
+						{
+							"id": 6,
+							"image": "Image",
+							"description": "La revolucion industrial",
+							"isCorrect": false
+						},
+						{
+							"id": 7,
+							"image": "Image",
+							"description": "La guerra de las langostas",
+							"isCorrect": false
+						},
+						{
+							"id": 8,
+							"image": "Image",
+							"description": "La guerra de las mangostas",
+							"isCorrect": true
+						}
+					]
+				}
+			],
+			"visible": true,
+			"dateHourEnd": "2025-06-25T14:30:00",
+			"dateHourBegin": "2025-06-24T14:30:00"
+		},
+		{
+			"id": 2,
+			"name": "Examen de Botanica",
+			"description": "sisisis",
+			"duration": 3600000,
+			"preguntaOpcionMultipleList": [],
+			"visible": true,
+			"dateHourEnd": "2025-06-25T14:30:00",
+			"dateHourBegin": "2025-06-24T14:30:00"
+		}
+	]
+}
