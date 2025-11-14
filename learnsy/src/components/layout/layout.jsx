@@ -37,8 +37,8 @@ const Layout = () => {
   useEffect(() => {
     setParticipants({})
     setGrades({})
-    
-    if(location.pathname.includes('materia')){
+
+    if (location.pathname.includes('materia')) {
       setParticipants({
         route: `./materia/${materiaId}/participantes`,
         label: 'Participantes',
@@ -64,12 +64,15 @@ const Layout = () => {
 
   }, [location]);
 
-
-  return !isAuthenticated ? <Navigate to={"/"} /> : (
+  //!isAuthenticated ? <Navigate to={"/"} /> : 
+  return (
     <>
       <nav className="bg-white">
         <ul className="flex justify-between w-full gap-4 p-2 pr-8 items-center">
-          <li>
+          <li className="flex gap-3.5 pl-4">
+            <button className="cursor-pointer" onClick={toggleAside}>
+              <svg id="menu" xmlns="http://www.w3.org/2000/svg" height="24px" className="scale-150" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" /></svg>
+            </button>
             <Link to="/dashboard">
               <img src="http://localhost:5173/src/assets/OpcionLogo2.PNG" className="max-w-[16.5rem] h-auto" />
             </Link>
@@ -82,12 +85,7 @@ const Layout = () => {
           </li>
         </ul>
       </nav>
-      <div className="w-full bg-primary p-2.5 flex items-center pl-3.5">
-        <button className="cursor-pointer" onClick={toggleAside}>
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" className="scale-150" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" /></svg>
-        </button>
-      </div>
-      <div id="layout" className="grid font-spartan">
+      <div id="layout" className="grid min-h-screen grid-cols-[auto_1fr] font-spartan">
         <aside id="sidebar" className={`${asideState}`}>
           <ul>
             <li key={'1279874'}>
@@ -105,10 +103,15 @@ const Layout = () => {
             })}
           </ul>
         </aside>
-        <main>
-          <div className="flex justify-center p-8">
+        <main className="flex flex-col min-h-full">
+          <div className="flex-1 flex justify-center p-8">
             <Outlet />
           </div>
+
+          <footer className="h-16 w-full bg-dark-purple text-white flex items-center justify-center p-10 flex-col">
+            <h3 className="text-xl">Learnsy</h3>
+            <p>learnsy@gmail.com</p>
+          </footer>
         </main>
       </div>
     </>

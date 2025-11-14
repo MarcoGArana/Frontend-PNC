@@ -4,8 +4,12 @@
 
 @theme {
   --color-primary: #022873;
-  --color-secondary: #135bfb;
-  --color-ligthBlue: #5f94d8;
+  --color-secondary: #FFFFFF;
+  --color-pink: #C65CB1;
+  --color-purple: #5A4598;
+  --color-light-gray: #F6F6F6; 
+  --color-gray: #F3F0FD; 
+  --color-dark-purple: #706788;
 
   --font-spartan: League Spartan, 'sans-serif';
 }
@@ -22,6 +26,7 @@ body {
   font-weight: 600;
   font-style: normal;
   font-size: large;
+  color: var(--color-pink);
   display: grid;
 }
 
@@ -33,12 +38,13 @@ body {
   box-sizing: border-box;
   height: 100vh;
   position: sticky;
-  background-color: var(--color-ligthBlue);
+  background-color: var(--color-light-gray);
   transition: 300ms ease-in-out;
   overflow: hidden;
-  color: white;
+  color: var(--color-purple);
   top: 0px;
   align-self: start;
+  border-radius: 0 15px 15px 0;
 }
 
 #sidebar svg{
@@ -77,18 +83,11 @@ body {
 }
 
 svg {
-  fill: white;
+  fill: var(--color-purple);
 }
 
-#modify {
-  fill: lightslategrey;
-}
-#delete {
-  fill: lightslategrey;
-}
-
-#profile {
-  fill: gray;
+#menu {
+  fill: var(--color-pink);
 }
 
 #toggle-btn {
