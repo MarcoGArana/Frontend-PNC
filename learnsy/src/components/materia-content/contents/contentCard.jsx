@@ -28,7 +28,7 @@ const ContentCard = ({ data, label, type, deletedTopics, deleteTopic, rol }) => 
             <h4 className="bg-gray-300 text-primary text-3xl p-1">
                 {label}:
             </h4>
-            <div className="flex flex-col gap-1 p-1.5 text-secondary text-2xl">
+            <div className="flex flex-col gap-1 p-1.5 text-dark-text text-2xl">
                 {data?.map((content) => {
                     const name = type == 'tema' ? content?.nombre : content?.name;
                     let deleted = '';

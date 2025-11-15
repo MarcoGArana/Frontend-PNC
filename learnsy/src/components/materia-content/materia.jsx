@@ -26,20 +26,76 @@ const Materia = () => {
         setDeletedTopic(state => [...state, name])
     }
 
-    return (
-        <div className="grid auto-rows-min">
+    if (temaModalOpen) {
+        return (
             <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 shadow-2xl shadow-black">
-                {isPending && <div>loading...</div>}
-                {!isPending && (<h3 className="text-primary text-4xl">{nombre}</h3>)}
-                {user?.rol == 'admin' && <button className="cursor-pointer p-1.5 bg-ligthBlue text-white" onClick={() => setTemaModalOpen(true)}>Añadir tema</button>}
-                {!isPending && (<ContentCard data={content.temas.data} label="Contenido de clase" type="tema" deletedTopics={deletedTopics} deleteTopic={deleteTopic} rol={user?.rol}/>)}
-                {user?.rol == 'admin' && <button className="cursor-pointer p-1.5 bg-ligthBlue text-white" onClick={() => setExamModalOpen(true)}>Crear examen</button>}
-                {!isPending && (<ContentCard data={content.examenes.data} label="Examenes" type="exam" deletedTopics={[]} rol={user?.rol}/>)}
-                {user?.rol == 'admin' && temaModalOpen && <PDFUploadForm materiaId={materiaId} onClose={() => setTemaModalOpen(false)}/>}
-                {user?.rol == 'admin' && examModalOpen && <ExamForm materiaId={materiaId} onClose={() => setExamModalOpen(false)}/>}
+                <PDFUploadForm
+                    materiaId={materiaId}
+                    onClose={() => setTemaModalOpen(false)}
+                />
             </div>
+        );
+    }
+
+    if (examModalOpen) {
+        return (
+            <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 shadow-2xl shadow-black">
+                <ExamForm
+                    materiaId={materiaId}
+                    onClose={() => setExamModalOpen(false)}
+                />
+            </div>
+        );
+    }
+
+    return (
+        <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 shadow-2xl shadow-black">
+            {isPending && <div>loading...</div>}
+
+            {!isPending && (
+                <h3 className="text-primary text-4xl">{nombre}</h3>
+            )}
+
+            {user?.rol === 'admin' && (
+                <button
+                    className="cursor-pointer p-1.5 bg-pink text-white"
+                    onClick={() => setTemaModalOpen(true)}
+                >
+                    Añadir tema
+                </button>
+            )}
+
+            {!isPending && (
+                <ContentCard
+                    data={content.temas.data}
+                    label="Contenido de clase"
+                    type="tema"
+                    deletedTopics={deletedTopics}
+                    deleteTopic={deleteTopic}
+                    rol={user?.rol}
+                />
+            )}
+
+            {user?.rol === 'admin' && (
+                <button
+                    className="cursor-pointer p-1.5 bg-pink text-white"
+                    onClick={() => setExamModalOpen(true)}
+                >
+                    Crear examen
+                </button>
+            )}
+
+            {!isPending && (
+                <ContentCard
+                    data={content.examenes.data}
+                    label="Examenes"
+                    type="exam"
+                    deletedTopics={[]}
+                    rol={user?.rol}
+                />
+            )}
         </div>
-    )
+    );
 };
 
 export default Materia;
