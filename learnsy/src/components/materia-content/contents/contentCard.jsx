@@ -2,8 +2,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useQuestionsStore from "../../../store/questions";
 import { deleteTema, getPdf } from "../../../services/materiaService";
 import { toast } from "react-toastify";
+import { deleteExam } from "../../../services/examService";
 
-const ContentCard = ({ data, label, type, deletedTopics, deleteTopic, rol }) => {
+const ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const fetchQuestions = useQuestionsStore(state => state.fetchQuestions);
@@ -17,10 +18,14 @@ const ContentCard = ({ data, label, type, deletedTopics, deleteTopic, rol }) => 
         getPdf(temaId);
     }
 
-    const handleDeleteTema = ({ temaId, name }) => {
-        deleteTema({ temaId: temaId });
-        deleteTopic(name);
+    const handleDeleteTema = ({ temaId }) => {
+        deleteTopic(temaId);
         toast.success('El tema ha sido eliminado exitosamente');
+    }
+
+    const handleDeleteExam = ({ examId }) => {
+        deleteExamen(examId);
+        toast.success('El examen ha sido eliminado exitosamente');
     }
 
     return (
@@ -31,12 +36,8 @@ const ContentCard = ({ data, label, type, deletedTopics, deleteTopic, rol }) => 
             <div className="flex flex-col gap-1 p-1.5 text-dark-text text-2xl">
                 {data?.map((content) => {
                     const name = type == 'tema' ? content?.nombre : content?.name;
-                    let deleted = '';
-                    if (deletedTopics.includes(name)) {
-                        deleted = 'hidden'
-                    }
                     return (
-                        <div className={`flex justify-between ${deleted}`} key={name}>
+                        <div className={`flex justify-between`} key={name}>
                             <button className="flex gap-0.5 cursor-pointer"
                                 onClick={
                                     () => {
@@ -54,9 +55,9 @@ const ContentCard = ({ data, label, type, deletedTopics, deleteTopic, rol }) => 
                                     onClick={
                                         () => {
                                             if (type == 'tema') {
-                                                handleDeleteTema({ temaId: content.id, name: name })
+                                                return handleDeleteTema({ temaId: content.id })
                                             } else {
-                                                //delete exam
+                                                return handleDeleteExam({ examId: content.id })
                                             }
                                         }
                                     }>

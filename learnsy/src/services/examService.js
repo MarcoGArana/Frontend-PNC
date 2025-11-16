@@ -84,11 +84,10 @@ export const createAnswer = async ({ ansData }) => {
 
 export const createQuestionWithAnswers = async ({ questionData }, [...answers]) => {
   try {
-    console.log(questionData);
-    console.log(answers);
     
     const responseQuestion = await createQuestion({questionData: questionData});
-    console.log(responseQuestion);
+
+    //RIP Peticiones :'(
     
     answers.forEach(async (e, i) => {
       e.idPreguntaOpcionMultiple = responseQuestion.data.id;
@@ -98,5 +97,16 @@ export const createQuestionWithAnswers = async ({ questionData }, [...answers]) 
     return responseQuestion;
   } catch (error) {
     console.log(error);
+  }
+}
+
+export const deleteExam = async ({ examId }) => {
+  try {
+    const response = await API.delete(`/exam/${examId}`);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+
   }
 }

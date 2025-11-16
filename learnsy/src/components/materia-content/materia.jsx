@@ -1,11 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import ContentCard from "./contents/contentCard";
-import { getMateriaById } from "../../services/materiaService";
+import { deleteTema, getMateriaById } from "../../services/materiaService";
 import PDFUploadForm from "./temaUpload/temaForm";
 import { useState } from "react";
 import { useAuthStore } from "../../store/authStore";
 import ExamForm from "./examUpload/ExamForm";
+import { deleteExam } from "../../services/examService";
 
 const Materia = () => {
 
@@ -13,17 +14,88 @@ const Materia = () => {
     const user = useAuthStore((state) => state.user);
     const [temaModalOpen, setTemaModalOpen] = useState(false);
     const [examModalOpen, setExamModalOpen] = useState(false);
-    const [deletedTopics, setDeletedTopic] = useState([]);
 
     const { data: content, isError, isPending } = useQuery(
         {
             queryKey: ["content", materiaId],
-            queryFn: () => getMateriaById({id: materiaId})
+            queryFn: () => getMateriaById({ id: materiaId })
         }
     );
 
-    const deleteTopic = (name) => {
-        setDeletedTopic(state => [...state, name])
+    const queryClient = useQueryClient();
+
+    const deleteTemaMutation = useMutation({
+        mutationFn: ({ temaId }) => deleteTema({ temaId }),
+
+        // ⬇ Se ejecuta ANTES de la request
+        onMutate: async ({ temaId }) => {
+            await queryClient.cancelQueries(["content", materiaId]);
+
+            const previousData = queryClient.getQueryData(["content", materiaId]);
+
+            queryClient.setQueryData(["content", materiaId], (old) => {
+                return {
+                    ...old,
+                    temas: {
+                        ...old.temas,
+                        data: old.temas.data.filter((tema) => tema.id !== temaId),
+                    },
+                };
+            });
+
+            return { previousData };
+        },
+
+        // ⬇ Si hubo error, revertimos los cambios
+        onError: (err) => {
+            console.error("DELETE ERROR:", err);
+        },
+
+        // ⬇ Al finalizar, revalidamos datos con el backend
+        onSettled: () => {
+            queryClient.invalidateQueries(["content", materiaId]);
+        }
+    });
+
+    const deleteExamMutation = useMutation({
+        mutationFn: ({ examId }) => deleteExam({ examId }),
+
+        // ⬇ Se ejecuta ANTES de la request
+        onMutate: async ({ examId }) => {
+            await queryClient.cancelQueries(["content", materiaId]);
+
+            const previousData = queryClient.getQueryData(["content", materiaId]);
+
+            queryClient.setQueryData(["content", materiaId], (old) => {
+                return {
+                    ...old,
+                    examenes: {
+                        ...old.examenes,
+                        data: old.examenes.data.filter((examen) => examen.id !== examId),
+                    },
+                };
+            });
+
+            return { previousData };
+        },
+
+        // ⬇ Si hubo error, revertimos los cambios
+        onError: (err) => {
+            console.error("DELETE ERROR:", err);
+        },
+
+        // ⬇ Al finalizar, revalidamos datos con el backend
+        onSettled: () => {
+            queryClient.invalidateQueries(["content", materiaId]);
+        }
+    });
+
+    const deleteTopic = (temaId) => {
+        deleteTemaMutation.mutate({ temaId });
+    }
+
+    const deleteExamen = (examId) => {
+        deleteExamMutation.mutate({ examId });
     }
 
     if (temaModalOpen) {
@@ -70,7 +142,6 @@ const Materia = () => {
                     data={content.temas.data}
                     label="Contenido de clase"
                     type="tema"
-                    deletedTopics={deletedTopics}
                     deleteTopic={deleteTopic}
                     rol={user?.rol}
                 />
@@ -90,7 +161,7 @@ const Materia = () => {
                     data={content.examenes.data}
                     label="Examenes"
                     type="exam"
-                    deletedTopics={[]}
+                    deleteExamen={deleteExamen}
                     rol={user?.rol}
                 />
             )}
