@@ -9,12 +9,7 @@ const Home = () => {
 
   return (
     <div className="grid auto-rows-min">
-      <div className="bg-gray-200 p-2 pl-4">
-        <h3 className="font-bold">
-          Asignaturas
-        </h3>
-      </div>
-      <div className="bg-white p-8 flex flex-col gap-12 min-w-5xl min-h-screen shadow-2xl shadow-black">
+      <div className="bg-white p-8 flex flex-col gap-12 min-w-5xl min-h-screen soft-ring rounded-2xl">
         {isPending && <div>loading...</div>}
         {!isPending && user?.rol == 'admin' && <MateriaCreator userId={user.usuarioId}/>}
         {!isPending && (user?.materias.map((materia) => {
