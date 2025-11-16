@@ -169,3 +169,21 @@ svg {
   font-weight: 400;
   font-style: normal;
 }
+
+.radio {
+  appearance: none;
+
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+
+  border: 2px solid var(--color-titles-purple);
+  transition: 0.2s all linear;
+  margin-right: 5px;
+
+  position: relative;
+}
+
+.radio:checked {
+  background-color: #D9D9D9;
+}

@@ -30,7 +30,7 @@ const Results = ({examId, userId}) => {
   }
 
   return (
-    <div className="p-8 text-xl font-normal grid grid-cols-1 gap-5 justify-items-center -mt-14">
+    <div className="p-8 text-xl font-normal grid grid-cols-1 gap-5 justify-items-center">
       <h2 className="text-4xl text-purple">Tus resultados</h2>
       <img src="../../../../../../src/assets/icons/d2014145c2108618a066776973b552c1d0088844.png" className="max-w-16 h-auto" />
 

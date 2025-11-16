@@ -1,15 +1,21 @@
-const Question = ({ questionInfo, respuestas, handleChange }) => {
+import Timer from "../timer/timer"
+
+const Question = ({ questionInfo, respuestas, handleChange, duration }) => {
     return (
-        <div className="font-light flex gap-10 min-h-52 items-center">
-            <div className="flex flex-col gap-3.5 max-w-[35rem] justify-center">
-                <p>
+        <div className="flex flex-col font-light gap-8 justify-center w-full">
+            <div className="flex justify-between">
+                <p className="text-2xl text-titles-purple font-medium">
                     {questionInfo.statement}
                 </p>
-                <div className="grid grid-cols-2 gap-7">
+                <Timer duration={duration} />
+            </div>
+            <div className="flex justify-between">
+                <div className="grid grid-cols-1 gap-5 text-dark-text">
                     {questionInfo.responses.map((res) =>
                         <label key={res.id} className="flex gap-1 items-center">
                             <input
                                 type="radio"
+                                className="radio"
                                 name="respuesta"
                                 value={res.description}
                                 checked={respuestas[questionInfo.id] === res.id}
@@ -19,9 +25,10 @@ const Question = ({ questionInfo, respuestas, handleChange }) => {
                         </label>
                     )}
                 </div>
+                {questionInfo.image && <img src={questionInfo.image} className="h-52 border-[2px] border-titles-purple rounded-2xl shadow-xl shadow-[#CFCFCF]" />}
             </div>
-            {questionInfo.image && <img src={questionInfo.image} className="h-40" />}
         </div>
+
     )
 }
 
