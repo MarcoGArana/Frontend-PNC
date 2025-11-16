@@ -88,6 +88,10 @@ svg {
   fill: var(--color-purple);
 }
 
+#correct {
+  fill: var(--color-green-500);
+}
+
 #menu {
   fill: var(--color-pink);
 }

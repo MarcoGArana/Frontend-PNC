@@ -81,3 +81,22 @@ export const createAnswer = async ({ ansData }) => {
     console.log(error);
   }
 }
+
+export const createQuestionWithAnswers = async ({ questionData }, [...answers]) => {
+  try {
+    console.log(questionData);
+    console.log(answers);
+    
+    const responseQuestion = await createQuestion({questionData: questionData});
+    console.log(responseQuestion);
+    
+    answers.forEach(async (e, i) => {
+      e.idPreguntaOpcionMultiple = responseQuestion.data.id;
+      await createAnswer({ansData: e});
+    })
+
+    return responseQuestion;
+  } catch (error) {
+    console.log(error);
+  }
+}

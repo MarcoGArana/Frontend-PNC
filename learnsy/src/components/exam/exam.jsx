@@ -48,7 +48,7 @@ const Exam = () => {
                     </div>
                 )}
 
-                {editExam && <EditExamContent idExam={examId}/>}
+                {editExam && <EditExamContent idExam={examId} onClose={()=>{setEditExam(false)}}/>}
 
                 {!isLoading && !examStarted && !finished && !editExam &&(
                     <div className="grid-cols-1 gap-9 justify-items-center">

@@ -125,20 +125,11 @@ const ExamForm = ({ materiaId, onClose }) => {
                     <div className="flex justify-center w-full gap-16">
                         <button
                             type="button"
-                            onClick={handleSubmit}
+                            onClick={onClose}
                             disabled={loading}
                             className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
                         >
-                            {loading ? (
-                                <>
-                                    <div className="rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                    Creando...
-                                </>
-                            ) : (
-                                <>
-                                    Cancelar
-                                </>
-                            )}
+                            Cancelar
                         </button>
                         <button
                             type="button"
