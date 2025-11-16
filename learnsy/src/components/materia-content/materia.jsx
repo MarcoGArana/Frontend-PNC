@@ -100,7 +100,7 @@ const Materia = () => {
 
     if (temaModalOpen) {
         return (
-            <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 shadow-2xl shadow-black">
+            <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 soft-ring rounded-2xl">
                 <PDFUploadForm
                     materiaId={materiaId}
                     onClose={() => setTemaModalOpen(false)}
@@ -111,7 +111,7 @@ const Materia = () => {
 
     if (examModalOpen) {
         return (
-            <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 shadow-2xl shadow-black">
+            <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 soft-ring rounded-2xl">
                 <ExamForm
                     materiaId={materiaId}
                     onClose={() => setExamModalOpen(false)}
@@ -121,7 +121,7 @@ const Materia = () => {
     }
 
     return (
-        <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 shadow-2xl shadow-black">
+        <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 soft-ring rounded-2xl">
             {isPending && <div>loading...</div>}
 
             {!isPending && (

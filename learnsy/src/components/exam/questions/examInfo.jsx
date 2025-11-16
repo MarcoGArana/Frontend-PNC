@@ -35,7 +35,7 @@ const ExamInfo = () => {
             </div>
             
             {currentQuestion === (questions.length - 1) && 
-                <button className="bg-ligthBlue rounded-sm p-2 relative -top-[2.7rem] -right-[21.75rem] text-white font-light cursor-pointer" onClick={() => finishExam()}>Finalizar examen</button>
+                <button className="bg-pink rounded-sm p-2 relative -top-[2.7rem] -right-[21.75rem] text-white font-light cursor-pointer" onClick={() => finishExam()}>Finalizar examen</button>
             }
         </>
     )

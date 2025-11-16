@@ -42,8 +42,12 @@ const EditExamContent = ({ idExam, onClose }) => {
 
         const response = await createQuestionWithAnswers({ questionData: questionData }, questionAnswers);
 
-        if(response)
-        toast.success('Pregunta creada correctamente!');
+        if(response){
+            toast.success('Pregunta creada correctamente!');
+            setQuestion('');
+            setAnswers(['','','','']);
+            setCorrect(-1);
+        }
     }
 
     return (
@@ -61,6 +65,20 @@ const EditExamContent = ({ idExam, onClose }) => {
                                 placeholder="Escriba la pregunta aquí. Ej: ¿Qué son los principios SOLID?"
                                 className="w-full p-4 bg-transparent border-none outline-none resize-none text-gray-600"
                                 rows="3"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="mb-8">
+                        <label className="block text-gray-700 font-semibold mb-3 text-lg">
+                            Imagen de la pregunta:
+                        </label>
+                        <div className="bg-gray-50 rounded-lg p-1 border border-gray-200">
+                            <input
+                                value={imageUrl}
+                                onChange={(e) => setImageUrl(e.target.value)}
+                                placeholder="Url de la imagen"
+                                className="w-full p-4 bg-transparent border-none outline-none resize-none text-gray-600"
                             />
                         </div>
                     </div>
@@ -114,7 +132,7 @@ const EditExamContent = ({ idExam, onClose }) => {
                     <div className="flex justify-center w-full gap-16">
                         <button
                             type="button"
-                            onClick={() => { }}
+                            onClick={onClose}
                             disabled={loading}
                             className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
                         >
