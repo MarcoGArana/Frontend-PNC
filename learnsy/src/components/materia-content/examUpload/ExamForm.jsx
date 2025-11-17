@@ -34,15 +34,15 @@ const ExamForm = ({ materiaId, onClose }) => {
             const durationMillis = duration * 60 * 60 * 1000;
             DateHourEnd.setDate(DateHourEnd.getDate() + daysDuration);
             const examData = {
-                    name: name,
-                    isVisible: isVisible,
-                    description: description,
-                    duration: durationMillis,
-                    DateHourBegin: DateHourBegin,
-                    DateHourEnd: DateHourEnd,
-                    idMateria: materiaId
-                }
-            const res = createExam({examData: examData});
+                name: name,
+                isVisible: isVisible,
+                description: description,
+                duration: durationMillis,
+                DateHourBegin: DateHourBegin,
+                DateHourEnd: DateHourEnd,
+                idMateria: materiaId
+            }
+            const res = createExam({ examData: examData });
             onClose();
             toast.success('Examen creado!');
         } catch (e) {
@@ -54,16 +54,16 @@ const ExamForm = ({ materiaId, onClose }) => {
     };
 
     return (
-        <div className=" modal-overlay">
-            <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg">
-                <div className="flex items-center gap-2 mb-6">
-                    <h2 className="text-2xl font-bold text-gray-800">Crear examen</h2>
+        <div className="">
+            <div className="p-6 bg-white rounded-lg">
+                <div className="flex items-center justify-center pb-10">
+                    <h2 className="text-5xl font-light text-titles-purple">Crear un nuevo examen</h2>
                 </div>
 
-                <div className="space-y-4">
-                    <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                            Nombre:
+                <div className="w-full grid gap-8">
+                    <div className="grid grid-cols-2 items-center px-4">
+                        <label htmlFor="name" className="text-xl font-medium text-gray-700 pl-20">
+                            Nombre del parcial:
                         </label>
                         <input
                             type="text"
@@ -71,13 +71,13 @@ const ExamForm = ({ materiaId, onClose }) => {
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+                            className="w-[30rem] px-3 py-2 border border-gray-300 rounded-md"
                             placeholder="Nombre del examen"
                             required
                         />
                     </div>
-                    <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="grid grid-cols-2 items-center px-4">
+                        <label htmlFor="description" className="text-xl font-medium text-gray-700 pl-20">
                             Descripcion:
                         </label>
                         <input
@@ -86,13 +86,13 @@ const ExamForm = ({ materiaId, onClose }) => {
                             name="description"
                             value={formData.description}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+                            className="w-[30rem] px-3 py-2 border border-gray-300 rounded-md"
                             placeholder="Descripcion"
                             required
                         />
                     </div>
-                    <div>
-                        <label htmlFor="duration" className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="grid grid-cols-2 items-center px-4">
+                        <label htmlFor="duration" className="text-xl font-medium text-gray-700 pl-20">
                             Duracion en horas:
                         </label>
                         <input
@@ -102,12 +102,12 @@ const ExamForm = ({ materiaId, onClose }) => {
                             name="duration"
                             value={formData.duration}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+                            className="w-20 px-3 py-2 border border-gray-300 rounded-md"
                             required
                         />
                     </div>
-                    <div>
-                        <label htmlFor="daysDuration" className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="grid grid-cols-2 items-center px-4">
+                        <label htmlFor="daysDuration" className="text-xl font-medium text-gray-700 pl-20">
                             Fecha maxima en dias:
                         </label>
                         <input
@@ -117,28 +117,38 @@ const ExamForm = ({ materiaId, onClose }) => {
                             name="daysDuration"
                             value={formData.daysDuration}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+                            className="w-20 px-3 py-2 border border-gray-300 rounded-md"
                             required
                         />
                     </div>
 
-                    <button
-                        type="button"
-                        onClick={handleSubmit}
-                        disabled={loading}
-                        className="cursor-pointer w-full flex items-center justify-center gap-2 bg-secondary text-white py-2 px-4 rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {loading ? (
-                            <>
-                                <div className="rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                Creando...
-                            </>
-                        ) : (
-                            <>
-                                Crear examen
-                            </>
-                        )}
-                    </button>
+                    <div className="flex justify-center w-full gap-16">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            disabled={loading}
+                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleSubmit}
+                            disabled={loading}
+                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                        >
+                            {loading ? (
+                                <>
+                                    <div className="rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                    Creando...
+                                </>
+                            ) : (
+                                <>
+                                    Crear examen
+                                </>
+                            )}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
