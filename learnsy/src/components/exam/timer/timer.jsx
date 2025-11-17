@@ -33,7 +33,7 @@ const Timer = ({duration}) => {
         return () => clearInterval(countdownInterval);
     }, [remainingTime]);
 
-    return (<h4 className="relative -top-20 -right-[25rem] font-normal">Tiempo restante: {hours}:{minutes}:{seconds}</h4>);
+    return (<h4 className="text-dark-text"><strong>Tiempo restante:</strong> {hours}:{minutes}:{seconds}</h4>);
 }
 
 export default Timer;

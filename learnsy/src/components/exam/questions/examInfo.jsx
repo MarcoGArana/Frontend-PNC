@@ -28,9 +28,8 @@ const ExamInfo = () => {
 
     return (
         <>
-            <Timer duration={duration}/>
-            <div className="grid gap-14">
-                <Question questionInfo={questionInfo} respuestas={respuestas} handleChange={handleChange}/>
+            <div className="flex flex-col gap-14 w-full">
+                <Question questionInfo={questionInfo} respuestas={respuestas} handleChange={handleChange} duration={duration}/>
                 <Controls currentQuestion={currentQuestion} limit={questions.length} changeQuestion={changeQuestion}/>
             </div>
             

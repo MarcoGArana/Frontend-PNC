@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { savePdf } from "../../../services/materiaService";
 import { toast } from "react-toastify";
 
-const PDFUploadForm = ({ materiaId, onClose }) => {
+const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
     const [formData, setFormData] = useState({
         nombre: '',
         archivo: null
@@ -22,12 +21,12 @@ const PDFUploadForm = ({ materiaId, onClose }) => {
         if (file) {
             if (file.type !== 'application/pdf') {
                 console.log('solo se admiten pdfs');
-                
+
                 return;
             }
             if (file.size > 10 * 1024 * 1024) {
                 console.log('tamaño maximo alcanzado');
-                
+
                 return;
             }
             setFormData(prev => ({
@@ -56,19 +55,15 @@ const PDFUploadForm = ({ materiaId, onClose }) => {
             const fileData = new FormData();
             fileData.append('archivo', formData.archivo);
 
-            const res = savePdf({ nombre: formData.nombre, file: fileData, materiaId });
+            saveTema({ nombre: formData.nombre, file: fileData, materiaId });
             onClose();
-            
-            if (res.ok) {
-                setFormData({ nombre: '', archivo: null });
-                toast.success('Tema creado!');
-            }else{
-                toast.error('Error al crear el tema');
-            }
+
+            setFormData({ nombre: '', archivo: null });
+            toast.success('Tema creado!');
         } catch (e) {
             console.log(e);
             toast.error('Error al crear el tema');
-            
+
         } finally {
             setLoading(false);
         }

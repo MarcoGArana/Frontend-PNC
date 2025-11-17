@@ -38,9 +38,8 @@ const Exam = () => {
 
     return (
         <div>
-            {examStarted && <h3 className="flex justify-end text-white text-2xl font-normal p-2">{examName}</h3>}
-            <div className={`bg-white p-24 flex min-w-5xl max-w-5xl soft-ring rounded-2xl items-center flex-col ${examStarted ? "min-h-[36rem]" : ""}`}>
-                {user?.rol == 'admin' && !editExam && (
+            <div className={`bg-white p-12 flex min-w-5xl max-w-5xl soft-ring rounded-2xl items-center flex-col`}>
+                {user?.rol == 'admin' && !editExam && !examStarted && (
                     <div className=" w-full flex justify-end">
                         <button className="cursor-pointer" onClick={() => { setEditExam(true) }}>
                             <svg id="delete" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" /></svg>
@@ -51,7 +50,7 @@ const Exam = () => {
                 {editExam && <EditExamContent idExam={examId} onClose={() => { setEditExam(false) }} />}
 
                 {!isLoading && !examStarted && !finished && !editExam && (
-                    <div className="grid-cols-1 gap-12 justify-items-center -mt-8">
+                    <div className="grid gap-1 justify-items-center">
                         <svg width="100" height="156" viewBox="0 0 100 156" fill="none" xmlns="http://www.w3.org/2000/svg" className="pl-2">
                             <path d="M19.1612 83.55H41.5161C41.9396 83.55 42.3457 83.3682 42.6452 83.0447C42.9446 82.7212 43.1128 82.2825 43.1128 81.825C43.1128 81.3675 42.9446 80.9287 42.6452 80.6052C42.3457 80.2817 41.9396 80.1 41.5161 80.1H19.1612C18.7377 80.1 18.3316 80.2817 18.0321 80.6052C17.7327 80.9287 17.5645 81.3675 17.5645 81.825C17.5645 82.2825 17.7327 82.7212 18.0321 83.0447C18.3316 83.3682 18.7377 83.55 19.1612 83.55ZM60.6774 107.7H19.1612C18.7377 107.7 18.3316 107.882 18.0321 108.205C17.7327 108.529 17.5645 108.967 17.5645 109.425C17.5645 109.882 17.7327 110.321 18.0321 110.645C18.3316 110.968 18.7377 111.15 19.1612 111.15H60.6774C61.1008 111.15 61.507 110.968 61.8064 110.645C62.1059 110.321 62.2741 109.882 62.2741 109.425C62.2741 108.967 62.1059 108.529 61.8064 108.205C61.507 107.882 61.1008 107.7 60.6774 107.7ZM60.6774 135.3H19.1612C18.7377 135.3 18.3316 135.482 18.0321 135.805C17.7327 136.129 17.5645 136.567 17.5645 137.025C17.5645 137.482 17.7327 137.921 18.0321 138.245C18.3316 138.568 18.7377 138.75 19.1612 138.75H60.6774C61.1008 138.75 61.507 138.568 61.8064 138.245C62.1059 137.921 62.2741 137.482 62.2741 137.025C62.2741 136.567 62.1059 136.129 61.8064 135.805C61.507 135.482 61.1008 135.3 60.6774 135.3Z" fill="#EB5757" />
                             <path d="M22.3548 100.8C25.0004 100.8 27.1451 98.4831 27.1451 95.625C27.1451 92.7669 25.0004 90.45 22.3548 90.45C19.7092 90.45 17.5645 92.7669 17.5645 95.625C17.5645 98.4831 19.7092 100.8 22.3548 100.8Z" fill="#EB5757" />
@@ -64,7 +63,7 @@ const Exam = () => {
                         </svg>
 
                         <h3 className="text-3xl p-2 text-purple font-medium">{examName}</h3>
-                        <button className="cursor-pointer py-4 px-8 bg-pink text-white rounded-xl" type="button" onClick={startExam}>
+                        <button className="cursor-pointer py-4 px-8 bg-pink text-white rounded-xl mb-12" type="button" onClick={startExam}>
                             Comenzar examen
                         </button>
                     </div>
