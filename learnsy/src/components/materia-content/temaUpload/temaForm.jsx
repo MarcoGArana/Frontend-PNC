@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
+    const [modalStep, setModalStep] = useState("form"); 
     const [formData, setFormData] = useState({
         nombre: '',
         archivo: null
@@ -36,106 +37,170 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
         }
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!formData.nombre) {
-            console.log('No hay nombre');
-            return;
-        }
+        if (!formData.nombre) return console.log("No hay nombre");
+        if (!formData.archivo) return console.log("No hay archivo");
 
-        if (!formData.archivo) {
-            console.log('No hay un archivo seleccionado');
-            return;
-        }
+        setModalStep("confirm"); 
+    };
 
+    const handleConfirmUpload = async () => {
         setLoading(true);
-
         try {
             const fileData = new FormData();
             fileData.append('archivo', formData.archivo);
 
-            saveTema({ nombre: formData.nombre, file: fileData, materiaId });
-            onClose();
+            await saveTema({ nombre: formData.nombre, file: fileData, materiaId });
 
-            setFormData({ nombre: '', archivo: null });
-            toast.success('Tema creado!');
-        } catch (e) {
-            console.log(e);
-            toast.error('Error al crear el tema');
-
+            setModalStep("success"); // Cambia a pantalla de éxito
+            setFormData({ nombre: "", archivo: null });
+        } catch (error) {
+            console.log(error);
+            toast.error("Error al subir archivo");
         } finally {
             setLoading(false);
         }
     };
 
-    return (
-        <div className=" modal-overlay">
-            <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg">
-                <div className="flex items-center gap-2 mb-6">
-                    <h2 className="text-2xl font-bold text-gray-800">Subir Archivo PDF</h2>
-                </div>
 
-                <div className="space-y-4">
-                    <div>
-                        <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-2">
-                            Nombre:
-                        </label>
-                        <input
-                            type="text"
-                            id="nombre"
-                            name="nombre"
-                            value={formData.nombre}
-                            onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
-                            placeholder="Ingresa el nombre del archivo"
-                            required
-                        />
+
+    return (
+    <div className="modal-overlay">
+        <div className="w-full max-w-4xl mx-auto mt-8 p-8 rounded-lg" style={{ backgroundColor: "#F3F0FD" }}>
+
+            {modalStep === "form" && (
+                <>
+                    <div className="flex items-center gap-2 mb-6">
+                        <h2 className="text-2xl font-bold" style={{ color: "#574A80" }}>
+                            Subir nuevo contenido - archivo PDF
+                        </h2>
                     </div>
 
-                    <div>
-                        <label htmlFor="archivo" className="block text-sm font-medium text-gray-700 mb-2">
-                            Archivo PDF:
-                        </label>
-                        <div className="">
+                    <div className="space-y-4">
+                        <div>
+                            <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-2">
+                                Nombre del contenido:
+                            </label>
+                            <input
+                                type="text"
+                                id="nombre"
+                                name="nombre"
+                                value={formData.nombre}
+                                onChange={handleInputChange}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+                                style={{ color: "#585B56" }}
+                                placeholder="Ingresa el nombre del archivo"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="archivo" className="block text-sm font-medium text-gray-700 mb-2">
+                                Archivo PDF:
+                            </label>
                             <input
                                 type="file"
                                 id="archivo"
                                 name="archivo"
                                 accept=".pdf"
                                 onChange={handleFileChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent file:mr-4 file:py-1 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-secondary hover:file:bg-blue-100"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md text-[#585B56] 
+                                          focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent 
+                                          file:mr-4 file:py-1 file:px-4 file:rounded-md file:border-0 file:text-sm 
+                                          file:font-medium file:bg-[#706788] file:text-secondary 
+                                          hover:file:bg-[#958cac] file:cursor-pointer"
                                 required
                             />
+
+                            {formData.archivo && (
+                                <p className="p-1 text-sm text-green-600">
+                                    Archivo seleccionado: {formData.archivo.name}
+                                </p>
+                            )}
                         </div>
-                        {formData.archivo && (
-                            <p className="p-1 text-sm text-green-600">
-                                Archivo seleccionado: {formData.archivo.name}
-                            </p>
-                        )}
+
+                        <div className="flex gap-3 pt-2">
+                            <button
+                                type="button"
+                                onClick={onClose}
+                                className="cursor-pointer w-full py-2 px-4 rounded-md border bg-[#C65CB1] border-gray-300 text-white
+                                           hover:bg-[#706788] focus:outline-none focus:ring-2 
+                                           focus:ring-gray-300 focus:ring-offset-1"
+                            >
+                                Cancelar
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={handleSubmit}
+                                disabled={loading}
+                                className="cursor-pointer w-full flex items-center justify-center gap-2 bg-[#C65CB1] 
+                                           text-white py-2 px-4 rounded-md hover:bg-[#706788] focus:outline-none 
+                                           focus:ring-2 focus:ring-secondary focus:ring-offset-2 
+                                           disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {loading ? (
+                                    <>
+                                        <div className="rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                        Enviando...
+                                    </>
+                                ) : (
+                                    <>Subir Archivo</>
+                                )}
+                            </button>
+                        </div>
                     </div>
+                </>
+            )}
+
+            {modalStep === "confirm" && (
+                <div className="text-center space-y-6 py-12">
+                    <h2 className="text-2xl font-bold" style={{ color: "#574A80" }}>
+                        ¿Estás seguro que deseas subir el documento?
+                    </h2>
+
+                    <div className="flex gap-3 justify-center pt-6">
+                        <button
+                            onClick={onClose}
+                            className="cursor-pointer py-2 px-6 rounded-md bg-[#C65CB1] text-white 
+                                       hover:bg-[#706788]"
+                        >
+                            Cancelar
+                        </button>
+
+                        <button
+                            onClick={handleConfirmUpload}
+                            className="cursor-pointer py-2 px-6 rounded-md bg-[#C65CB1] text-white 
+                                       hover:bg-[#706788]"
+                        >
+                            Subir
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {modalStep === "success" && (
+                <div className="text-center space-y-6 py-12">
+                    <h2 className="text-2xl font-bold text-green-600">
+                        Archivo subido correctamente
+                    </h2>
 
                     <button
-                        type="button"
-                        onClick={handleSubmit}
-                        disabled={loading}
-                        className="cursor-pointer w-full flex items-center justify-center gap-2 bg-secondary text-white py-2 px-4 rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={onClose}
+                        className="cursor-pointer py-2 px-6 rounded-md bg-[#C65CB1] text-white 
+                                   hover:bg-[#706788]"
                     >
-                        {loading ? (
-                            <>
-                                <div className="rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                Enviando...
-                            </>
-                        ) : (
-                            <>
-                                Enviar Archivo
-                            </>
-                        )}
+                        Cerrar
                     </button>
                 </div>
-            </div>
+            )}
+
         </div>
-    );
+    </div>
+);
+
 }
 
 export default PDFUploadForm
