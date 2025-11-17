@@ -1,18 +1,18 @@
 import { Route, Routes } from 'react-router-dom'
-import Layout from './components/layout/layout'
-import Home from './components/home/home'
+import Layout from './pages/layout/layout'
+import Home from './pages/home/home'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import Materia from './components/materia-content/materia';
-import Exam from './components/exam/exam';
-import Landing from './components/landing/landing';
-import Login from './components/login/login';
+import Materia from './pages/materia-content/materia';
+import Exam from './pages/exam/exam';
+import Landing from './pages/landing/landing';
+import Login from './pages/login/login';
 import { useAuthStore } from './store/authStore';
 import { useEffect } from 'react';
 import { getProfile } from './services/authService';
-import Participantes from './components/participants/participantes';
-import Perfil from './components/profile/perfil';
+import Participantes from './pages/participants/participantes';
+import Perfil from './pages/profile/perfil';
 import { ToastContainer } from 'react-toastify';
-import Grades from './components/grades/grades';
+import Grades from './pages/grades/grades';
 
 //Para utilizar react useQuery
 const queryClient = new QueryClient();
