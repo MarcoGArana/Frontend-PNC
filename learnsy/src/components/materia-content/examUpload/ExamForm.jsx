@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { createExam } from "../../../services/examService";
 
-const ExamForm = ({ materiaId, onClose }) => {
+const ExamForm = ({ materiaId, onClose, saveExam }) => {
     const [formData, setFormData] = useState({
         name: '',
         isVisible: true,
@@ -42,11 +42,12 @@ const ExamForm = ({ materiaId, onClose }) => {
                 DateHourEnd: DateHourEnd,
                 idMateria: materiaId
             }
-            const res = createExam({ examData: examData });
+
+            saveExam({ examData: examData });
             onClose();
             toast.success('Examen creado!');
         } catch (e) {
-            console.log(e);
+            toast.error('Error al crear el examen')
 
         } finally {
             setLoading(false);

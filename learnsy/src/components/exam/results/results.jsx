@@ -37,7 +37,7 @@ const Results = ({examId, userId}) => {
       <div className="grid grid-cols-4 grid-rows-2 bg-gray text-dark-text justify-items-center items-center rounded-2xl border-2 border-purple mb-5">
         <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-bold">Respuestas correctas</p>
         <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-bold">Respuestas incorrectas</p>
-        <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-bold">Respuestas sin responder</p>
+        <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-bold">Preguntas sin responder</p>
         <p className="p-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-bold">Calificacion</p>
 
         <p className="border-r-2 border-purple w-full h-full grid justify-center items-center">{correct}</p>

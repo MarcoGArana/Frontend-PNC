@@ -1,11 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import ContentCard from "../../components/materia-content/contents/contentCard";
-import { getMateriaById } from "../../services/materiaService";
+import { deleteTema, getMateriaById, savePdf } from "../../services/materiaService";
 import PDFUploadForm from "../../components/materia-content/temaUpload/temaForm";
 import { useState } from "react";
 import { useAuthStore } from "../../store/authStore";
 import ExamForm from "../../components/materia-content/examUpload/ExamForm";
+import { useDeleteContent } from "../../hooks/useDeleteContent";
+import { createExam, deleteExam } from "../../services/examService";
+import { useAddContent } from "../../hooks/useCreateContent";
 
 const Materia = () => {
 
@@ -14,80 +17,44 @@ const Materia = () => {
     const [temaModalOpen, setTemaModalOpen] = useState(false);
     const [examModalOpen, setExamModalOpen] = useState(false);
 
-    const { data: content, isError, isPending } = useQuery(
+    const { data: content, isPending } = useQuery(
         {
             queryKey: ["content", materiaId],
             queryFn: () => getMateriaById({ id: materiaId })
         }
     );
 
-    const queryClient = useQueryClient();
-
-    const deleteTemaMutation = useMutation({
-        mutationFn: ({ temaId }) => deleteTema({ temaId }),
-
-        // ⬇ Se ejecuta ANTES de la request
-        onMutate: async ({ temaId }) => {
-            await queryClient.cancelQueries(["content", materiaId]);
-
-            const previousData = queryClient.getQueryData(["content", materiaId]);
-
-            queryClient.setQueryData(["content", materiaId], (old) => {
-                return {
-                    ...old,
-                    temas: {
-                        ...old.temas,
-                        data: old.temas.data.filter((tema) => tema.id !== temaId),
-                    },
-                };
-            });
-
-            return { previousData };
-        },
-
-        // ⬇ Si hubo error, revertimos los cambios
-        onError: (err) => {
-            console.error("DELETE ERROR:", err);
-        },
-
-        // ⬇ Al finalizar, revalidamos datos con el backend
-        onSettled: () => {
-            queryClient.invalidateQueries(["content", materiaId]);
-        }
+    const addTemaMutation = useAddContent({
+        materiaId,
+        keyName: "temas",
+        addFn: (data) => savePdf(data)
     });
 
-    const deleteExamMutation = useMutation({
-        mutationFn: ({ examId }) => deleteExam({ examId }),
-
-        // ⬇ Se ejecuta ANTES de la request
-        onMutate: async ({ examId }) => {
-            await queryClient.cancelQueries(["content", materiaId]);
-
-            const previousData = queryClient.getQueryData(["content", materiaId]);
-
-            queryClient.setQueryData(["content", materiaId], (old) => {
-                return {
-                    ...old,
-                    examenes: {
-                        ...old.examenes,
-                        data: old.examenes.data.filter((examen) => examen.id !== examId),
-                    },
-                };
-            });
-
-            return { previousData };
-        },
-
-        // ⬇ Si hubo error, revertimos los cambios
-        onError: (err) => {
-            console.error("DELETE ERROR:", err);
-        },
-
-        // ⬇ Al finalizar, revalidamos datos con el backend
-        onSettled: () => {
-            queryClient.invalidateQueries(["content", materiaId]);
-        }
+    const addExamenMutation = useAddContent({
+        materiaId,
+        keyName: "examenes",
+        addFn: ({ examData }) => createExam({ examData })
     });
+
+    const deleteTemaMutation = useDeleteContent({
+        materiaId,
+        keyName: "temas",
+        deleteFn: ({ temaId }) => deleteTema({ temaId })
+    });
+
+    const deleteExamMutation = useDeleteContent({
+        materiaId,
+        keyName: "examenes",
+        deleteFn: ({ examId }) => deleteExam({ examId })
+    });
+
+    const saveTema = ({nombre , file , materiaId }) => {
+        addTemaMutation.mutate({nombre , file , materiaId });
+    }
+
+    const saveExam = ({ examData }) => {
+        addExamenMutation.mutate({ examData });
+    }
 
     const deleteTopic = (temaId) => {
         deleteTemaMutation.mutate({ temaId });
@@ -103,6 +70,7 @@ const Materia = () => {
                 <PDFUploadForm
                     materiaId={materiaId}
                     onClose={() => setTemaModalOpen(false)}
+                    saveTema={saveTema}
                 />
             </div>
         );
@@ -114,6 +82,7 @@ const Materia = () => {
                 <ExamForm
                     materiaId={materiaId}
                     onClose={() => setExamModalOpen(false)}
+                    saveExam={saveExam}
                 />
             </div>
         );

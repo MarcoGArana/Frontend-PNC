@@ -64,8 +64,7 @@ const Layout = () => {
 
   }, [location]);
 
-  //!isAuthenticated ? <Navigate to={"/"} /> : 
-  return (
+  return !isAuthenticated ? <Navigate to={"/"} /> : (
     <>
       <nav className="bg-white">
         <ul className="flex justify-between w-full gap-4 p-2 pr-8 items-center">
