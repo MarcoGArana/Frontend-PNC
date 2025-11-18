@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useQuestionsStore from "../../store/questions";
 import { useAuthStore } from "../../store/authStore";
@@ -16,7 +16,12 @@ const Exam = () => {
     const user = useAuthStore((state) => state.user);
     const fetchQuestions = useQuestionsStore(state => state.fetchQuestions);
     const finished = useQuestionsStore(state => state.finished);
+    const resetQuestionsStore = useQuestionsStore(state => state.reset);
     const queryClient = useQueryClient();
+
+    useEffect(() => {
+        resetQuestionsStore();
+    }, [examId]);
 
     const { mutate: examAction, isLoading } = useMutation({
         mutationFn: ({ examId, materiaId }) =>
