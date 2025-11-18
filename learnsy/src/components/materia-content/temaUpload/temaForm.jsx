@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useEffect } from 'react';
 import { toast } from "react-toastify";
+import checkImage from '../../../assets/images/cheque.png';
 
 const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
     const [modalStep, setModalStep] = useState("form"); 
@@ -54,7 +56,7 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
 
             await saveTema({ nombre: formData.nombre, file: fileData, materiaId });
 
-            setModalStep("success"); // Cambia a pantalla de éxito
+            setModalStep("success");
             setFormData({ nombre: "", archivo: null });
         } catch (error) {
             console.log(error);
@@ -64,15 +66,24 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
         }
     };
 
+    useEffect(() => {
+    if (modalStep === "success") {
+        const timer = setTimeout(() => {
+            onClose();
+        }, 3000); //3 segundos
+
+        return () => clearTimeout(timer);
+    }
+}, [modalStep, onClose]);
 
 
     return (
     <div className="modal-overlay">
-        <div className="w-full max-w-4xl mx-auto mt-8 p-8 rounded-lg" style={{ backgroundColor: "#F3F0FD" }}>
+        <div className="w-full max-w-4xl mx-auto mt-8 p-20 rounded-lg" style={{ backgroundColor: "#F3F0FD" }}>
 
             {modalStep === "form" && (
                 <>
-                    <div className="flex items-center gap-2 mb-6">
+                    <div className="flex items-center justify-center gap-2 mb-6">
                         <h2 className="text-2xl font-bold" style={{ color: "#574A80" }}>
                             Subir nuevo contenido - archivo PDF
                         </h2>
@@ -121,11 +132,11 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
                             )}
                         </div>
 
-                        <div className="flex gap-3 pt-2">
+                        <div className="flex gap-20 pt-2 justify-center">
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="cursor-pointer w-full py-2 px-4 rounded-md border bg-[#C65CB1] border-gray-300 text-white
+                                className="cursor-pointer w-60 py-2 px-8 rounded-md border bg-[#C65CB1] border-gray-300 text-white
                                            hover:bg-[#706788] focus:outline-none focus:ring-2 
                                            focus:ring-gray-300 focus:ring-offset-1"
                             >
@@ -136,8 +147,8 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
                                 type="button"
                                 onClick={handleSubmit}
                                 disabled={loading}
-                                className="cursor-pointer w-full flex items-center justify-center gap-2 bg-[#C65CB1] 
-                                           text-white py-2 px-4 rounded-md hover:bg-[#706788] focus:outline-none 
+                                className="cursor-pointer w-60 flex items-center justify-center gap-2 bg-[#C65CB1] 
+                                           text-white py-2 px-8 rounded-md hover:bg-[#706788] focus:outline-none 
                                            focus:ring-2 focus:ring-secondary focus:ring-offset-2 
                                            disabled:opacity-50 disabled:cursor-not-allowed"
                             >
@@ -161,10 +172,10 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
                         ¿Estás seguro que deseas subir el documento?
                     </h2>
 
-                    <div className="flex gap-3 justify-center pt-6">
+                    <div className="flex gap-10 justify-center pt-6">
                         <button
                             onClick={onClose}
-                            className="cursor-pointer py-2 px-6 rounded-md bg-[#C65CB1] text-white 
+                            className="cursor-pointer w-40 py-2 px-6 rounded-md bg-[#C65CB1] text-white 
                                        hover:bg-[#706788]"
                         >
                             Cancelar
@@ -172,7 +183,7 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
 
                         <button
                             onClick={handleConfirmUpload}
-                            className="cursor-pointer py-2 px-6 rounded-md bg-[#C65CB1] text-white 
+                            className="cursor-pointer w-40 py-2 px-6 rounded-md bg-[#C65CB1] text-white 
                                        hover:bg-[#706788]"
                         >
                             Subir
@@ -183,17 +194,17 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
 
             {modalStep === "success" && (
                 <div className="text-center space-y-6 py-12">
-                    <h2 className="text-2xl font-bold text-green-600">
+                    <h2 className="text-2xl font-bold" style={{ color: "#574A80" }}>
                         Archivo subido correctamente
                     </h2>
 
-                    <button
-                        onClick={onClose}
-                        className="cursor-pointer py-2 px-6 rounded-md bg-[#C65CB1] text-white 
-                                   hover:bg-[#706788]"
-                    >
-                        Cerrar
-                    </button>
+                    <div className="flex justify-center">
+                        <img 
+                            src={checkImage} 
+                            alt="Archivo subido correctamente" 
+                            className="w-60 h-60"
+                        />
+                    </div>
                 </div>
             )}
 
