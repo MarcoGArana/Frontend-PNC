@@ -14,7 +14,7 @@ const useQuestionsStore = create((set, get) => {
         },
 
         selectAnswer: (questionId, answerIndex) => {
-            const {respuestas: prevAnswers} = get();
+            const { respuestas: prevAnswers } = get();
             set({ respuestas: { ...prevAnswers, [questionId]: answerIndex } })
         },
 
@@ -37,8 +37,16 @@ const useQuestionsStore = create((set, get) => {
         },
 
         finishExam: () => {
-            set({finished: true}, false, 'FINISH_EXAM')
-        }
+            set({ finished: true }, false, 'FINISH_EXAM')
+        },
+
+        reset: () => set({
+            questions: [],
+            currentQuestion: 0,
+            respuestas: {},
+            duration: 0,
+            finished: false
+        })
     }
 })
 
