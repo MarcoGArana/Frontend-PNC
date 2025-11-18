@@ -1,42 +1,71 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const Landing = () => {
-    const placeholder = `Learnsy es una plataforma de aula virtual que conecta a estudiantes y docentes en un entorno moderno, organizado y accesible.
-Permite gestionar materias, asistir a clases y realizar exámenes de forma sencilla, desde cualquier lugar. Ideal para instituciones educativas que buscan digitalizar su experiencia de enseñanza y aprendizaje.`
-    return (
-        <>
-            <div className="h-dvh max-h-dvh overflow-hidden">
-                <div className="absolute w-full z-20">
-                    <nav className="bg-white">
-                        <ul className="flex justify-between w-full gap-4 p-2 pr-8 items-center">
-                            <li>
-                                <Link to="/">
-                                    <img src="http://localhost:5173/src/assets/OpcionLogo2.PNG" className="max-w-[20rem] h-auto" />
-                                </Link>
-                            </li>
-                            <div className="flex gap-10 items-center px-4">
-                                <li>
-                                    <Link to="/login" className="bg-secondary p-2 rounded-lg text-white">Iniciar sesion</Link>
-                                </li>
-                                <svg id="profile" xmlns="http://www.w3.org/2000/svg" height="65px" viewBox="0 -960 960 960" width="65px" fill="#0000"><path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm246-164q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q53 0 100-15.5t86-44.5q-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160Zm0-360q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0-60Zm0 360Z"/></svg>
-                            </div>
-                        </ul>
-                    </nav>
-                    <div className="w-full bg-primary p-4 flex items-center"></div>
-                </div>
-                <div className="grid grid-cols-[40%_1fr] overflow-hidden">
-                    <div className="relative -bottom-16 -left-12 rounded-full w-[40rem] h-[40rem] bg-cover grid justify-center self-end bg-[url(http://localhost:5173/src/assets/images/estanterias_bibliotecas_2.jpg)]">
-                        <img src="http://localhost:5173/src/assets/images/young-hispanic-student-girl-smiling-happy-university.png" className="h-[45rem] object-cover relative -top-44 -left-4 rounded-br-[20%]"></img>
-                    </div>
-                    <div className="bg-white rounded-full w-[55rem] h-[55rem] flex justify-center items-center relative -top-44 -right-36 z-10 shadow-md shadow-black">
-                        <p className="text-black text-[1.75rem] font-normal w-[32rem] h-[43rem] flex justify-center items-center pt-60 text-center text-pretty">
-                            {placeholder}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-}
+  return (
+    <div className="min-h-screen w-full bg-[#F5F5F5] font-sans overflow-hidden relative">
 
-export default Landing
+      {/* BORDE SUPERIOR */}
+      <div className="w-full h-[6px] bg-[#3CA0FF]"></div>
+
+      {/* NAVBAR */}
+      <nav className="w-full bg-white flex justify-between items-center px-6 md:px-12 py-4 shadow-sm relative z-20">
+        <div className="flex items-center gap-3">
+          <img
+            src="http://localhost:5173/src/assets/OpcionLogo2.PNG"
+            className="h-[40px] md:h-[50px] object-contain"
+          />
+        </div>
+
+        <Link
+          to="/login"
+          className="bg-[#C65BCF] text-white px-4 py-2 md:px-6 md:py-2 rounded-xl text-xs md:text-sm font-semibold tracking-wide shadow-sm hover:opacity-90 transition"
+        >
+          INICIAR SESIÓN
+        </Link>
+      </nav>
+
+      {/* CÍRCULOS RESPONSIVE */}
+      <div className="absolute left-0 top-32 md:top-24 w-24 h-24 md:w-48 md:h-48 bg-[#9C3AD8] rounded-full -translate-x-1/2 hidden sm:block"></div>
+
+      <div className="absolute left-0 -bottom-10 md:-bottom-20 w-20 h-20 md:w-40 md:h-40 bg-[#6D5CD4] rounded-full -left-10 md:-left-20"></div>
+
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-20 h-20 md:w-36 md:h-36 bg-[#CF97D9] rounded-full translate-x-1/2 hidden sm:block"></div>
+
+      {/* CONTENIDO */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 h-auto lg:h-[calc(100vh-100px)] items-center px-6 md:px-10 py-10 lg:py-0 relative z-10 gap-10">
+
+        {/* TEXTO */}
+        <div className="flex flex-col justify-center lg:pl-32 lg:-mt-20 text-center lg:text-left">
+          <h1 className="text-[2rem] md:text-[3.2rem] lg:text-[4rem] font-extrabold text-[#4B2FA9] leading-tight mb-1">
+  APRENDIENDO
+</h1>
+
+<h2 className="text-[1.4rem] md:text-[2rem] lg:text-[2.5rem] font-semibold text-[#D43AA6] tracking-wide mb-6">
+  EN LÍNEA
+</h2>
+
+          <p className="text-gray-700 text-sm md:text-[15px] leading-relaxed max-w-md mx-auto lg:mx-0">
+            Bienvenido a Learnsy, tu espacio académico inteligente.
+            Acá estudiantes y docentes encuentran una plataforma
+            centralizada para compartir, revisar y gestionar trabajos
+            y calificaciones de forma rápida y segura. Learnsy está
+            diseñada para simplificar el proceso educativo,
+            permitiendo una comunicación fluida y una experiencia
+            de aprendizaje más organizada y accesible.
+          </p>
+        </div>
+
+        {/* IMAGEN */}
+        <div className="flex justify-center lg:justify-start pr-0 lg:pr-10">
+          <img
+            src="http://localhost:5173/src/assets/images/young-hispanic-student-girl-smiling-happy-university.png"
+            className="w-full max-w-[380px] md:max-w-[500px] lg:h-screen lg:w-auto object-cover rounded-lg lg:rounded-none"
+          />
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default Landing;

@@ -5,7 +5,6 @@ import { login } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-
     const navigate = useNavigate();
     const setAuth = useAuthStore((state) => state.setAuth)
     const queryClient = useQueryClient()
@@ -32,35 +31,63 @@ const Login = () => {
     };
 
     return (
-        <>
-            <div className='w-full h-full flex justify-center items-center flex-col text-2xl'>
-                <form onSubmit={handleSubmit} className="flex flex-col items-center gap-5 max-w-sm p-8 bg-white rounded-3xl shadow-xl shadow-black">
-                    <label className='text-secondary w-full text-center block font-medium text-3xl'>Iniciar sesion</label>
-                    <input
-                        type="name"
-                        value={nameOrEmail}
-                        onChange={(e) => setNameOrEmail(e.target.value)}
-                        placeholder="Nombre"
-                        className="font-normal w-full p-2 rounded bg-gray-200 focus:border-secondary focus:outline-none"
-                    />
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Contraseña"
-                        className="font-normal w-full p-2 rounded bg-gray-200 focus:outline-none"
-                    />
+        <div className="min-h-screen w-full flex justify-center items-center bg-[#F5F5F5] px-4">
+
+            {/* TARJETA PRINCIPAL */}
+            <div className="bg-white w-full max-w-xl rounded-[30px] p-12 shadow-xl border border-gray-200 relative">
+
+                {/* IMAGEN DECORATIVA (NUEVOS CÍRCULOS) */}
+                <img
+                    src="/src/assets/circulos.png"
+                    alt="Learnsy"
+                    className="w-28 absolute top-6 left-1/2 -translate-x-1/2"
+                />
+
+                {/* TÍTULO */}
+                <h1 className="text-center text-3xl font-bold text-[#4B2FA9] mt-32">
+                    ¡HOLA DE NUEVO!
+                </h1>
+
+                <p className="text-center text-gray-500 text-sm mb-10">
+                    Ingresa tus datos para empezar
+                </p>
+
+                {/* FORMULARIO */}
+                <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+
+                    <div className="flex flex-col w-full">
+                        <label className="text-sm font-semibold text-gray-700 mb-1">Nombre</label>
+                        <input
+                            type="text"
+                            value={nameOrEmail}
+                            onChange={(e) => setNameOrEmail(e.target.value)}
+                            placeholder="correo@correo.com"
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#C65BCF]"
+                        />
+                    </div>
+
+                    <div className="flex flex-col w-full">
+                        <label className="text-sm font-semibold text-gray-700 mb-1">Contraseña</label>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="**************"
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#C65BCF]"
+                        />
+                    </div>
+
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="bg-blue-600 text-white font-medium px-4 py-2 rounded-3xl hover:bg-blue-700"
+                        className="bg-[#C65BCF] text-white font-semibold py-2 rounded-lg mt-4 hover:bg-[#b152c0] transition"
                     >
-                        {isLoading ? 'Ingresando...' : 'Ingresar'}
+                        {isLoading ? 'Ingresando...' : 'INICIAR SESIÓN'}
                     </button>
                 </form>
             </div>
-        </>
-    )
+        </div>
+    );
 }
 
-export default Login
+export default Login;
