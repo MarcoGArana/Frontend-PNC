@@ -4,7 +4,7 @@ module.exports = {
     extend: {
       fontFamily: {
         Spartan: ['"League Spartan"', 'sans-serif'],
-      },
+      }
     },
   },
   plugins: {

@@ -81,3 +81,32 @@ export const createAnswer = async ({ ansData }) => {
     console.log(error);
   }
 }
+
+export const createQuestionWithAnswers = async ({ questionData }, [...answers]) => {
+  try {
+    
+    const responseQuestion = await createQuestion({questionData: questionData});
+
+    //RIP Peticiones :'(
+    
+    answers.forEach(async (e, i) => {
+      e.idPreguntaOpcionMultiple = responseQuestion.data.id;
+      await createAnswer({ansData: e});
+    })
+
+    return responseQuestion;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const deleteExam = async ({ examId }) => {
+  try {
+    const response = await API.delete(`/exam/${examId}`);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+
+  }
+}
