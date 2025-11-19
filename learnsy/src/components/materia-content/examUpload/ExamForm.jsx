@@ -27,10 +27,50 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
 
         try {
             const { name, isVisible, description, duration, daysDuration } = formData;
+
+            if (!name || name.trim().length === 0) {
+                toast.error("El nombre del examen es obligatorio");
+                return;
+            }
+
+            if (name.trim().length < 3) {
+                toast.error("El nombre debe tener al menos 3 caracteres");
+                return;
+            }
+
+            if (!description || description.trim().length === 0) {
+                toast.error("La descripción es obligatoria");
+                return;
+            }
+
+            if (description.trim().length < 10) {
+                toast.error("La descripción debe tener al menos 10 caracteres");
+                return;
+            }
+
+            if (duration === "" || duration === null) {
+                toast.error("La duración es obligatoria");
+                return;
+            }
+
+            if (isNaN(duration) || duration <= 0) {
+                toast.error("La duración debe ser un número mayor a 0");
+                return;
+            }
+
+            if (daysDuration === "" || daysDuration === null) {
+                toast.error("El número de días es obligatorio");
+                return;
+            }
+
+            if (isNaN(daysDuration) || daysDuration < 0) {
+                toast.error("Los días deben ser un número mayor o igual a 0");
+                return;
+            }
+
             const DateHourBegin = new Date();
             const DateHourEnd = new Date(DateHourBegin);
 
-            //Conversiones:
             const durationMillis = duration * 60 * 60 * 1000;
             DateHourEnd.setDate(DateHourEnd.getDate() + daysDuration);
             const examData = {

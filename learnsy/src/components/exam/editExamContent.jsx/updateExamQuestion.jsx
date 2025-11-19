@@ -17,13 +17,18 @@ const UpdateExamContent = ({ onClose, questionInfo}) => {
         setAnswers(newAnswers);
     };
 
-    const handleDeleteAnswer = (index) => {
-        const newAnswers = answers.filter((_, i) => i !== index);
-        setAnswers(newAnswers);
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if(question == ''){
+            toast.error('El enunciado es obligatorio');
+            return;
+        }
+
+        if(answers.includes('')){
+            toast.error('No pueden haber respuestas en blanco');
+            return;
+        }
 
         const questionData = {
             image: imageUrl == '' ? 'https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_768,h_484/https://anahisalgado.com/wp-content/uploads/2022/07/image-12-1024x645.png' : imageUrl,
