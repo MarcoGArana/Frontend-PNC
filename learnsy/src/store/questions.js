@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { updateQuestion } from "../services/examService";
 
 const useQuestionsStore = create((set, get) => {
     return {
@@ -46,7 +47,19 @@ const useQuestionsStore = create((set, get) => {
             respuestas: {},
             duration: 0,
             finished: false
-        })
+        }),
+
+        updateQuestion: ({ updatedQuestion }) => {
+            const { questions } = get()
+            set({ questions: questions.map((e) => {                
+                
+                if(updatedQuestion.id == e.id){
+                    
+                    return updatedQuestion;
+                }
+                return e;
+            }) }, false, 'UPDATE_QUESTIONS')
+        }
     }
 })
 

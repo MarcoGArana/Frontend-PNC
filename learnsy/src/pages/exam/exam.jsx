@@ -6,7 +6,7 @@ import { useAuthStore } from "../../store/authStore";
 import ExamInfo from "../../components/exam/questions/examInfo";
 import Results from "../../components/exam/results/results";
 import { beginExam, getExam } from "../../services/examService";
-import EditExamContent from "../../components/exam/editExamContent.jsx/editExamContent";
+import CreateExamContent from "../../components/exam/editExamContent.jsx/createExamQuestion";
 
 const Exam = () => {
     const { examId, materiaId, examName } = useParams();
@@ -27,7 +27,9 @@ const Exam = () => {
         mutationFn: ({ examId, materiaId }) =>
             getExam({ examId, materiaId }),
         onSuccess: (data) => {
-            beginExam({ examId: data.id, userId: user.usuarioId });
+            if(user.rol != 'admin'){
+                beginExam({ examId: data.id, userId: user.usuarioId });
+            }
             fetchQuestions({ data: data.preguntaOpcionMultipleList, duration: data.duration })
             queryClient.invalidateQueries(['exam'])
             setExamStarted(true);
@@ -52,7 +54,7 @@ const Exam = () => {
                     </div>
                 )}
 
-                {editExam && <EditExamContent idExam={examId} onClose={() => { setEditExam(false) }} />}
+                {editExam && <CreateExamContent idExam={examId} onClose={() => { setEditExam(false) }} />}
 
                 {!isLoading && !examStarted && !finished && !editExam && (
                     <div className="grid gap-1 justify-items-center">
@@ -75,7 +77,7 @@ const Exam = () => {
                 )}
 
                 {!isLoading && examStarted && !finished && (
-                    <ExamInfo />
+                    <ExamInfo user={user}/>
                 )}
 
                 {finished && <Results examId={examId} userId={user.usuarioId} />}

@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { createQuestionWithAnswers } from "../../../services/examService";
+import { updateQuestionWithAnswers } from "../../../services/examService";
 import { toast } from "react-toastify";
+import useQuestionsStore from "../../../store/questions";
 
-const EditExamContent = ({ idExam, onClose }) => {
-    const [question, setQuestion] = useState('');
+const UpdateExamContent = ({ onClose, questionInfo}) => {
+    const [question, setQuestion] = useState(questionInfo.statement);
     const [loading, setLoading] = useState(false);
-    const [correct, setCorrect] = useState(-1);
-    const [answers, setAnswers] = useState(['', '', '', '']);
-    const [imageUrl, setImageUrl] = useState('https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_768,h_484/https://anahisalgado.com/wp-content/uploads/2022/07/image-12-1024x645.png');
+    const [correct, setCorrect] = useState(questionInfo.responses.findIndex((e) => e.isCorrect) + 1);
+    const [answers, setAnswers] = useState(questionInfo.responses.map((e) => e.description));
+    const [imageUrl, setImageUrl] = useState(questionInfo.image);
+    const updateQuestion = useQuestionsStore(state => state.updateQuestion);
 
     const handleAnswerChange = (index, value) => {
         const newAnswers = [...answers];
@@ -15,38 +17,44 @@ const EditExamContent = ({ idExam, onClose }) => {
         setAnswers(newAnswers);
     };
 
-    const handleDeleteAnswer = (index) => {
-        const newAnswers = answers.filter((_, i) => i !== index);
-        setAnswers(newAnswers);
-    };
-
-    const handleAddOption = () => {
-        setAnswers([...answers, '']);
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if(question == ''){
+            toast.error('El enunciado es obligatorio');
+            return;
+        }
+
+        if(answers.includes('')){
+            toast.error('No pueden haber respuestas en blanco');
+            return;
+        }
+
         const questionData = {
-            image: imageUrl,
+            image: imageUrl == '' ? 'https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_768,h_484/https://anahisalgado.com/wp-content/uploads/2022/07/image-12-1024x645.png' : imageUrl,
             statement: question,
-            idExam: idExam
+            id: questionInfo.id
         }
 
         const questionAnswers = answers.map((e, i) => ({
             image: '',
             description: e,
-            isCorrect: correct == i+1,
-            idPreguntaOpcionMultiple: -1
+            isCorrect: correct == i + 1,
+            id: questionInfo.responses.at(i).id
         }))
 
-        const response = await createQuestionWithAnswers({ questionData: questionData }, questionAnswers);
+        const response = await updateQuestionWithAnswers({ questionData: questionData }, questionAnswers);
 
-        if(response){
-            toast.success('Pregunta creada correctamente!');
-            setQuestion('');
-            setAnswers(['','','','']);
-            setCorrect(-1);
+        const newResponse = {
+            ...questionData,
+            responses: questionAnswers
+        }
+        
+        updateQuestion({updatedQuestion: newResponse});
+
+        if (response) {
+            toast.info('Pregunta guardada correctamente');
+            onClose();
         }
     }
 
@@ -100,13 +108,6 @@ const EditExamContent = ({ idExam, onClose }) => {
                                         </svg>
 
                                     </button>
-                                    <button
-                                        type="button"
-                                        className="flex-shrink-0 text-gray-400 cursor-pointer"
-                                        onClick={() => handleDeleteAnswer(index)}
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="none"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" /></svg>
-                                    </button>
                                     <input
                                         type="text"
                                         value={answer}
@@ -116,16 +117,6 @@ const EditExamContent = ({ idExam, onClose }) => {
                                     />
                                 </div>
                             ))}
-                        </div>
-
-                        <div className="my-6 flex justify-end">
-                            <button
-                                type="button"
-                                onClick={handleAddOption}
-                                className="text-[0.75em] px-4 py-2 bg-dark-purple cursor-pointer text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
-                            >
-                                AGREGAR OPCIÓN
-                            </button>
                         </div>
                     </div>
 
@@ -151,17 +142,9 @@ const EditExamContent = ({ idExam, onClose }) => {
                                 </>
                             ) : (
                                 <>
-                                    Guardar pregunta
+                                    Guardar cambios
                                 </>
                             )}
-                        </button>
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
-                        >
-                            Finalizar examen
                         </button>
                     </div>
                 </form>
@@ -170,4 +153,4 @@ const EditExamContent = ({ idExam, onClose }) => {
     )
 }
 
-export default EditExamContent
+export default UpdateExamContent;

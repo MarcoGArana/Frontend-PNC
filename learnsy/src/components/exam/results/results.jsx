@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import useQuestionsStore from "../../../store/questions";
 import { finishExam } from "../../../services/examService";
+import { useAuthStore } from "../../../store/authStore";
 
 const Results = ({examId, userId}) => {
   
-  const questions = useQuestionsStore(state => state.questions)
-  const respuestas = useQuestionsStore(state => state.respuestas)
+  const questions = useQuestionsStore(state => state.questions);
+  const respuestas = useQuestionsStore(state => state.respuestas);
+  const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
 
   let correct = 0
@@ -21,11 +23,13 @@ const Results = ({examId, userId}) => {
 
   const calificacion = (correct*10)/(questions.length);
   const handleClick = async () => {
-    await finishExam({
-      examId: examId,
-      userId: userId,
-      calificacion: calificacion
-    });
+    if(user.rol != 'admin'){
+      await finishExam({
+        examId: examId,
+        userId: userId,
+        calificacion: calificacion
+      });
+    }
     navigate('/dashboard');
   }
 
@@ -43,7 +47,7 @@ const Results = ({examId, userId}) => {
         <p className="border-r-2 border-purple w-full h-full grid justify-center items-center">{correct}</p>
         <p className="border-r-2 border-purple w-full h-full grid justify-center items-center">{incorrect}</p>
         <p className="border-r-2 border-purple w-full h-full grid justify-center items-center">{unanswered}</p>
-        <p className="border-purple w-full h-full grid justify-center items-center font-bold">{calificacion}</p>
+        <p className="border-purple w-full h-full grid justify-center items-center font-bold">{calificacion.toFixed(2)}</p>
       </div>
 
       <button className="cursor-pointer bg-pink text-white rounded-xl w-fit py-4 px-8" onClick={handleClick}>

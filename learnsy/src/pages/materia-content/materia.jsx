@@ -20,7 +20,8 @@ const Materia = () => {
     const { data: content, isPending } = useQuery(
         {
             queryKey: ["content", materiaId],
-            queryFn: () => getMateriaById({ id: materiaId })
+            queryFn: () => getMateriaById({ id: materiaId }),
+            staleTime: 1000 * 60 * 5,
         }
     );
 

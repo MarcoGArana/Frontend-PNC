@@ -5,7 +5,7 @@ const NavItem = ({navData, active}) => {
     const isActive = active == label.toLowerCase() ? "active" : "";
 
     return (
-        <li className={isActive} key={route}>
+        <li className={isActive}>
             <Link to={`${route}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d={icon} /></svg>
                 <h3>{label}</h3>
