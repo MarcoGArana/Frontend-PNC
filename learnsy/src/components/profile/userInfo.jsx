@@ -1,31 +1,68 @@
 import { useAuthStore } from "../../store/authStore";
 
-const UserInfo = ({data, openModal}) => {
-    const {username, correo, avatar} = data;
+const UserInfo = ({ data, openModal }) => {
+    const { username, correo, avatar } = data;
     const logout = useAuthStore((state) => state.logout);
 
     return (
-        <>
-            <div className="grid p-4 text-2xl">
-                <h3 className="flex justify-end">Tu perfil</h3>
-                <div className="flex gap-8 items-center">
-                    <img src={avatar} className="rounded-full h-52 object-contain border-4 border-secondary cursor-pointer" onClick={openModal}/>
-                    <div className="grid gap-1.5 font-medium">
-                        <p>
-                            Usuario: {username}
-                        </p> 
-                        <p>
-                            Correo electronico: {correo}
-                        </p>
-                        <button className="flex gap-3 cursor-pointer text-gray-500" onClick={logout}>
-                            <svg xmlns="http://www.w3.org/2000/svg" id="delete" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
-                            <p>Log out</p>
+        <div className="w-full flex justify-center px-4 py-12">
+
+            {/* TARJETA ÚNICA - IGUAL AL DISEÑO */}
+            <div className="
+    w-full max-w-8xl 
+    bg-white 
+    rounded-3xl 
+    border border-gray-300 
+    shadow-[0_8px_35px_rgba(0,0,0,0.12)]
+    py-1 sm:py-2
+    px-3 sm:px-4
+">
+
+
+
+                {/* Título */}
+                <h2 className="text-center text-2xl sm:text-3xl font-bold text-[#3C2062] mb-10">
+                    MI PERFIL
+                </h2>
+
+                {/* Contenido */}
+                <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-70 w-full">
+
+                    {/* Avatar + Botón */}
+                    <div className="flex flex-col items-center gap-6">
+                        <img
+                            src={avatar}
+                            className="h-48 w-48 sm:h-56 sm:w-56 object-cover rounded-full border-4 border-[#D9D9D9]"
+                        />
+
+                        <button
+                            onClick={openModal}
+                            className="px-8 py-3 bg-[#C661C6] text-white font-semibold rounded-lg hover:opacity-90 transition"
+                        >
+                            CAMBIAR FOTO
                         </button>
+                    </div>
+
+                    {/* Información */}
+                    <div className="flex flex-col gap-6 text-center sm:text-left mt-4 sm:mt-10">
+
+                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-4 sm:mb-6">
+                            <span className="font-semibold text-gray-800">Usuario:</span>
+                            <span className="text-[#C661C6] font-medium">{username}</span>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+                            <span className="font-semibold text-gray-800">Correo electrónico:</span>
+                            <span className="text-[#C661C6] font-medium break-all">{correo}</span>
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>
-        </>
-    )
-}
+        </div>
+    );
+};
 
-export default UserInfo
+export default UserInfo;
