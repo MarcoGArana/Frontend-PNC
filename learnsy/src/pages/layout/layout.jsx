@@ -87,7 +87,7 @@ const Layout = () => {
       <div id="layout" className="grid min-h-screen grid-cols-[auto_1fr] font-spartan">
         <aside id="sidebar" className={`${asideState}`}>
           <ul>
-            <li key={'1279874'}>
+            <li>
               <div id="top">
                 <span>Menu</span>
                 <button id="toggle-btn" onClick={toggleAside}>
@@ -96,9 +96,15 @@ const Layout = () => {
               </div>
             </li>
             {navItems.map((item) => {
+              if (!item?.label) return null;
+
               return (
-                item?.label ? <NavItem key={item.route} navData={item} active={active} /> : <div></div>
-              )
+                <NavItem
+                  key={item.route || index}
+                  navData={item}
+                  active={active}
+                />
+              );
             })}
           </ul>
         </aside>

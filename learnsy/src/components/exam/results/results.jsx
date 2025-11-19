@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import useQuestionsStore from "../../../store/questions";
 import { finishExam } from "../../../services/examService";
+import { useAuthStore } from "../../../store/authStore";
 
 const Results = ({examId, userId}) => {
   
-  const questions = useQuestionsStore(state => state.questions)
-  const respuestas = useQuestionsStore(state => state.respuestas)
+  const questions = useQuestionsStore(state => state.questions);
+  const respuestas = useQuestionsStore(state => state.respuestas);
+  const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
 
   let correct = 0
@@ -21,11 +23,13 @@ const Results = ({examId, userId}) => {
 
   const calificacion = (correct*10)/(questions.length);
   const handleClick = async () => {
-    await finishExam({
-      examId: examId,
-      userId: userId,
-      calificacion: calificacion
-    });
+    if(user.rol != 'admin'){
+      await finishExam({
+        examId: examId,
+        userId: userId,
+        calificacion: calificacion
+      });
+    }
     navigate('/dashboard');
   }
 

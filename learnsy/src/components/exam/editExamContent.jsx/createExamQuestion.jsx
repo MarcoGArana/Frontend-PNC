@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createQuestionWithAnswers } from "../../../services/examService";
 import { toast } from "react-toastify";
 
-const EditExamContent = ({ idExam, onClose }) => {
+const CreateExamContent = ({ idExam, onClose }) => {
     const [question, setQuestion] = useState('');
     const [loading, setLoading] = useState(false);
     const [correct, setCorrect] = useState(-1);
@@ -24,11 +24,18 @@ const EditExamContent = ({ idExam, onClose }) => {
         setAnswers([...answers, '']);
     };
 
+    const clearForm = () => {
+        setQuestion('');
+        setAnswers(['', '', '', '']);
+        setImageUrl('');
+        setCorrect(-1);
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const questionData = {
-            image: imageUrl,
+            image: imageUrl == '' ? 'https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_768,h_484/https://anahisalgado.com/wp-content/uploads/2022/07/image-12-1024x645.png' : imageUrl,
             statement: question,
             idExam: idExam
         }
@@ -36,17 +43,15 @@ const EditExamContent = ({ idExam, onClose }) => {
         const questionAnswers = answers.map((e, i) => ({
             image: '',
             description: e,
-            isCorrect: correct == i+1,
+            isCorrect: correct == i + 1,
             idPreguntaOpcionMultiple: -1
         }))
 
         const response = await createQuestionWithAnswers({ questionData: questionData }, questionAnswers);
 
-        if(response){
-            toast.success('Pregunta creada correctamente!');
-            setQuestion('');
-            setAnswers(['','','','']);
-            setCorrect(-1);
+        if (response) {
+            toast.info('Pregunta guardada correctamente');
+            clearForm();
         }
     }
 
@@ -132,11 +137,11 @@ const EditExamContent = ({ idExam, onClose }) => {
                     <div className="flex justify-center w-full gap-16">
                         <button
                             type="button"
-                            onClick={onClose}
+                            onClick={clearForm}
                             disabled={loading}
                             className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
                         >
-                            Cancelar
+                            Limpiar
                         </button>
                         <button
                             type="button"
@@ -170,4 +175,4 @@ const EditExamContent = ({ idExam, onClose }) => {
     )
 }
 
-export default EditExamContent
+export default CreateExamContent

@@ -110,3 +110,37 @@ export const deleteExam = async ({ examId }) => {
 
   }
 }
+
+export const updateQuestion = async ({ questionData }) => {
+  try {
+    const response = await API.put(`/question`, questionData)
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const updateAnswer = async ({ ansData }) => {
+  try {
+    const response = await API.put(`/response`, ansData)
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const updateQuestionWithAnswers = async ({ questionData }, [...answers]) => {
+  try {
+    answers.forEach(async (e) => {
+      await updateAnswer({ansData: e});
+    })
+    
+    const responseQuestion = await updateQuestion({questionData: questionData});  
+    
+    return responseQuestion.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

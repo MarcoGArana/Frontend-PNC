@@ -1,10 +1,10 @@
+import { useState } from "react";
 import useQuestionsStore from "../../../store/questions";
 import Controls from "../controls/controls";
-import Timer from "../timer/timer";
+import UpdateExamContent from "../editExamContent.jsx/updateExamQuestion";
 import Question from "./question";
 
-const ExamInfo = () => {
-    // state handling
+const ExamInfo = ({user}) => {
     const {
         questions,
         currentQuestion,
@@ -15,6 +15,8 @@ const ExamInfo = () => {
         finishExam,
         duration
     } = useQuestionsStore()
+
+    const [editQuestion, setEditQuestion] = useState(false);
 
     const questionInfo = questions[currentQuestion];    
 
@@ -28,14 +30,29 @@ const ExamInfo = () => {
 
     return (
         <>
-            <div className="flex flex-col gap-14 w-full">
-                <Question questionInfo={questionInfo} respuestas={respuestas} handleChange={handleChange} duration={duration}/>
-                <Controls currentQuestion={currentQuestion} limit={questions.length} changeQuestion={changeQuestion}/>
-            </div>
+
+            {!editQuestion && 
+            (
+                <div className="flex flex-col gap-14 w-full">
+                    <Question questionInfo={questionInfo} respuestas={respuestas} handleChange={handleChange} duration={duration}/>
+                    <Controls currentQuestion={currentQuestion} limit={questions.length} changeQuestion={changeQuestion}/>
+                </div>
+            )
+            }
             
-            {currentQuestion === (questions.length - 1) && 
+            {user?.rol == 'admin' && !editQuestion && (
+                    <div className=" w-full flex">
+                        <button className="cursor-pointer" onClick={() => { setEditQuestion(true) }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" /></svg>
+                        </button>
+                    </div>
+                )}
+
+            {currentQuestion === (questions.length - 1) && !editQuestion &&
                 <button className="bg-pink rounded-sm p-2 relative -top-[2.7rem] -right-[21.75rem] text-white font-light cursor-pointer" onClick={() => finishExam()}>Finalizar examen</button>
             }
+
+            {editQuestion && <UpdateExamContent onClose={() => setEditQuestion(false)} questionInfo={questionInfo}/>}
         </>
     )
 }
