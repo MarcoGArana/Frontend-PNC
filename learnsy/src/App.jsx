@@ -13,6 +13,8 @@ import Participantes from './pages/participants/participantes';
 import Perfil from './pages/profile/perfil';
 import { ToastContainer } from 'react-toastify';
 import Grades from './pages/grades/grades';
+import MateriaCreator from './pages/home/materiaCreator';
+
 
 //Para utilizar react useQuery
 const queryClient = new QueryClient();
@@ -47,6 +49,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Layout />}>
           <Route index element={<Home />} />
+
+          <Route path="crear-materia" element={<MateriaCreator />} />
           <Route path='materia/:nombre/:materiaId' element={<Materia />} />
           <Route path='materia/:nombre/:materiaId/exam/:examName/:examId' element={<Exam />} />
           <Route path='materia/:materiaId/participantes' element={<Participantes />} />
