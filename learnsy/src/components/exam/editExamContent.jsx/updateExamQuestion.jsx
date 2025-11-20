@@ -2,8 +2,9 @@ import { useState } from "react";
 import { updateQuestionWithAnswers } from "../../../services/examService";
 import { toast } from "react-toastify";
 import useQuestionsStore from "../../../store/questions";
+import Swal from "sweetalert2";
 
-const UpdateExamContent = ({ onClose, questionInfo}) => {
+const UpdateExamContent = ({ onClose, questionInfo }) => {
     const [question, setQuestion] = useState(questionInfo.statement);
     const [loading, setLoading] = useState(false);
     const [correct, setCorrect] = useState(questionInfo.responses.findIndex((e) => e.isCorrect) + 1);
@@ -20,13 +21,21 @@ const UpdateExamContent = ({ onClose, questionInfo}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(question == ''){
-            toast.error('El enunciado es obligatorio');
+        if (question == '') {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "El enunciado es obligatorio",
+            });
             return;
         }
 
-        if(answers.includes('')){
-            toast.error('No pueden haber respuestas en blanco');
+        if (answers.includes('')) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "No pueden haber respuestas en blanco",
+            });
             return;
         }
 
@@ -49,8 +58,8 @@ const UpdateExamContent = ({ onClose, questionInfo}) => {
             ...questionData,
             responses: questionAnswers
         }
-        
-        updateQuestion({updatedQuestion: newResponse});
+
+        updateQuestion({ updatedQuestion: newResponse });
 
         if (response) {
             toast.info('Pregunta guardada correctamente');

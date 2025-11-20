@@ -25,7 +25,7 @@ export const beginExam = async ({ examId, userId }) => {
   }
 }
 
-export const finishExam = async ({ examId, userId, calificacion }) => {
+export const completeExam = async ({ examId, userId, calificacion }) => {
   try {
     const response = await API.put(`/usuarioxexamen`, 
       {

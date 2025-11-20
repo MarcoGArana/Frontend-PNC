@@ -90,6 +90,26 @@ body {
   border: 1px solid var(--color-border-shadow);
 }
 
+.confirm {
+  background-color: var(--color-pink);
+  width: 5rem;
+}
+
+.confirm:hover {
+  background-color: var(--color-dark-purple); 
+  color: white
+}
+
+.custom-popup {
+  background-color: var(--color-gray);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.popup-title {
+  color: var(--color-titles-purple);
+}
+
 #layout {
   grid-template-columns: auto 1fr;
 }

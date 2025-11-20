@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import useQuestionsStore from "../../../store/questions";
-import { finishExam } from "../../../services/examService";
 import { useAuthStore } from "../../../store/authStore";
 
 const Results = ({examId, userId}) => {
@@ -22,14 +21,7 @@ const Results = ({examId, userId}) => {
   });
 
   const calificacion = (correct*10)/(questions.length);
-  const handleClick = async () => {
-    if(user.rol != 'admin'){
-      await finishExam({
-        examId: examId,
-        userId: userId,
-        calificacion: calificacion
-      });
-    }
+  const handleClick = () => {
     navigate('/dashboard');
   }
 

@@ -4,7 +4,7 @@ const Question = ({ questionInfo, respuestas, handleChange, duration }) => {
     return (
         <div className="flex flex-col font-light gap-8 justify-center w-full">
             <div className="flex justify-between">
-                <p className="text-2xl text-titles-purple font-medium">
+                <p className="text-2xl text-titles-purple font-medium max-w-[36rem]">
                     {questionInfo.statement}
                 </p>
                 <Timer duration={duration} />

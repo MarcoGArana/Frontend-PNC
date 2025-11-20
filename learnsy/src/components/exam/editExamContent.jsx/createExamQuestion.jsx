@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createQuestionWithAnswers } from "../../../services/examService";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const CreateExamContent = ({ idExam, onClose }) => {
     const [question, setQuestion] = useState('');
@@ -21,7 +22,7 @@ const CreateExamContent = ({ idExam, onClose }) => {
     };
 
     const handleAddOption = () => {
-        if(answers.length === 6){
+        if (answers.length === 6) {
             toast.info('Maximo de opciones de respuesta alcanzado');
             return
         }
@@ -38,18 +39,30 @@ const CreateExamContent = ({ idExam, onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(question == ''){
-            toast.error('El enunciado es obligatorio');
+        if (question == '') {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "El enunciado es obligatorio",
+            });
             return;
         }
 
-        if(answers.includes('')){
-            toast.error('No pueden haber respuestas en blanco');
+        if (answers.includes('')) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "No pueden haber respuestas en blanco",
+            });
             return;
         }
 
-        if(correct == -1){
-            toast.error('Debe agregar una respuesta correcta');
+        if (correct == -1) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Debe agregar una respuesta correcta",
+            });
             return;
         }
 
@@ -158,7 +171,7 @@ const CreateExamContent = ({ idExam, onClose }) => {
                             type="button"
                             onClick={clearForm}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36 hover:bg-dark-purple transition"
                         >
                             Limpiar
                         </button>
@@ -166,11 +179,11 @@ const CreateExamContent = ({ idExam, onClose }) => {
                             type="button"
                             onClick={handleSubmit}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36 hover:bg-dark-purple transition"
                         >
                             {loading ? (
                                 <>
-                                    <div className="rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                    <div className="rounded-full h-4 w-4 border-b-2"></div>
                                     Creando...
                                 </>
                             ) : (
@@ -183,7 +196,7 @@ const CreateExamContent = ({ idExam, onClose }) => {
                             type="button"
                             onClick={onClose}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36 hover:bg-dark-purple transition"
                         >
                             Finalizar examen
                         </button>

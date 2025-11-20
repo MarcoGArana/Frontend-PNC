@@ -84,7 +84,7 @@ const Layout = () => {
           </li>
         </ul>
       </nav>
-      <div id="layout" className="grid min-h-screen grid-cols-[auto_1fr] font-spartan">
+      <div id="layout" className="grid min-h-screen grid-cols-[auto_1fr] font-montserrat">
         <aside id="sidebar" className={`${asideState}`}>
           <ul>
             <li>
