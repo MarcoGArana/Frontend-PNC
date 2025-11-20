@@ -11,19 +11,16 @@ import { createExam, deleteExam } from "../../services/examService";
 import { useAddContent } from "../../hooks/useCreateContent";
 
 const Materia = () => {
-
     const { materiaId, nombre } = useParams();
     const user = useAuthStore((state) => state.user);
     const [temaModalOpen, setTemaModalOpen] = useState(false);
     const [examModalOpen, setExamModalOpen] = useState(false);
 
-    const { data: content, isPending } = useQuery(
-        {
-            queryKey: ["content", materiaId],
-            queryFn: () => getMateriaById({ id: materiaId }),
-            staleTime: 1000 * 60 * 5,
-        }
-    );
+    const { data: content, isPending } = useQuery({
+        queryKey: ["content", materiaId],
+        queryFn: () => getMateriaById({ id: materiaId }),
+        staleTime: 1000 * 60 * 5,
+    });
 
     const addTemaMutation = useAddContent({
         materiaId,
@@ -49,8 +46,8 @@ const Materia = () => {
         deleteFn: ({ examId }) => deleteExam({ examId })
     });
 
-    const saveTema = ({nombre , file , materiaId }) => {
-        addTemaMutation.mutate({nombre , file , materiaId });
+    const saveTema = ({ nombre, file, materiaId }) => {
+        addTemaMutation.mutate({ nombre, file, materiaId });
     }
 
     const saveExam = ({ examData }) => {
@@ -90,49 +87,43 @@ const Materia = () => {
     }
 
     return (
-        <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 soft-ring rounded-2xl">
-            {isPending && <div>loading...</div>}
+        <div className="flex flex-col gap-8 w-6xl mx-auto">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+                <div className="bg-white px-8 py-6 flex items-center justify-center">
+                    {isPending ? (
+                        <div className="text-2xl text-gray-400">Cargando...</div>
+                    ) : (
+                        <h3 className="text-[#350A59] text-3xl font-bold uppercase">{nombre}</h3>
+                    )}
+                </div>
+            </div>
 
-            {!isPending && (
-                <h3 className="text-primary text-4xl">{nombre}</h3>
-            )}
-
-            {user?.rol === 'admin' && (
-                <button
-                    className="cursor-pointer p-1.5 bg-pink text-white"
-                    onClick={() => setTemaModalOpen(true)}
-                >
-                    Añadir tema
-                </button>
-            )}
-
-            {!isPending && (
-                <ContentCard
-                    data={content.temas.data}
-                    label="Contenido de clase"
-                    type="tema"
-                    deleteTopic={deleteTopic}
-                    rol={user?.rol}
-                />
-            )}
-
-            {user?.rol === 'admin' && (
-                <button
-                    className="cursor-pointer p-1.5 bg-pink text-white"
-                    onClick={() => setExamModalOpen(true)}
-                >
-                    Crear examen
-                </button>
+            {isPending && (
+                <div className="text-center py-12 text-gray-500">
+                    Cargando contenido...
+                </div>
             )}
 
             {!isPending && (
-                <ContentCard
-                    data={content.examenes.data}
-                    label="Examenes"
-                    type="exam"
-                    deleteExamen={deleteExamen}
-                    rol={user?.rol}
-                />
+                <>
+                    <ContentCard
+                        data={content.temas.data}
+                        label="Contenido de clase"
+                        type="tema"
+                        deleteTopic={deleteTopic}
+                        rol={user?.rol}
+                        onAddClick={user?.rol === 'admin' ? () => setTemaModalOpen(true) : null}
+                    />
+
+                    <ContentCard
+                        data={content.examenes.data}
+                        label="Evaluaciones"
+                        type="exam"
+                        deleteExamen={deleteExamen}
+                        rol={user?.rol}
+                        onAddClick={user?.rol === 'admin' ? () => setExamModalOpen(true) : null}
+                    />
+                </>
             )}
         </div>
     );
