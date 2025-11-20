@@ -62,7 +62,7 @@ const UpdateExamContent = ({ onClose, questionInfo }) => {
         updateQuestion({ updatedQuestion: newResponse });
 
         if (response) {
-            toast.info('Pregunta guardada correctamente');
+            Swal.fire('Pregunta guardada correctamente!', '', 'success');
             onClose();
         }
     }

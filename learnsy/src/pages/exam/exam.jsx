@@ -8,6 +8,7 @@ import Results from "../../components/exam/results/results";
 import { beginExam, getExam } from "../../services/examService";
 import CreateExamContent from "../../components/exam/editExamContent.jsx/createExamQuestion";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const Exam = () => {
     const { examId, materiaId, examName, nombre } = useParams();
@@ -38,7 +39,10 @@ const Exam = () => {
 
     const startExam = () => {
         if (questions.length === 0) {
-            toast.info('Parece que este examen esta vacio');
+            Swal.fire({
+                icon: "error",
+                title: "Este examen aun no tiene preguntas",
+            });
             return;
         }
 
