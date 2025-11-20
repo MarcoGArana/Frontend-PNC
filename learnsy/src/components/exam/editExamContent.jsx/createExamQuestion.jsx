@@ -2,8 +2,10 @@ import { useState } from "react";
 import { createQuestionWithAnswers } from "../../../services/examService";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import useQuestionsStore from "../../../store/questions";
 
 const CreateExamContent = ({ idExam, onClose }) => {
+    const addQuestion = useQuestionsStore(state => state.addQuestion);
     const [question, setQuestion] = useState('');
     const [loading, setLoading] = useState(false);
     const [correct, setCorrect] = useState(-1);
@@ -81,8 +83,14 @@ const CreateExamContent = ({ idExam, onClose }) => {
 
         const response = await createQuestionWithAnswers({ questionData: questionData }, questionAnswers);
 
-        if (response) {
-            toast.info('Pregunta guardada correctamente');
+        if (response) {  
+            const question = {
+                ...questionData,
+                responses: questionAnswers
+            }
+
+            addQuestion({addedQuestion: question});
+            Swal.fire('Pregunta creada exitosamente!', '', 'success');
             clearForm();
         }
     }

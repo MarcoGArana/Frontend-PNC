@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useQuestionsStore from "../../store/questions";
@@ -16,6 +16,7 @@ const Exam = () => {
     const [editExam, setEditExam] = useState(false);
     const user = useAuthStore((state) => state.user);
     const fetchQuestions = useQuestionsStore(state => state.fetchQuestions);
+    const questions = useQuestionsStore(state => state.questions);
     const finished = useQuestionsStore(state => state.finished);
     const resetQuestionsStore = useQuestionsStore(state => state.reset);
 
@@ -36,7 +37,7 @@ const Exam = () => {
     }, [examData]);
 
     const startExam = () => {
-        if (examData.preguntaOpcionMultipleList.length === 0) {
+        if (questions.length === 0) {
             toast.info('Parece que este examen esta vacio');
             return;
         }

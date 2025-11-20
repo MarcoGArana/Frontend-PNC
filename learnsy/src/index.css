@@ -23,6 +23,9 @@
   --shadow-card-shadow: 0 35px 35px rgba(0, 0, 0, 0.25); 
 }
 
+#logout{
+  fill: var(--color-purple);
+}
 
 .title-font {
   font-family: var(--font-family);
@@ -116,7 +119,7 @@ body {
 
 #sidebar {
   box-sizing: border-box;
-  height: 100vh;
+  height: 100%;
   position: sticky;
   background-color: var(--color-light-gray);
   transition: 300ms ease-in-out;
@@ -132,7 +135,7 @@ body {
 }
 
 #sidebar.open {
-  width: 200px;
+  width: 300px;
 }
 
 #sidebar.open #toggle-btn svg{
@@ -147,6 +150,10 @@ body {
 
 #sidebar ul {
  list-style: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
 }
 
 #sidebar ul li{

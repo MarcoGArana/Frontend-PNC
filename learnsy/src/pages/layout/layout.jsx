@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { Outlet, Link, Navigate, useLocation, useParams } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import NavItem from "../../components/layout/navItem/navItem";
+import { BiLogOutCircle } from "react-icons/bi";
 
 const Layout = () => {
   const [asideState, setAsideState] = useState('close');
   const [active, setActive] = useState('');
   const [participants, setParticipants] = useState({});
   const [grades, setGrades] = useState({});
+  const logout = useAuthStore((state) => state.logout);
 
   const location = useLocation();
   const { materiaId } = useParams();
@@ -89,7 +91,7 @@ const Layout = () => {
           <ul>
             <li>
               <div id="top">
-                <span>Menu</span>
+                <span className="font-bold">Menu</span>
                 <button id="toggle-btn" onClick={toggleAside}>
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m242-200 200-280-200-280h98l200 280-200 280h-98Zm238 0 200-280-200-280h98l200 280-200 280h-98Z" /></svg>
                 </button>
@@ -106,6 +108,11 @@ const Layout = () => {
                 />
               );
             })}
+
+            <li className="mt-auto flex items-center gap-2 cursor-pointer pb-5" onClick={logout}>
+              <BiLogOutCircle size={70}/>
+              <h3>Cerrar sesión</h3>
+            </li>
           </ul>
         </aside>
         <main className="flex flex-col min-h-full">
