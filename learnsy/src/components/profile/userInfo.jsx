@@ -26,10 +26,10 @@ const UserInfo = ({ data, openModal }) => {
                 </h2>
 
                 {/* Contenido */}
-                <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-70 w-full">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start w-full">
 
                     {/* Avatar + Botón */}
-                    <div className="flex flex-col items-center gap-6">
+                    <div className="flex flex-col items-center gap-6 sm:ml-40">
                         <img
                             src={avatar}
                             className="h-48 w-48 sm:h-56 sm:w-56 object-cover rounded-full border-4 border-[#D9D9D9]"
@@ -44,14 +44,14 @@ const UserInfo = ({ data, openModal }) => {
                     </div>
 
                     {/* Información */}
-                    <div className="flex flex-col gap-6 text-center sm:text-left mt-4 sm:mt-10">
+                    <div className="flex flex-col gap-6 text-center sm:text-left mt-4 sm:mt-10 space-y-30 sm:ml-40">
 
-                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-4 sm:mb-6">
+                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-4 sm:mb-6 space-x-40 sm:text-left">
                             <span className="font-semibold text-gray-800">Usuario:</span>
                             <span className="text-[#C661C6] font-medium">{username}</span>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 space-x-20 ">
                             <span className="font-semibold text-gray-800">Correo electrónico:</span>
                             <span className="text-[#C661C6] font-medium break-all">{correo}</span>
                         </div>
