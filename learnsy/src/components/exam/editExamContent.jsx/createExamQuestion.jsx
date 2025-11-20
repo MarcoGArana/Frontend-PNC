@@ -21,6 +21,10 @@ const CreateExamContent = ({ idExam, onClose }) => {
     };
 
     const handleAddOption = () => {
+        if(answers.length === 6){
+            toast.info('Maximo de opciones de respuesta alcanzado');
+            return
+        }
         setAnswers([...answers, '']);
     };
 
