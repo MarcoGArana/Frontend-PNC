@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { updateQuestion } from "../services/examService";
 
 const useQuestionsStore = create((set, get) => {
     return {
@@ -59,6 +58,12 @@ const useQuestionsStore = create((set, get) => {
                 }
                 return e;
             }) }, false, 'UPDATE_QUESTIONS')
+        },
+
+        addQuestion: ({addedQuestion}) => {
+            const { questions } = get();
+            const extendedQuestions = [...questions, addedQuestion];
+            set({questions: extendedQuestions}, false, 'ADD_QUESTION');
         }
     }
 })

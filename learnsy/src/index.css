@@ -23,6 +23,9 @@
   --shadow-card-shadow: 0 35px 35px rgba(0, 0, 0, 0.25); 
 }
 
+#logout{
+  fill: var(--color-purple);
+}
 
 .title-font {
   font-family: var(--font-family);
@@ -90,13 +93,33 @@ body {
   border: 1px solid var(--color-border-shadow);
 }
 
+.confirm {
+  background-color: var(--color-pink);
+  width: 5rem;
+}
+
+.confirm:hover {
+  background-color: var(--color-dark-purple); 
+  color: white
+}
+
+.custom-popup {
+  background-color: var(--color-gray);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.popup-title {
+  color: var(--color-titles-purple);
+}
+
 #layout {
   grid-template-columns: auto 1fr;
 }
 
 #sidebar {
   box-sizing: border-box;
-  height: 100vh;
+  height: 100%;
   position: sticky;
   background-color: var(--color-light-gray);
   transition: 300ms ease-in-out;
@@ -112,7 +135,7 @@ body {
 }
 
 #sidebar.open {
-  width: 200px;
+  width: 300px;
 }
 
 #sidebar.open #toggle-btn svg{
@@ -127,6 +150,10 @@ body {
 
 #sidebar ul {
  list-style: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
 }
 
 #sidebar ul li{
