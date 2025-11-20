@@ -2,10 +2,10 @@
 import useQuestionsStore from "../../../store/questions";
 import { getPdf } from "../../../services/materiaService";
 import { toast } from "react-toastify";
-import { AiOutlineFilePdf } from "react-icons/ai";
-import { PiExam } from "react-icons/pi";
+import pdfIcon from '../../../assets/icons/PDFicon.png';
+import examIcon from '../../../assets/icons/EXAMicon.png';
 
-const ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAddClick }) => {
+const  ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAddClick }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const fetchQuestions = useQuestionsStore(state => state.fetchQuestions);
@@ -65,7 +65,17 @@ const ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAddC
                                         }}
                                     >
                                         <div className="flex-shrink-0">
-                                            {type === 'tema' ? <AiOutlineFilePdf size={28}/> : <PiExam size={28} color="red"/>}
+                                            {type === 'tema' ? 
+                                                <img 
+                                                    src={pdfIcon} 
+                                                    alt="PDF icon" 
+                                                    className="w-6 h-7"
+                                                /> : 
+                                                <img 
+                                                    src={examIcon} 
+                                                    alt="Exam icon" 
+                                                    className="w-9 h-9"
+                                                />}
                                         </div>
                                         <span className="text-[#374151] text-base underline">
                                             {index + 1}. {name}
