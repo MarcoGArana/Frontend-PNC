@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import courseBg from "../../../assets/images/courses-background.png";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Card = ({ data, rol }) => {
   const { id, nombre, imagen: image } = data;
@@ -20,7 +21,13 @@ const Card = ({ data, rol }) => {
   const handleDelete = () => {
     deleteMateria({ materiaId: id });
     setDeleted(true);
-    toast.success("Materia eliminada correctamente!");
+    Swal.fire({
+      icon: "success",
+      title: "Materia eliminada",
+      text: "Materia eliminada correctamente.",
+      timer: 1200,
+      showConfirmButton: false,
+    });
   };
 
   const toggleUpdate = () => setEditable(!editable);
@@ -29,7 +36,12 @@ const Card = ({ data, rol }) => {
     e.preventDefault();
 
     if (!name || !imageUrl) {
-      toast.error("Por favor ingresa un nombre y una URL de imagen");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Por favor ingresa un nombre y una URL de imagen",
+      });
+
       return;
     }
 
@@ -37,7 +49,13 @@ const Card = ({ data, rol }) => {
       materiaUpdate: { id, nombre: name, imagen: imageUrl, isVisible: true },
     });
 
-    toast.success("Materia actualizada correctamente!");
+    Swal.fire({
+      icon: "success",
+      title: "Materia actualizada correctamente",
+      timer: 1200,
+      showConfirmButton: false,
+    });
+
     setEditable(false);
   };
 

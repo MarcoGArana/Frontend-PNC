@@ -32,6 +32,8 @@ const MateriaCreator = () => {
       userId,
     });
 
+
+
     Swal.fire({
       icon: "success",
       title: "¡Materia creada!",
