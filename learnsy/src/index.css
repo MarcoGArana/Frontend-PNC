@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 @import "tailwindcss";
 
@@ -15,8 +17,56 @@
   --color-border-shadow: #585B56CC;
 
   --font-spartan: League Spartan, 'sans-serif';
+  --font-family: "Roboto", sans-serif;
+  --font-montserrat: 'Montserrat', sans-serif;
 
   --shadow-card-shadow: 0 35px 35px rgba(0, 0, 0, 0.25); 
+}
+
+
+.title-font {
+  font-family: var(--font-family);
+}
+
+.title {
+  font-family: var(--font-family);
+  color: var(--color-titles-purple);
+}
+
+.body-font {
+  font-family: var(--font-montserrat);
+}
+
+.body{
+  font-family: var(--font-montserrat);
+  color: var(--color-dark-text);
+}
+
+.btn-primary {
+  background-color: var(--color-pink);
+  color: white;
+  cursor: pointer;
+  font-family: var(--font-montserrat);
+  font-weight: 500;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-dark-purple); 
+}
+
+.btn-secondary {
+  background-color: #D1D5DB;
+  color: var(--color-dark-purple) ;
+  cursor: pointer;
+  font-family: var(--font-monserrat);
+  font-weight: 500;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-dark-purple); 
+  color: white
 }
 
 :root {
