@@ -46,10 +46,7 @@ const ExamInfo = ({ user, examId }) => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 let correct = 0;
-
-                console.log(questions);
                 
-        
                 questions.forEach(q => {
                     const userAnswer = respuestas[q.id];
                     const answerExist = q.responses.find(ans => ans.id == userAnswer);
