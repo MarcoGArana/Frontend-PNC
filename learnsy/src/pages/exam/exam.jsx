@@ -56,11 +56,11 @@ const Exam = () => {
     return (
         <div className="grid gap-11">
 
-            <div className="soft-ring rounded-2xl text-center py-5 text-titles-purple text-3xl sm:text-4xl lg:text-5xl font-medium break-words">
+            <div className="shadow-lg border border-gray-200 rounded-2xl text-center py-5 text-titles-purple text-3xl sm:text-4xl lg:text-5xl font-medium break-words">
                 {nombre}
             </div>
 
-            <div className="bg-white p-6 sm:p-8 lg:p-12 flex w-fit mx-auto soft-ring rounded-2xl items-center flex-col sm:w-5xl">
+            <div className="bg-white p-6 sm:p-8 lg:p-12 flex w-fit mx-auto shadow-lg border border-gray-200 rounded-2xl items-center flex-col sm:w-5xl">
 
                 {user?.rol === "admin" && !editExam && !examStarted && (
                     <div className="w-full flex justify-end">
