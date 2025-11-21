@@ -66,8 +66,9 @@ const Layout = () => {
 
   return !isAuthenticated ? <Navigate to={"/"} /> : (
     <>
-      <nav className="bg-white">
-        <ul className="flex justify-between w-full gap-4 p-2 pr-8 items-center">
+      <nav className="bg-white w-full">
+      <ul className="flex flex-wrap justify-between w-full gap-4 p-4 items-center">
+
           <li className="flex gap-3.5 pl-4">
             <button className="cursor-pointer" onClick={toggleAside}>
               <svg id="menu" xmlns="http://www.w3.org/2000/svg" height="24px" className="scale-150" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" /></svg>
@@ -77,9 +78,9 @@ const Layout = () => {
             </Link>
           </li>
           <li>
-            <div className="flex gap-5 items-center">
-              <Link to="/profile">{user?.username}</Link>
-              <img src={user?.avatar} className="w-14 h-14 rounded-full object-contain border-2 border-secondary"></img>
+            <div className="flex gap-4 items-center">
+              <Link to="/profile" className="max-[480px]:hidden">{user?.username}</Link>
+              <img src={user?.avatar} className="w-14 h-14 rounded-full object-contain border-2 border-secondary  max-[480px]:hidden"></img>
             </div>
           </li>
         </ul>
@@ -102,12 +103,12 @@ const Layout = () => {
             })}
           </ul>
         </aside>
-        <main className="flex flex-col min-h-full">
+        <main className="flex flex-col min-h-screen">
           <div className="flex-1 flex justify-center p-8">
             <Outlet />
           </div>
 
-          <footer className="h-16 w-full bg-dark-purple text-white flex items-center justify-center p-10 flex-col">
+         <footer className="w-full bg-dark-purple text-white flex flex-col items-center justify-center gap-1 py-6 px-4 text-center">
             <h3 className="text-xl">Learnsy</h3>
             <p>learnsy@gmail.com</p>
           </footer>
