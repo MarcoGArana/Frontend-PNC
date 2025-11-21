@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { createQuestionWithAnswers } from "../../../services/examService";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import useQuestionsStore from "../../../store/questions";
 
-const EditExamContent = ({ idExam, onClose }) => {
+const CreateExamContent = ({ idExam, onClose }) => {
+    const addQuestion = useQuestionsStore(state => state.addQuestion);
     const [question, setQuestion] = useState('');
     const [loading, setLoading] = useState(false);
     const [correct, setCorrect] = useState(-1);
@@ -21,14 +24,52 @@ const EditExamContent = ({ idExam, onClose }) => {
     };
 
     const handleAddOption = () => {
+        if (answers.length === 6) {
+            toast.info('Maximo de opciones de respuesta alcanzado');
+            return
+        }
         setAnswers([...answers, '']);
     };
+
+    const clearForm = () => {
+        setQuestion('');
+        setAnswers(['', '', '', '']);
+        setImageUrl('');
+        setCorrect(-1);
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (question == '') {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "El enunciado es obligatorio",
+            });
+            return;
+        }
+
+        if (answers.includes('')) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "No pueden haber respuestas en blanco",
+            });
+            return;
+        }
+
+        if (correct == -1) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Debe agregar una respuesta correcta",
+            });
+            return;
+        }
+
         const questionData = {
-            image: imageUrl,
+            image: imageUrl == '' ? 'https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_768,h_484/https://anahisalgado.com/wp-content/uploads/2022/07/image-12-1024x645.png' : imageUrl,
             statement: question,
             idExam: idExam
         }
@@ -36,17 +77,21 @@ const EditExamContent = ({ idExam, onClose }) => {
         const questionAnswers = answers.map((e, i) => ({
             image: '',
             description: e,
-            isCorrect: correct == i+1,
+            isCorrect: correct == i + 1,
             idPreguntaOpcionMultiple: -1
         }))
 
         const response = await createQuestionWithAnswers({ questionData: questionData }, questionAnswers);
 
-        if(response){
-            toast.success('Pregunta creada correctamente!');
-            setQuestion('');
-            setAnswers(['','','','']);
-            setCorrect(-1);
+        if (response) {  
+            const question = {
+                ...questionData,
+                responses: questionAnswers
+            }
+
+            addQuestion({addedQuestion: question});
+            Swal.fire('Pregunta creada exitosamente!', '', 'success');
+            clearForm();
         }
     }
 
@@ -132,21 +177,21 @@ const EditExamContent = ({ idExam, onClose }) => {
                     <div className="flex justify-center w-full gap-16">
                         <button
                             type="button"
-                            onClick={onClose}
+                            onClick={clearForm}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
                         >
-                            Cancelar
+                            Limpiar
                         </button>
                         <button
                             type="button"
                             onClick={handleSubmit}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
                         >
                             {loading ? (
                                 <>
-                                    <div className="rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                    <div className="rounded-full h-4 w-4 border-b-2"></div>
                                     Creando...
                                 </>
                             ) : (
@@ -159,7 +204,7 @@ const EditExamContent = ({ idExam, onClose }) => {
                             type="button"
                             onClick={onClose}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
                         >
                             Finalizar examen
                         </button>
@@ -170,4 +215,4 @@ const EditExamContent = ({ idExam, onClose }) => {
     )
 }
 
-export default EditExamContent
+export default CreateExamContent

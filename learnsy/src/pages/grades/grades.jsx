@@ -15,7 +15,7 @@ const Grades = () => {
     );
     return (
         <>
-            <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 soft-ring rounded-2xl">
+            <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 shadow-lg border border-gray-200 rounded-2xl">
                 <h3>Notas</h3>
                 <hr className="h-0.5 border-0 bg-primary"></hr>
                 {isPending && <p>loading...</p>}

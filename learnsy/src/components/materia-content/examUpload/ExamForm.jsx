@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { createExam } from "../../../services/examService";
+import Swal from "sweetalert2";
 
 const ExamForm = ({ materiaId, onClose, saveExam }) => {
     const [formData, setFormData] = useState({
@@ -27,10 +26,82 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
 
         try {
             const { name, isVisible, description, duration, daysDuration } = formData;
+
+            if (!name || name.trim().length === 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El nombre del examen es obligatorio",
+                });
+                return;
+            }
+
+            if (name.trim().length < 3) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El nombre debe tener al menos 3 caracteres",
+                });
+                return;
+            }
+
+            if (!description || description.trim().length === 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La descripción es obligatoria",
+                });
+                return;
+            }
+
+            if (description.trim().length < 10) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La descripción debe tener al menos 10 caracteres",
+                });
+                return;
+            }
+
+            if (duration === "" || duration === null) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La duración es obligatoria",
+                });
+                return;
+            }
+
+            if (isNaN(duration) || duration <= 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La duración debe ser un número mayor a 0",
+                });
+                return;
+            }
+
+            if (daysDuration === "" || daysDuration === null) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El número de días es obligatorio",
+                });
+                return;
+            }
+
+            if (isNaN(daysDuration) || daysDuration < 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Los días deben ser un número mayor o igual a 0",
+                });
+                return;
+            }
+
             const DateHourBegin = new Date();
             const DateHourEnd = new Date(DateHourBegin);
 
-            //Conversiones:
             const durationMillis = duration * 60 * 60 * 1000;
             DateHourEnd.setDate(DateHourEnd.getDate() + daysDuration);
             const examData = {
@@ -45,9 +116,19 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
 
             saveExam({ examData: examData });
             onClose();
-            toast.success('Examen creado!');
+            Swal.fire({
+                icon: "success",
+                title: "!Examen creado!",
+                text: "El examen fue creado correctamente.",
+                timer: 1200,
+                showConfirmButton: false,
+            });
         } catch (e) {
-            toast.error('Error al crear el examen')
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error al crear el examen",
+            });
 
         } finally {
             setLoading(false);
@@ -128,7 +209,7 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
                             type="button"
                             onClick={onClose}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
                         >
                             Cancelar
                         </button>
@@ -136,11 +217,11 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
                             type="button"
                             onClick={handleSubmit}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
                         >
                             {loading ? (
                                 <>
-                                    <div className="rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                    <div className="rounded-full h-4 w-4 border-b-2"></div>
                                     Creando...
                                 </>
                             ) : (
