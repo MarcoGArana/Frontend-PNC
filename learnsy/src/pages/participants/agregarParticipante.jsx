@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { addUserByName } from "../../services/materiaService";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const AgregarParticipante = () => {
   const { materiaId } = useParams();
@@ -9,11 +10,35 @@ const AgregarParticipante = () => {
   const [userName, setUserName] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+
+  {/* Implementación de sweet alert con personalizacion de colores botones */}
+  const result = await Swal.fire({
+    title: "¿Estás seguro que deseas agregar al participante?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Agregar",
+    cancelButtonText: "Cancelar",
+    reverseButtons: true,
+    customClass: {
+      confirmButton: "btn-primary px-6 py-2 rounded-lg",
+      cancelButton: "btn-secondary px-6 py-2 rounded-lg",
+      actions: "flex gap-4 justify-center",
+    },
+       buttonsStyling: false,
+  });
+
+  if (result.isConfirmed) {
     await addUserByName({ userName, materiaId });
-    toast.success("Usuario agregado");
+    Swal.fire({
+      icon: "success",
+      title: "Participante agregado",
+      timer: 1500,
+      showConfirmButton: false,
+    });
     navigate(-1);
-  };
+  }
+};
 
   return (
     <div className="w-full flex justify-center px-4 mt-6 pb-20">
