@@ -134,7 +134,7 @@ const UpdateExamContent = ({ onClose, questionInfo }) => {
                             type="button"
                             onClick={onClose}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
                         >
                             Cancelar
                         </button>
@@ -142,11 +142,11 @@ const UpdateExamContent = ({ onClose, questionInfo }) => {
                             type="button"
                             onClick={handleSubmit}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
                         >
                             {loading ? (
                                 <>
-                                    <div className="rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                    <div className="rounded-full h-4 w-4"></div>
                                     Creando...
                                 </>
                             ) : (

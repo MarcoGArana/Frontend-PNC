@@ -42,7 +42,7 @@ const Results = ({examId, userId}) => {
         <p className="border-purple w-full h-full grid justify-center items-center font-bold">{calificacion.toFixed(2)}</p>
       </div>
 
-      <button className="cursor-pointer bg-pink text-white rounded-xl w-fit py-4 px-8" onClick={handleClick}>
+      <button className="btn-primary rounded-xl w-fit py-4 px-8" onClick={handleClick}>
           Regresar al tablero
       </button>
     </div>

@@ -38,8 +38,8 @@ const ExamInfo = ({ user, examId }) => {
             denyButtonText: 'No',
             customClass: {
                 actions: 'my-actions',
-                confirmButton: 'order-2 confirm',
-                denyButton: 'order-1 confirm',
+                confirmButton: 'order-2 btn-secondary confirm',
+                denyButton: 'order-1 btn-secondary confirm',
                 popup: 'custom-popup',
                 title: 'popup-title'
             },
@@ -91,7 +91,7 @@ const ExamInfo = ({ user, examId }) => {
             )}
 
             {currentQuestion === (questions.length - 1) && !editQuestion &&
-                <button className="bg-pink rounded-sm p-2 relative -top-[2.7rem] -right-[21.75rem] text-white font-light cursor-pointer" onClick={() => handleFinish()}>Finalizar examen</button>
+                <button className="btn-primary rounded-sm p-2 relative -top-[2.7rem] -right-[21.75rem] font-light" onClick={() => handleFinish()}>Finalizar examen</button>
             }
 
             {editQuestion && <UpdateExamContent onClose={() => setEditQuestion(false)} questionInfo={questionInfo} />}

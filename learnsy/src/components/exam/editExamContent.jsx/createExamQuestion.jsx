@@ -179,7 +179,7 @@ const CreateExamContent = ({ idExam, onClose }) => {
                             type="button"
                             onClick={clearForm}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36 hover:bg-dark-purple transition"
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
                         >
                             Limpiar
                         </button>
@@ -187,7 +187,7 @@ const CreateExamContent = ({ idExam, onClose }) => {
                             type="button"
                             onClick={handleSubmit}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36 hover:bg-dark-purple transition"
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
                         >
                             {loading ? (
                                 <>
@@ -204,7 +204,7 @@ const CreateExamContent = ({ idExam, onClose }) => {
                             type="button"
                             onClick={onClose}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36 hover:bg-dark-purple transition"
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
                         >
                             Finalizar examen
                         </button>

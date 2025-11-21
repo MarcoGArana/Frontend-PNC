@@ -32,7 +32,7 @@ const Participantes = () => {
 
     return (
         <>
-            <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 soft-ring rounded-2xl">
+            <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 shadow-lg border border-gray-200 rounded-2xl">
                 {isPending && <div>loading...</div>}
                 {user?.rol == 'admin' && <AddUserForm userName={userName} setName={setName} handleSubmit={handleSubmit}/>}
                 {!isPending && content?.nombre && (<h3 className="text-primary text-4xl">{content.nombre}</h3>)}
