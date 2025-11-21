@@ -3,11 +3,14 @@ import { getMateriaWithDetails } from "../../services/materiaService";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useState } from "react";
 
 const Participantes = () => {
   const { materiaId } = useParams();
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
+ 
+  const [search, setSearch] = useState("");
 
   const { data: content, isPending } = useQuery({
     queryKey: ["materiaDetails", materiaId],
@@ -38,6 +41,8 @@ const Participantes = () => {
             <input
               type="text"
               placeholder="Buscar"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               className="
                 w-full 
                 border border-gray-300 
@@ -82,37 +87,44 @@ const Participantes = () => {
 
             <tbody>
               {!isPending &&
-                content?.usuarios?.map((u, index) => (
-                  <tr
-                    key={u.id}
-                    className={`${
-                      index % 2 === 0 ? "bg-[#EFE9FF]" : "bg-white"
-                    } text-center`}
-                  >
-                    {/* Foto */}
-                    <td className="p-4">
-                      <div className="flex justify-center">
-                        <img
-                          src={u.avatar}
-                          className="
-                            w-14 h-14 rounded-full object-cover 
-                            border-[2px] border-[var(--color-titles-purple)]
-                          "
-                        />
-                      </div>
-                    </td>
+                [...content?.usuarios]
+                  .filter(
+                    (u) =>
+                      u.nombre.toLowerCase().includes(search.toLowerCase()) ||
+                      u.email.toLowerCase().includes(search.toLowerCase())
+                  )
+                  .sort((a, b) => a.nombre.localeCompare(b.nombre))
+                  .map((u, index) => (
+                    <tr
+                      key={u.id}
+                      className={`${
+                        index % 2 === 0 ? "bg-[#EFE9FF]" : "bg-white"
+                      } text-center`}
+                    >
+                      {/* Foto */}
+                      <td className="p-4">
+                        <div className="flex justify-center">
+                          <img
+                            src={u.avatar}
+                            className="
+                              w-14 h-14 rounded-full object-cover 
+                              border-[2px] border-[var(--color-titles-purple)]
+                            "
+                          />
+                        </div>
+                      </td>
 
-                    {/* Nombre */}
-                    <td className="p-4 body text-base font-medium text-center">
-                      {u.nombre}
-                    </td>
+                      {/* Nombre */}
+                      <td className="p-4 body text-base font-medium text-center">
+                        {u.nombre}
+                      </td>
 
-                    {/* Correo */}
-                    <td className="p-4 body text-base font-semibold underline text-center">
-                      {u.email}
-                    </td>
-                  </tr>
-                ))}
+                      {/* Correo */}
+                      <td className="p-4 body text-base font-semibold underline text-center">
+                        {u.email}
+                      </td>
+                    </tr>
+                  ))}
             </tbody>
           </table>
         </div>
