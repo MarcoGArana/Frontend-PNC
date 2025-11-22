@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { createExam } from "../../../services/examService";
+import Swal from "sweetalert2";
 
 const ExamForm = ({ materiaId, onClose, saveExam }) => {
     const [formData, setFormData] = useState({
@@ -27,10 +26,82 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
 
         try {
             const { name, isVisible, description, duration, daysDuration } = formData;
+
+            if (!name || name.trim().length === 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El nombre del examen es obligatorio",
+                });
+                return;
+            }
+
+            if (name.trim().length < 3) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El nombre debe tener al menos 3 caracteres",
+                });
+                return;
+            }
+
+            if (!description || description.trim().length === 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La descripción es obligatoria",
+                });
+                return;
+            }
+
+            if (description.trim().length < 10) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La descripción debe tener al menos 10 caracteres",
+                });
+                return;
+            }
+
+            if (duration === "" || duration === null) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La duración es obligatoria",
+                });
+                return;
+            }
+
+            if (isNaN(duration) || duration <= 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La duración debe ser un número mayor a 0",
+                });
+                return;
+            }
+
+            if (daysDuration === "" || daysDuration === null) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El número de días es obligatorio",
+                });
+                return;
+            }
+
+            if (isNaN(daysDuration) || daysDuration < 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Los días deben ser un número mayor o igual a 0",
+                });
+                return;
+            }
+
             const DateHourBegin = new Date();
             const DateHourEnd = new Date(DateHourBegin);
 
-            //Conversiones:
             const durationMillis = duration * 60 * 60 * 1000;
             DateHourEnd.setDate(DateHourEnd.getDate() + daysDuration);
             const examData = {
@@ -45,9 +116,19 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
 
             saveExam({ examData: examData });
             onClose();
-            toast.success('Examen creado!');
+            Swal.fire({
+                icon: "success",
+                title: "!Examen creado!",
+                text: "El examen fue creado correctamente.",
+                timer: 1200,
+                showConfirmButton: false,
+            });
         } catch (e) {
-            toast.error('Error al crear el examen')
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error al crear el examen",
+            });
 
         } finally {
             setLoading(false);
@@ -58,12 +139,12 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
         <div className="">
             <div className="p-6 bg-white rounded-lg">
                 <div className="flex items-center justify-center pb-10">
-                    <h2 className="text-5xl font-light text-titles-purple">Crear un nuevo examen</h2>
+                    <h2 className="text-4xl font-medium title uppercase">Crear un nuevo examen</h2>
                 </div>
 
                 <div className="w-full grid gap-8">
                     <div className="grid grid-cols-2 items-center px-4">
-                        <label htmlFor="name" className="text-xl font-medium text-gray-700 pl-20">
+                        <label htmlFor="name" className="text-base font-semibold body pl-20">
                             Nombre del parcial:
                         </label>
                         <input
@@ -72,13 +153,14 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            className="w-[30rem] px-3 py-2 border border-gray-300 rounded-md"
-                            placeholder="Nombre del examen"
+                            className="w-[30rem] px-4 py-2.5 border border-gray-300 rounded-md title-font font-light
+                                      text-[var(--color-border-shadow)] focus:outline-none focus:ring-2 focus:ring-purple-400"
+                            placeholder="Ej. Parcial final"
                             required
                         />
                     </div>
                     <div className="grid grid-cols-2 items-center px-4">
-                        <label htmlFor="description" className="text-xl font-medium text-gray-700 pl-20">
+                        <label htmlFor="description" className="text-base font-semibold body pl-20">
                             Descripcion:
                         </label>
                         <input
@@ -87,13 +169,14 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
                             name="description"
                             value={formData.description}
                             onChange={handleInputChange}
-                            className="w-[30rem] px-3 py-2 border border-gray-300 rounded-md"
-                            placeholder="Descripcion"
+                            className="w-[30rem] px-4 py-2.5 border border-gray-300 rounded-md title-font font-light
+                                     text-[var(--color-border-shadow)] focus:outline-none focus:ring-2 focus:ring-purple-400"
+                            placeholder="Ej. Este es el parcial final, equivale al 40% de la nota final"
                             required
                         />
                     </div>
                     <div className="grid grid-cols-2 items-center px-4">
-                        <label htmlFor="duration" className="text-xl font-medium text-gray-700 pl-20">
+                        <label htmlFor="duration" className="text-base font-semibold body pl-20">
                             Duracion en horas:
                         </label>
                         <input
@@ -103,12 +186,13 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
                             name="duration"
                             value={formData.duration}
                             onChange={handleInputChange}
-                            className="w-20 px-3 py-2 border border-gray-300 rounded-md"
+                            className="w-20 px-4 py-2.5 border border-gray-300 rounded-md title-font font-light
+                                     text-[var(--color-border-shadow)] focus:outline-none focus:ring-2 focus:ring-purple-400"
                             required
                         />
                     </div>
                     <div className="grid grid-cols-2 items-center px-4">
-                        <label htmlFor="daysDuration" className="text-xl font-medium text-gray-700 pl-20">
+                        <label htmlFor="daysDuration" className="text-base font-semibold body pl-20">
                             Fecha maxima en dias:
                         </label>
                         <input
@@ -118,7 +202,9 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
                             name="daysDuration"
                             value={formData.daysDuration}
                             onChange={handleInputChange}
-                            className="w-20 px-3 py-2 border border-gray-300 rounded-md"
+                            className="w-20 px-4 py-2.5 border border-gray-300 rounded-md title-font font-light
+                                      text-[var(--color-border-shadow)] placeholder:text-gray-400 
+                            focus:outline-none focus:ring-2 focus:ring-purple-400"
                             required
                         />
                     </div>
@@ -128,7 +214,7 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
                             type="button"
                             onClick={onClose}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                            className="btn-secondary py-2 px-4 rounded-md min-w-36"
                         >
                             Cancelar
                         </button>
@@ -136,11 +222,11 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
                             type="button"
                             onClick={handleSubmit}
                             disabled={loading}
-                            className="cursor-pointer bg-pink text-white py-2 px-4 rounded-md min-w-36"
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
                         >
                             {loading ? (
                                 <>
-                                    <div className="rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                    <div className="rounded-full h-4 w-4 border-b-2"></div>
                                     Creando...
                                 </>
                             ) : (

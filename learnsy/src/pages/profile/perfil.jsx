@@ -11,12 +11,12 @@ const Perfil = () => {
 
     return (
         <>
-            <div className="bg-white p-8 flex flex-col gap-12 min-w-5xl soft-ring rounded-2xl h-fit">
+            
                 {isPending && <div>Loading...</div>}
                 {!isPending && (<UserInfo data={user} openModal={()=>{setAvatarModalOpen(true)}}/>)}
 
                 {avatarModalOpen && <ChangeAvatarModal onClose={() => setAvatarModalOpen(false)}/>}
-            </div>
+
         </>
     )
 }

@@ -1,56 +1,86 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useQuestionsStore from "../../store/questions";
 import { useAuthStore } from "../../store/authStore";
 import ExamInfo from "../../components/exam/questions/examInfo";
 import Results from "../../components/exam/results/results";
 import { beginExam, getExam } from "../../services/examService";
-import EditExamContent from "../../components/exam/editExamContent.jsx/editExamContent";
+import CreateExamContent from "../../components/exam/editExamContent.jsx/createExamQuestion";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const Exam = () => {
-    const { examId, materiaId, examName } = useParams();
+    const { examId, materiaId, examName, nombre } = useParams();
 
     const [examStarted, setExamStarted] = useState(false);
     const [editExam, setEditExam] = useState(false);
     const user = useAuthStore((state) => state.user);
     const fetchQuestions = useQuestionsStore(state => state.fetchQuestions);
+    const questions = useQuestionsStore(state => state.questions);
     const finished = useQuestionsStore(state => state.finished);
-    const queryClient = useQueryClient();
+    const resetQuestionsStore = useQuestionsStore(state => state.reset);
 
-    const { mutate: examAction, isLoading } = useMutation({
-        mutationFn: ({ examId, materiaId }) =>
-            getExam({ examId, materiaId }),
-        onSuccess: (data) => {
-            beginExam({ examId: data.id, userId: user.usuarioId });
-            fetchQuestions({ data: data.preguntaOpcionMultipleList, duration: data.duration })
-            queryClient.invalidateQueries(['exam'])
-            setExamStarted(true);
-        },
-        onError: (err) => {
-            console.error('Error al obtener el examen:', err.response?.data || err)
-        },
-    })
+    const { data: examData, isLoading } = useQuery({
+        queryKey: ['exam', examId],
+        queryFn: () => getExam({ examId, materiaId }),
+        staleTime: 1000 * 60 * 2,
+    });
+
+    useEffect(() => {
+        resetQuestionsStore();
+        if (!examData) return;
+
+        fetchQuestions({
+            data: examData.preguntaOpcionMultipleList,
+            duration: examData.duration
+        });
+    }, [examData]);
 
     const startExam = () => {
-        examAction({ examId, materiaId })
+        if (questions.length === 0) {
+            Swal.fire({
+                icon: "error",
+                title: "Este examen aun no tiene preguntas",
+            });
+            return;
+        }
+
+        if (user.rol != 'admin') {
+            beginExam({ examId: examData.id, userId: user.usuarioId });
+        }
+
+        setExamStarted(true);
     }
 
     return (
-        <div>
-            <div className={`bg-white p-12 flex min-w-5xl max-w-5xl soft-ring rounded-2xl items-center flex-col`}>
-                {user?.rol == 'admin' && !editExam && !examStarted && (
-                    <div className=" w-full flex justify-end">
-                        <button className="cursor-pointer" onClick={() => { setEditExam(true) }}>
-                            <svg id="delete" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" /></svg>
+        <div className="grid gap-11">
+
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden w-full -mt-2">
+                <div className="bg-white px-10 py-8 flex items-center justify-center">
+                    <h3 className="title text-3xl font-bold uppercase">
+                        {nombre}
+                    </h3>
+                </div>
+            </div>
+
+            <div className="bg-white p-6 sm:p-8 lg:p-12 flex w-fit mx-auto shadow-xl border border-gray-200 rounded-2xl items-center flex-col sm:w-5xl">
+
+                {user?.rol === "admin" && !editExam && !examStarted && (
+                    <div className="w-full flex justify-end">
+                        <button className="cursor-pointer" onClick={() => setEditExam(true)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                                <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
+                            </svg>
                         </button>
                     </div>
                 )}
 
-                {editExam && <EditExamContent idExam={examId} onClose={() => { setEditExam(false) }} />}
+                {editExam && <CreateExamContent idExam={examId} onClose={() => setEditExam(false)} />}
 
                 {!isLoading && !examStarted && !finished && !editExam && (
-                    <div className="grid gap-1 justify-items-center">
+                    <div className="grid gap-4 justify-items-center text-center -mt-8">
+
                         <svg width="100" height="156" viewBox="0 0 100 156" fill="none" xmlns="http://www.w3.org/2000/svg" className="pl-2">
                             <path d="M19.1612 83.55H41.5161C41.9396 83.55 42.3457 83.3682 42.6452 83.0447C42.9446 82.7212 43.1128 82.2825 43.1128 81.825C43.1128 81.3675 42.9446 80.9287 42.6452 80.6052C42.3457 80.2817 41.9396 80.1 41.5161 80.1H19.1612C18.7377 80.1 18.3316 80.2817 18.0321 80.6052C17.7327 80.9287 17.5645 81.3675 17.5645 81.825C17.5645 82.2825 17.7327 82.7212 18.0321 83.0447C18.3316 83.3682 18.7377 83.55 19.1612 83.55ZM60.6774 107.7H19.1612C18.7377 107.7 18.3316 107.882 18.0321 108.205C17.7327 108.529 17.5645 108.967 17.5645 109.425C17.5645 109.882 17.7327 110.321 18.0321 110.645C18.3316 110.968 18.7377 111.15 19.1612 111.15H60.6774C61.1008 111.15 61.507 110.968 61.8064 110.645C62.1059 110.321 62.2741 109.882 62.2741 109.425C62.2741 108.967 62.1059 108.529 61.8064 108.205C61.507 107.882 61.1008 107.7 60.6774 107.7ZM60.6774 135.3H19.1612C18.7377 135.3 18.3316 135.482 18.0321 135.805C17.7327 136.129 17.5645 136.567 17.5645 137.025C17.5645 137.482 17.7327 137.921 18.0321 138.245C18.3316 138.568 18.7377 138.75 19.1612 138.75H60.6774C61.1008 138.75 61.507 138.568 61.8064 138.245C62.1059 137.921 62.2741 137.482 62.2741 137.025C62.2741 136.567 62.1059 136.129 61.8064 135.805C61.507 135.482 61.1008 135.3 60.6774 135.3Z" fill="#EB5757" />
                             <path d="M22.3548 100.8C25.0004 100.8 27.1451 98.4831 27.1451 95.625C27.1451 92.7669 25.0004 90.45 22.3548 90.45C19.7092 90.45 17.5645 92.7669 17.5645 95.625C17.5645 98.4831 19.7092 100.8 22.3548 100.8Z" fill="#EB5757" />
@@ -62,20 +92,26 @@ const Exam = () => {
                             <path d="M94.2092 74.9251C94.186 68.8402 92.1785 62.9588 88.5394 58.3144C84.9003 53.67 79.8624 50.5596 74.3111 49.5299C68.7597 48.5002 63.05 49.6169 58.1852 52.684C53.3205 55.751 49.6119 60.5721 47.7111 66.3001H9.58017C9.15668 66.3001 8.75054 66.4818 8.45108 66.8053C8.15163 67.1288 7.9834 67.5676 7.9834 68.0251V150.825C7.9834 151.283 8.15163 151.721 8.45108 152.045C8.75054 152.368 9.15668 152.55 9.58017 152.55H70.2576C70.6811 152.55 71.0872 152.368 71.3867 152.045C71.6861 151.721 71.8544 151.283 71.8544 150.825V100.8C77.926 100.362 83.6156 97.4434 87.7676 92.6376C91.9196 87.8318 94.2227 81.4989 94.2092 74.9251ZM11.1769 149.1V69.7501H46.785C46.4629 71.453 46.3024 73.187 46.306 74.9251C46.2924 81.4989 48.5956 87.8318 52.7476 92.6376C56.8996 97.4434 62.5892 100.362 68.6608 100.8V149.1H11.1769ZM70.2576 90.4501C67.0233 90.4262 63.9179 89.0779 61.5678 86.6772C59.2178 84.2765 57.7983 81.0022 57.5957 77.515C57.393 74.0278 58.4224 70.5874 60.476 67.888C62.5297 65.1887 65.4547 63.4314 68.6608 62.9708V61.1251H67.064C66.6406 61.1251 66.2344 60.9433 65.935 60.6198C65.6355 60.2963 65.4673 59.8576 65.4673 59.4001C65.4673 58.9426 65.6355 58.5038 65.935 58.1803C66.2344 57.8568 66.6406 57.6751 67.064 57.6751H73.4511C73.8746 57.6751 74.2808 57.8568 74.5802 58.1803C74.8797 58.5038 75.0479 58.9426 75.0479 59.4001C75.0479 59.8576 74.8797 60.2963 74.5802 60.6198C74.2808 60.9433 73.8746 61.1251 73.4511 61.1251H71.8544V62.9708C75.0605 63.4314 77.9855 65.1887 80.0391 67.888C82.0928 70.5874 83.1222 74.0278 82.9195 77.515C82.7169 81.0022 81.2973 84.2765 78.9473 86.6772C76.5973 89.0779 73.4919 90.4262 70.2576 90.4501Z" fill="#EB5757" />
                         </svg>
 
-                        <h3 className="text-3xl p-2 text-purple font-medium">{examName}</h3>
-                        <button className="cursor-pointer py-4 px-8 bg-pink text-white rounded-xl mb-12" type="button" onClick={startExam}>
-                            Comenzar examen
+                        <h3 className="text-2xl sm:text-3xl p-2 text-purple body-font font-medium">
+                            {examName}
+                        </h3>
+
+                        <button
+                            className="cursor-pointer py-3 px-6 sm:py-4 sm:px-8 btn-primary rounded-lg mb-12 transition"
+                            type="button"
+                            onClick={startExam}
+                        >
+                            INICIAR EVALUACION
                         </button>
                     </div>
                 )}
 
-                {!isLoading && examStarted && !finished && (
-                    <ExamInfo />
-                )}
+                {!isLoading && examStarted && !finished && <ExamInfo user={user} examId={examId}/>}
 
                 {finished && <Results examId={examId} userId={user.usuarioId} />}
             </div>
         </div>
+
     )
 }
 

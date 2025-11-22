@@ -1,11 +1,13 @@
 import { useState } from "react";
+import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
 const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
     const [formData, setFormData] = useState({
-        nombre: '',
+        nombre: "",
         archivo: null
     });
+
     const [loading, setLoading] = useState(false);
 
     const handleInputChange = (e) => {
@@ -18,124 +20,198 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        if (file) {
-            if (file.type !== 'application/pdf') {
-                console.log('solo se admiten pdfs');
 
-                return;
-            }
-            if (file.size > 10 * 1024 * 1024) {
-                console.log('tamaño maximo alcanzado');
+        if (!file) return;
 
-                return;
-            }
-            setFormData(prev => ({
-                ...prev,
-                archivo: file
-            }));
+        if (file.type !== "application/pdf") {
+            Swal.fire({
+                icon: "error",
+                title: "Archivo inválido",
+                text: "Solo se permiten archivos PDF.",
+            });
+            return;
         }
+
+        if (file.size > 10 * 1024 * 1024) {
+            Swal.fire({
+                icon: "error",
+                title: "Archivo demasiado grande",
+                text: "El tamaño máximo permitido es de 10MB.",
+            });
+            return;
+        }
+
+        setFormData(prev => ({
+            ...prev,
+            archivo: file
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!formData.nombre) {
-            console.log('No hay nombre');
-            return;
+            return Swal.fire({
+                icon: "error",
+                title: "Nombre requerido",
+                text: "Debe ingresar un nombre para el archivo.",
+            });
         }
 
         if (!formData.archivo) {
-            console.log('No hay un archivo seleccionado');
-            return;
+            return Swal.fire({
+                icon: "error",
+                title: "Archivo requerido",
+                text: "Debe seleccionar un archivo PDF.",
+            });
         }
 
+        const result = await Swal.fire({
+            title: "¿Seguro que quieres subir este documento?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Subir",
+            cancelButtonText: "Cancelar",
+            confirmButtonColor: "#C65CB1",
+            cancelButtonColor: "#C65CB1",
+            reverseButtons: true
+        });
+
+        if (!result.isConfirmed) return;
+
+        handleConfirmUpload();
+
+    };
+
+    const handleConfirmUpload = async () => {
         setLoading(true);
 
         try {
             const fileData = new FormData();
-            fileData.append('archivo', formData.archivo);
+            fileData.append("archivo", formData.archivo);
 
-            saveTema({ nombre: formData.nombre, file: fileData, materiaId });
+            await saveTema({
+                nombre: formData.nombre,
+                file: fileData,
+                materiaId
+            });
+
+            await Swal.fire({
+                icon: "success",
+                title: "Archivo subido correctamente",
+                text: "Tu archivo ha sido subido correctamente.",
+                timer: 1800,
+                showConfirmButton: false
+            });
+
+            setFormData({ nombre: "", archivo: null });
             onClose();
-
-            setFormData({ nombre: '', archivo: null });
-            toast.success('Tema creado!');
-        } catch (e) {
-            console.log(e);
-            toast.error('Error al crear el tema');
-
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                icon: "error",
+                title: "Error al subir archivo",
+                text: "Ocurrió un problema. Intenta nuevamente.",
+            });
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className=" modal-overlay">
-            <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg">
-                <div className="flex items-center gap-2 mb-6">
-                    <h2 className="text-2xl font-bold text-gray-800">Subir Archivo PDF</h2>
+        <div className="modal-overlay">
+            <div
+                className="w-full max-w-4xl mx-auto mt-8 p-20 rounded-lg"
+                style={{ backgroundColor: "#F3F0FD" }}
+            >
+                <div className="flex items-center justify-center gap-2 mb-6">
+                    <h2 className="text-2xl font-bold title" style={{ color: "#574A80" }}>
+                        Subir nuevo contenido - archivo PDF
+                    </h2>
                 </div>
 
-                <div className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-2">
-                            Nombre:
+                        <label
+                            htmlFor="nombre"
+                            className="block body text-sm font-semibold mb-2"
+                        >
+                            Nombre del contenido:
                         </label>
+
                         <input
                             type="text"
                             id="nombre"
                             name="nombre"
                             value={formData.nombre}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent title-font font-light
+                                     text-[var(--color-border-shadow)] placeholder:text-gray-400"
+                            style={{ color: "#585B56" }}
                             placeholder="Ingresa el nombre del archivo"
                             required
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="archivo" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label
+                            htmlFor="archivo"
+                            className="block body text-sm font-semibold mb-2"
+                        >
                             Archivo PDF:
                         </label>
-                        <div className="">
-                            <input
-                                type="file"
-                                id="archivo"
-                                name="archivo"
-                                accept=".pdf"
-                                onChange={handleFileChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent file:mr-4 file:py-1 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-secondary hover:file:bg-blue-100"
-                                required
-                            />
-                        </div>
+
+                        <input
+                            type="file"
+                            id="archivo"
+                            name="archivo"
+                            accept=".pdf"
+                            onChange={handleFileChange}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md title-font font-light
+                                     text-[var(--color-border-shadow)] placeholder:text-gray-400 
+                                       focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent 
+                                       file:mr-4 file:py-1 file:px-4 file:rounded-md file:border-0
+                                       file:text-sm file:font-medium file:bg-[#706788] file:text-secondary
+                                       hover:file:bg-[#958cac] file:cursor-pointer"
+                        />
+
                         {formData.archivo && (
-                            <p className="p-1 text-sm text-green-600">
+                            <p className="p-1 text-sm body-font text-[var(--color-titles-purple)]">
                                 Archivo seleccionado: {formData.archivo.name}
                             </p>
                         )}
                     </div>
 
-                    <button
-                        type="button"
-                        onClick={handleSubmit}
-                        disabled={loading}
-                        className="cursor-pointer w-full flex items-center justify-center gap-2 bg-secondary text-white py-2 px-4 rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {loading ? (
-                            <>
-                                <div className="rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                Enviando...
-                            </>
-                        ) : (
-                            <>
-                                Enviar Archivo
-                            </>
-                        )}
-                    </button>
-                </div>
+                    <div className="flex gap-20 pt-2 justify-center">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="cursor-pointer w-60 py-2 px-8 rounded-md btn-secondary"
+                        >
+                            Cancelar
+                        </button>
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="cursor-pointer w-60 flex items-center justify-center gap-2 
+                                       py-2 px-8 rounded-md btn-primary
+                                       disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {loading ? (
+                                <>
+                                    <div className="rounded-full h-4 w-4 border-b-2 border-white animate-spin"></div>
+                                    Subiendo...
+                                </>
+                            ) : (
+                                <>Subir Archivo</>
+                            )}
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     );
-}
+};
 
-export default PDFUploadForm
+export default PDFUploadForm;

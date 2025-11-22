@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 @import "tailwindcss";
 
@@ -13,11 +15,79 @@
   --color-titles-purple: #350A59;
   --color-dark-text: #585B56;
   --color-border-shadow: #585B56CC;
+  --color-landing: #37159E;
+  --color-sub-landing: #92247C
 
   --font-spartan: League Spartan, 'sans-serif';
+  --font-family: "Roboto", sans-serif;
+  --font-montserrat: 'Montserrat', sans-serif;
 
   --shadow-card-shadow: 0 35px 35px rgba(0, 0, 0, 0.25); 
 }
+
+#logout{
+  fill: var(--color-purple);
+}
+
+.title-font {
+  font-family: var(--font-family);
+}
+
+.title {
+  font-family: var(--font-family);
+  color: var(--color-titles-purple);
+}
+
+.body-font {
+  font-family: var(--font-montserrat);
+}
+
+.body{
+  font-family: var(--font-montserrat);
+  color: var(--color-dark-text);
+}
+
+.btn-primary {
+  background-color: var(--color-pink);
+  color: white;
+  cursor: pointer;
+  font-family: var(--font-montserrat);
+  font-weight: 500;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-dark-purple); 
+}
+
+.btn-secondary {
+  background-color: #D1D5DB;
+  color: var(--color-dark-purple) ;
+  cursor: pointer;
+  font-family: var(--font-monserrat);
+  font-weight: 500;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-dark-purple); 
+  color: white
+}
+
+.btn-primary-class {
+  background-color: var(--color-pink);
+  color: white;
+  cursor: pointer;
+  font-family: var(--font-montserrat);
+  font-weight: 500;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-primary-class:hover {
+  background-color: var(--color-gray); 
+  color:  var(--color-dark-purple);
+}
+
 
 :root {
   margin: 0;
@@ -40,13 +110,27 @@ body {
   border: 1px solid var(--color-border-shadow);
 }
 
+.confirm {
+  width: 5rem;
+}
+
+.custom-popup {
+  background-color: var(--color-gray);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.popup-title {
+  color: var(--color-titles-purple);
+}
+
 #layout {
   grid-template-columns: auto 1fr;
 }
 
 #sidebar {
   box-sizing: border-box;
-  height: 100vh;
+  height: 100%;
   position: sticky;
   background-color: var(--color-light-gray);
   transition: 300ms ease-in-out;
@@ -62,7 +146,7 @@ body {
 }
 
 #sidebar.open {
-  width: 200px;
+  width: 300px;
 }
 
 #sidebar.open #toggle-btn svg{
@@ -77,9 +161,15 @@ body {
 
 #sidebar ul {
  list-style: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
 }
 
 #sidebar ul li{
+  margin-right: .5em;
+  border-radius: 0 1em 1em 0;
   padding-left: 1em;
 }
 
@@ -122,13 +212,13 @@ svg {
 }
 
 .active {
-  color: var(--color-primary);
+  color: var(--color-secondary);
   margin-right: .5em;
-  background: white;
   border-radius: 0 1em 1em 0;
+  background: var(--color-dark-purple);
 
   svg {
-    fill: var(--color-primary);
+    fill: var(--color-secondary);
   }
 }
 
