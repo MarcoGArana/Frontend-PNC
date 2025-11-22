@@ -47,7 +47,7 @@ const Exam = () => {
         }
 
         if (user.rol != 'admin') {
-            beginExam({ examId: data.id, userId: user.usuarioId });
+            beginExam({ examId: examData.id, userId: user.usuarioId });
         }
 
         setExamStarted(true);
