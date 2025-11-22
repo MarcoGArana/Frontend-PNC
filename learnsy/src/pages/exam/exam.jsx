@@ -102,7 +102,7 @@ const Exam = () => {
                     </div>
                 )}
 
-                {!isLoading && examStarted && !finished && <ExamInfo user={user} />}
+                {!isLoading && examStarted && !finished && <ExamInfo user={user} examId={examId}/>}
 
                 {finished && <Results examId={examId} userId={user.usuarioId} />}
             </div>
