@@ -125,7 +125,7 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
                 style={{ backgroundColor: "#F3F0FD" }}
             >
                 <div className="flex items-center justify-center gap-2 mb-6">
-                    <h2 className="text-2xl font-bold" style={{ color: "#574A80" }}>
+                    <h2 className="text-2xl font-bold title" style={{ color: "#574A80" }}>
                         Subir nuevo contenido - archivo PDF
                     </h2>
                 </div>
@@ -134,7 +134,7 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
                     <div>
                         <label
                             htmlFor="nombre"
-                            className="block text-sm font-medium text-gray-700 mb-2"
+                            className="block body text-sm font-semibold mb-2"
                         >
                             Nombre del contenido:
                         </label>
@@ -145,7 +145,8 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
                             name="nombre"
                             value={formData.nombre}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent title-font font-light
+                                     text-[var(--color-border-shadow)] placeholder:text-gray-400"
                             style={{ color: "#585B56" }}
                             placeholder="Ingresa el nombre del archivo"
                             required
@@ -155,7 +156,7 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
                     <div>
                         <label
                             htmlFor="archivo"
-                            className="block text-sm font-medium text-gray-700 mb-2"
+                            className="block body text-sm font-semibold mb-2"
                         >
                             Archivo PDF:
                         </label>
@@ -166,15 +167,16 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
                             name="archivo"
                             accept=".pdf"
                             onChange={handleFileChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md text-[#585B56] 
-                                       focus:outline-none focus:ring-2 focus:ring-secondary
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md title-font font-light
+                                     text-[var(--color-border-shadow)] placeholder:text-gray-400 
+                                       focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent 
                                        file:mr-4 file:py-1 file:px-4 file:rounded-md file:border-0
                                        file:text-sm file:font-medium file:bg-[#706788] file:text-secondary
                                        hover:file:bg-[#958cac] file:cursor-pointer"
                         />
 
                         {formData.archivo && (
-                            <p className="p-1 text-sm text-green-600">
+                            <p className="p-1 text-sm body-font text-[var(--color-titles-purple)]">
                                 Archivo seleccionado: {formData.archivo.name}
                             </p>
                         )}
@@ -184,8 +186,7 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
                         <button
                             type="button"
                             onClick={onClose}
-                            className="cursor-pointer w-60 py-2 px-8 rounded-md bg-[#C65CB1] text-white
-                                       hover:bg-[#706788]"
+                            className="cursor-pointer w-60 py-2 px-8 rounded-md btn-secondary"
                         >
                             Cancelar
                         </button>
@@ -193,8 +194,8 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="cursor-pointer w-60 flex items-center justify-center gap-2 bg-[#C65CB1] 
-                                       text-white py-2 px-8 rounded-md hover:bg-[#706788]
+                            className="cursor-pointer w-60 flex items-center justify-center gap-2 
+                                       py-2 px-8 rounded-md btn-primary
                                        disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {loading ? (
