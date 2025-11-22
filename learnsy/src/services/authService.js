@@ -12,15 +12,23 @@ export const getProfile = async () => {
   return response.data;
 };
 
-export const changeAvatar = async ({avatar}) => {
+export const changeAvatar = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file); 
+
   try {
-    const response = await API.patch(`/user/changeAvatar?avatar=${avatar}`);
+    const response = await API.patch("/user/changeAvatar", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
     return response.data;
   } catch (error) {
-    console.log(error);
-    
+    console.error(error);
   }
-}
+};
+
 
 export const getGrades = async ({materiaId, userId}) => {
   const response = await API.get(`/usuarioxexamen/${materiaId}/${userId}`);
