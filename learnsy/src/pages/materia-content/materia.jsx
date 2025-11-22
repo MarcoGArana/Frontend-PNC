@@ -91,7 +91,7 @@ const Materia = () => {
             <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden w-full -mt-2">
                 <div className="bg-white px-10 py-8 flex items-center justify-center">
                     {isPending ? (
-                        <div className="text-2xl text-gray-400">Cargando...</div>
+                        <div className="text-2xl body">Cargando...</div>
                     ) : (
                         <h3 className="title text-3xl font-bold uppercase">{nombre}</h3>
                     )}
