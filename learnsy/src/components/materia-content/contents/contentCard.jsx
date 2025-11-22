@@ -1,11 +1,11 @@
- import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useQuestionsStore from "../../../store/questions";
 import { getPdf } from "../../../services/materiaService";
 import { toast } from "react-toastify";
 import pdfIcon from '../../../assets/icons/PDFicon.png';
 import examIcon from '../../../assets/icons/EXAMicon.png';
 
-const  ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAddClick }) => {
+const ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAddClick }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const fetchQuestions = useQuestionsStore(state => state.fetchQuestions);
@@ -32,29 +32,29 @@ const  ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAdd
     return (
         <div className="bg-[#706788] rounded-lg overflow-hidden shadow-md">
             <div className="flex justify-between items-center px-6 py-4">
-                <h4 className="text-white text-xl font-semibold uppercase tracking-wide">
+                <h4 className="title-font font-normal text-white text-2xl uppercase tracking-wide">
                     {label}
                 </h4>
                 {rol === 'admin' && onAddClick && (
                     <button
                         onClick={onAddClick}
-                        className="cursor-pointer bg-[#C65CB1] hover:bg-[#d666af] text-white px-6 py-2 rounded-md text-sm font-medium uppercase transition-colors w-48"
+                        className="cursor-pointer btn-primary-class px-8 py-2 rounded-lg text-sm uppercase transition-colors w-40"
                     >
                         {type === 'tema' ? 'AGREGAR CONTENIDO' : 'CREAR EVALUACIÓN'}
                     </button>
                 )}
             </div>
-            <div className="bg-[#F3F0FD] p-6">
+            <div className="bg-[#F5F5F5] p-6">
                 {data && data.length > 0 ? (
                     <div className="flex flex-col gap-3">
                         {data.map((content, index) => {
                             const name = type === 'tema' ? content?.nombre : content?.name;
                             return (
-                                <div 
-                                    className="flex items-center justify-between gap-3 group" 
+                                <div
+                                    className="flex items-center justify-between gap-3 group"
                                     key={content.id || index}
                                 >
-                                    <button 
+                                    <button
                                         className="flex items-center gap-3 cursor-pointer text-left flex-1 hover:opacity-75 transition-opacity"
                                         onClick={() => {
                                             if (type === 'tema') {
@@ -65,15 +65,15 @@ const  ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAdd
                                         }}
                                     >
                                         <div className="flex-shrink-0">
-                                            {type === 'tema' ? 
-                                                <img 
-                                                    src={pdfIcon} 
-                                                    alt="PDF icon" 
+                                            {type === 'tema' ?
+                                                <img
+                                                    src={pdfIcon}
+                                                    alt="PDF icon"
                                                     className="w-6 h-7"
-                                                /> : 
-                                                <img 
-                                                    src={examIcon} 
-                                                    alt="Exam icon" 
+                                                /> :
+                                                <img
+                                                    src={examIcon}
+                                                    alt="Exam icon"
                                                     className="w-9 h-9"
                                                 />}
                                         </div>
@@ -82,7 +82,7 @@ const  ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAdd
                                         </span>
                                     </button>
                                     {rol === 'admin' && (
-                                        <button 
+                                        <button
                                             className="cursor-pointer p-1 hover:bg-gray-200 rounded transition-colors flex-shrink-0"
                                             onClick={() => {
                                                 if (type === 'tema') {
@@ -102,7 +102,7 @@ const  ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAdd
                         })}
                     </div>
                 ) : (
-                    <p className="text-gray-500 text-center py-4">No hay contenido disponible</p>
+                    <p className="body text-center py-4">No hay contenido disponible</p>
                 )}
             </div>
         </div>

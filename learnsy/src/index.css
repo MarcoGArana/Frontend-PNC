@@ -74,6 +74,21 @@
   color: white
 }
 
+.btn-primary-class {
+  background-color: var(--color-pink);
+  color: white;
+  cursor: pointer;
+  font-family: var(--font-montserrat);
+  font-weight: 500;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-primary-class:hover {
+  background-color: var(--color-gray); 
+  color:  var(--color-dark-purple);
+}
+
+
 :root {
   margin: 0;
   padding: 0;
