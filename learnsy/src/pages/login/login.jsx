@@ -60,7 +60,7 @@ const Login = () => {
                 <img
                     src="/src/assets/circulos.png"
                     alt="Learnsy"
-                    className="w-45 absolute top-0 left-1/2 -translate-x-1/2"
+                    className="w-40 absolute top-0 left-1/2 -translate-x-1/2"
                 />
 
                 {/* Titulo */}
