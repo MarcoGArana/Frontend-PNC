@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useAuthStore } from "../../../store/authStore";
 import { changeAvatar } from "../../../services/authService";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+
 
 const ChangeAvatarModal = ({ onClose }) => {
     const setUserInfo = useAuthStore((state) => state.setUserInfo);
@@ -22,7 +24,13 @@ const ChangeAvatarModal = ({ onClose }) => {
         try {
             const res = await changeAvatar(file);  
             setUserInfo(res.data);
-            toast.success("Avatar actualizado!");
+            Swal.fire({
+                  icon: "success",
+                  title: "Materia eliminada",
+                  text: "Materia eliminada correctamente.",
+                  timer: 1200,
+                  showConfirmButton: false,
+                });
             onClose();
         } catch (e) {
             console.log(e);
