@@ -40,7 +40,7 @@ const Login = () => {
                 <img
                     src="/src/assets/circulos.png"
                     alt="Learnsy"
-                    className="w-28 absolute top-6 left-1/2 -translate-x-1/2"
+                    className="w-45 absolute top-0 left-1/2 -translate-x-1/2"
                 />
 
                 {/* TÍTULO */}
@@ -62,7 +62,7 @@ const Login = () => {
                             value={nameOrEmail}
                             onChange={(e) => setNameOrEmail(e.target.value)}
                             placeholder="correo@correo.com"
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#C65BCF]"
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#585B56B2] placeholder-[#585B56B2] text-[#585B56B2]"
                         />
                     </div>
 
@@ -73,14 +73,14 @@ const Login = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="**************"
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#C65BCF]"
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#585B56B2] placeholder-[#585B56B2] text-[#585B56B2]"
                         />
                     </div>
 
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="bg-[#C65BCF] text-white font-semibold py-2 rounded-lg mt-4 hover:bg-[#b152c0] transition"
+                        className="bg-[#C65BCF] text-white font-semibold py-2 rounded-lg mt-4 hover:bg-[#b152c0] transition w-1/2 mx-auto"
                     >
                         {isLoading ? 'Ingresando...' : 'INICIAR SESIÓN'}
                     </button>
