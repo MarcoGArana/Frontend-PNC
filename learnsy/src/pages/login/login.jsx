@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useAuthStore } from '../../store/authStore';
 import { login } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -13,13 +14,29 @@ const Login = () => {
         mutationFn: ({ nameOrEmail, password }) =>
             login(nameOrEmail, password),
         onSuccess: ({ accessToken }) => {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Inicio de sesión exitoso!',
+                text: 'Bienvenido de nuevo',
+                timer: 700,
+                showConfirmButton: false
+            });
+
             setAuth(accessToken)
             queryClient.invalidateQueries(['profile'])
             navigate('/dashboard');
         },
+
         onError: (err) => {
             console.error('Error al iniciar sesión:', err.response?.data || err)
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Inicio de sesión fallido, intenta nuevamente',
+            });
         },
+
     })
 
     const [nameOrEmail, setNameOrEmail] = useState('')
@@ -77,13 +94,15 @@ const Login = () => {
                         />
                     </div>
 
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="btn-primary py-2.5 rounded-lg mt-4 transition"
-                    >
-                        {isLoading ? 'Ingresando...' : 'INICIAR SESION'}
-                    </button>
+                    <div className="flex justify-center">
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="btn-primary py-2.5 rounded-lg mt-4 transition w-50"
+                        >
+                            {isLoading ? 'Ingresando...' : 'INICIAR SESION'}
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
