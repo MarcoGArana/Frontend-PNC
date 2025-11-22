@@ -56,11 +56,15 @@ const Exam = () => {
     return (
         <div className="grid gap-11">
 
-            <div className="shadow-lg border border-gray-200 rounded-2xl text-center py-5 text-titles-purple text-3xl sm:text-4xl lg:text-5xl font-medium break-words">
-                {nombre}
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden w-full -mt-2">
+                <div className="bg-white px-10 py-8 flex items-center justify-center">
+                    <h3 className="title text-3xl font-bold uppercase">
+                        {nombre}
+                    </h3>
+                </div>
             </div>
 
-            <div className="bg-white p-6 sm:p-8 lg:p-12 flex w-fit mx-auto shadow-lg border border-gray-200 rounded-2xl items-center flex-col sm:w-5xl">
+            <div className="bg-white p-6 sm:p-8 lg:p-12 flex w-fit mx-auto shadow-xl border border-gray-200 rounded-2xl items-center flex-col sm:w-5xl">
 
                 {user?.rol === "admin" && !editExam && !examStarted && (
                     <div className="w-full flex justify-end">
@@ -88,16 +92,16 @@ const Exam = () => {
                             <path d="M94.2092 74.9251C94.186 68.8402 92.1785 62.9588 88.5394 58.3144C84.9003 53.67 79.8624 50.5596 74.3111 49.5299C68.7597 48.5002 63.05 49.6169 58.1852 52.684C53.3205 55.751 49.6119 60.5721 47.7111 66.3001H9.58017C9.15668 66.3001 8.75054 66.4818 8.45108 66.8053C8.15163 67.1288 7.9834 67.5676 7.9834 68.0251V150.825C7.9834 151.283 8.15163 151.721 8.45108 152.045C8.75054 152.368 9.15668 152.55 9.58017 152.55H70.2576C70.6811 152.55 71.0872 152.368 71.3867 152.045C71.6861 151.721 71.8544 151.283 71.8544 150.825V100.8C77.926 100.362 83.6156 97.4434 87.7676 92.6376C91.9196 87.8318 94.2227 81.4989 94.2092 74.9251ZM11.1769 149.1V69.7501H46.785C46.4629 71.453 46.3024 73.187 46.306 74.9251C46.2924 81.4989 48.5956 87.8318 52.7476 92.6376C56.8996 97.4434 62.5892 100.362 68.6608 100.8V149.1H11.1769ZM70.2576 90.4501C67.0233 90.4262 63.9179 89.0779 61.5678 86.6772C59.2178 84.2765 57.7983 81.0022 57.5957 77.515C57.393 74.0278 58.4224 70.5874 60.476 67.888C62.5297 65.1887 65.4547 63.4314 68.6608 62.9708V61.1251H67.064C66.6406 61.1251 66.2344 60.9433 65.935 60.6198C65.6355 60.2963 65.4673 59.8576 65.4673 59.4001C65.4673 58.9426 65.6355 58.5038 65.935 58.1803C66.2344 57.8568 66.6406 57.6751 67.064 57.6751H73.4511C73.8746 57.6751 74.2808 57.8568 74.5802 58.1803C74.8797 58.5038 75.0479 58.9426 75.0479 59.4001C75.0479 59.8576 74.8797 60.2963 74.5802 60.6198C74.2808 60.9433 73.8746 61.1251 73.4511 61.1251H71.8544V62.9708C75.0605 63.4314 77.9855 65.1887 80.0391 67.888C82.0928 70.5874 83.1222 74.0278 82.9195 77.515C82.7169 81.0022 81.2973 84.2765 78.9473 86.6772C76.5973 89.0779 73.4919 90.4262 70.2576 90.4501Z" fill="#EB5757" />
                         </svg>
 
-                        <h3 className="text-2xl sm:text-3xl p-2 text-purple font-medium">
+                        <h3 className="text-2xl sm:text-3xl p-2 text-purple body-font font-medium">
                             {examName}
                         </h3>
 
                         <button
-                            className="cursor-pointer py-3 px-6 sm:py-4 sm:px-8 bg-pink text-white rounded-xl mb-12 hover:bg-dark-purple transition"
+                            className="cursor-pointer py-3 px-6 sm:py-4 sm:px-8 btn-primary rounded-lg mb-12 transition"
                             type="button"
                             onClick={startExam}
                         >
-                            Comenzar examen
+                            INICIAR EVALUACION
                         </button>
                     </div>
                 )}

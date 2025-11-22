@@ -80,6 +80,7 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
         if (!result.isConfirmed) return;
 
         handleConfirmUpload();
+
     };
 
     const handleConfirmUpload = async () => {

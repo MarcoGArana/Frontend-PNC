@@ -88,18 +88,18 @@ const Materia = () => {
 
     return (
         <div className="flex flex-col gap-8 w-6xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-                <div className="bg-white px-8 py-6 flex items-center justify-center">
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden w-full -mt-2">
+                <div className="bg-white px-10 py-8 flex items-center justify-center">
                     {isPending ? (
-                        <div className="text-2xl text-gray-400">Cargando...</div>
+                        <div className="text-2xl body">Cargando...</div>
                     ) : (
-                        <h3 className="text-[#350A59] text-3xl font-bold uppercase">{nombre}</h3>
+                        <h3 className="title text-3xl font-bold uppercase">{nombre}</h3>
                     )}
                 </div>
             </div>
 
             {isPending && (
-                <div className="text-center py-12 text-gray-500">
+                <div className="text-center py-12 body">
                     Cargando contenido...
                 </div>
             )}
