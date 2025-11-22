@@ -25,7 +25,13 @@ const CreateExamContent = ({ idExam, onClose }) => {
 
     const handleAddOption = () => {
         if (answers.length === 6) {
-            toast.info('Maximo de opciones de respuesta alcanzado');
+            Swal.fire({
+                icon: "info",
+                title: "Máximo de opciones de respuesta alcanzado",
+                timer: 1500,
+                showConfirmButton: false
+            });
+
             return
         }
         setAnswers([...answers, '']);
@@ -100,36 +106,36 @@ const CreateExamContent = ({ idExam, onClose }) => {
             <div className="font-light flex gap-10 min-h-52 items-center">
                 <form className="flex flex-col gap-3.5 w-[40rem] justify-center" onSubmit={handleSubmit}>
                     <div className="mb-8">
-                        <label className="block text-gray-700 font-semibold mb-3 text-lg">
+                        <label className="block body font-semibold mb-4 text-lg">
                             Pregunta:
                         </label>
-                        <div className="bg-gray-50 rounded-lg p-1 border border-gray-200">
+                        <div className="bg-white rounded-md p-1 border border-gray-300">
                             <textarea
                                 value={question}
                                 onChange={(e) => setQuestion(e.target.value)}
                                 placeholder="Escriba la pregunta aquí. Ej: ¿Qué son los principios SOLID?"
-                                className="w-full p-4 bg-transparent border-none outline-none resize-none text-gray-600"
+                                className="w-full p-4 bg-transparent border-none outline-none resize-none title-font font-light text-[var(--color-border-shadow)]"
                                 rows="3"
                             />
                         </div>
                     </div>
 
                     <div className="mb-8">
-                        <label className="block text-gray-700 font-semibold mb-3 text-lg">
+                        <label className="block body font-semibold mb-4 text-lg">
                             Imagen de la pregunta:
                         </label>
-                        <div className="bg-gray-50 rounded-lg p-1 border border-gray-200">
+                        <div className="bg-white rounded-md p-1 border border-gray-300">
                             <input
                                 value={imageUrl}
                                 onChange={(e) => setImageUrl(e.target.value)}
                                 placeholder="Url de la imagen"
-                                className="w-full p-4 bg-transparent border-none outline-none resize-none text-gray-600"
+                                className="w-full p-4 bg-transparent border-none outline-none resize-none title-font font-light text-[var(--color-border-shadow)]"
                             />
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-gray-700 font-semibold mb-4 text-lg">
+                        <label className="block body font-semibold mb-4 text-lg">
                             Respuestas:
                         </label>
                         <div className="space-y-4">
@@ -157,7 +163,7 @@ const CreateExamContent = ({ idExam, onClose }) => {
                                         value={answer}
                                         onChange={(e) => handleAnswerChange(index, e.target.value)}
                                         placeholder="Escriba la opción de respuesta acá"
-                                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 transition-all text-gray-600 placeholder-gray-400"
+                                        className="flex-1 px-4 py-3 border border-gray-300 rounded-md outline-none focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all title-font font-light text-[var(--color-border-shadow)]"
                                     />
                                 </div>
                             ))}
@@ -167,7 +173,7 @@ const CreateExamContent = ({ idExam, onClose }) => {
                             <button
                                 type="button"
                                 onClick={handleAddOption}
-                                className="text-[0.75em] px-4 py-2 bg-dark-purple cursor-pointer text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+                                className="text-[0.75em] px-4 py-2 btn-secondary cursor-pointer text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
                             >
                                 AGREGAR OPCIÓN
                             </button>
@@ -179,7 +185,7 @@ const CreateExamContent = ({ idExam, onClose }) => {
                             type="button"
                             onClick={clearForm}
                             disabled={loading}
-                            className="btn-primary py-2 px-4 rounded-md min-w-36"
+                            className="btn-primary py-2 px-5 rounded-md text-base"
                         >
                             Limpiar
                         </button>
@@ -187,7 +193,7 @@ const CreateExamContent = ({ idExam, onClose }) => {
                             type="button"
                             onClick={handleSubmit}
                             disabled={loading}
-                            className="btn-primary py-2 px-4 rounded-md min-w-36"
+                            className="btn-primary py-2 px-3 rounded-md text-base"
                         >
                             {loading ? (
                                 <>
