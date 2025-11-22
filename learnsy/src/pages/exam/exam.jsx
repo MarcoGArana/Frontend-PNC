@@ -47,7 +47,7 @@ const Exam = () => {
         }
 
         if (user.rol != 'admin') {
-            beginExam({ examId: data.id, userId: user.usuarioId });
+            beginExam({ examId: examData.id, userId: user.usuarioId });
         }
 
         setExamStarted(true);
@@ -106,7 +106,7 @@ const Exam = () => {
                     </div>
                 )}
 
-                {!isLoading && examStarted && !finished && <ExamInfo user={user} />}
+                {!isLoading && examStarted && !finished && <ExamInfo user={user} examId={examId}/>}
 
                 {finished && <Results examId={examId} userId={user.usuarioId} />}
             </div>

@@ -58,7 +58,7 @@ const ExamInfo = ({ user, examId }) => {
                 if (user.rol != 'admin') {
                     await completeExam({
                         examId: examId,
-                        userId: user.id,
+                        userId: user.usuarioId,
                         calificacion: calificacion
                     });
                 }

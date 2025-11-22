@@ -27,6 +27,16 @@ export const getMateriaById = async ({ id }) => {
   }
 }
 
+export const getExamenesUsuarios = async ({ materiaId }) => {
+  try {
+    const response = await API.get(`/materia/examenes-usuarios/${materiaId}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+
+  }
+}
+
 export const saveMateria = async ({ materiaData, userId }) => {
   try {
     const response = await API.post('/materia', materiaData);
