@@ -125,7 +125,7 @@ const Grades = () => {
                             }
                             className="btn-primary py-2.5 px-4 rounded-md transition min-w-[110px] text-base"
                         >
-                            AGREGAR PARTICIPANTE
+                            Agregar participante
                         </button>
                     </div>
                     
@@ -248,7 +248,7 @@ const Grades = () => {
                         onClick={() => navigate(`/dashboard/materia/${materiaDetails?.nombre}/${materiaId}`)}
                         className="btn-primary py-2.5 px-6 rounded-md transition"
                     >
-                        REGRESAR AL TABLERO
+                        Regresar al tablero
                     </button>
                 </div>
             </div>
