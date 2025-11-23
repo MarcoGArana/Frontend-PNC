@@ -61,7 +61,7 @@ const Participantes = () => {
             />
           </div>
 
-          {/* Boton agregar participante */}
+          {/* Boton agregar participante - solo los profesores pueden agregar participantes*/}
           {user?.rol === "admin" && (
             <button
               onClick={() =>
@@ -74,7 +74,7 @@ const Participantes = () => {
           )}
         </div>
 
-        {/* Tabla con los datos */}
+        {/* Tabla con los datos de los participantes inscritos */}
         <div className="overflow-x-auto">
           <table className="w-full min-w-[600px]">
             <thead>

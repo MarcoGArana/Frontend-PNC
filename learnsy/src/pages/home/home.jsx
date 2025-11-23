@@ -10,22 +10,28 @@ const Home = () => {
   const user = useAuthStore((state) => state.user);
   const isPending = user?.materias == null;
 
+  // Estado para búsqueda y paginación
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+
+  // Número de elementos por página
   const ITEMS_PER_PAGE = 6;
 
+  // Lista filtrada y ordenada por ID de mayor a menor
   const filtered = [...(user?.materias || [])]
     .sort((a, b) => b.id - a.id)
     .filter((m) =>
       m.nombre.toLowerCase().includes(search.toLowerCase())
     );
 
+   // Cálculo de paginación
   const totalPages = Math.ceil((filtered?.length || 0) / ITEMS_PER_PAGE);
   const startIndex = (page - 1) * ITEMS_PER_PAGE;
   const paginated = filtered?.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const isTeacher = user?.rol === "admin";
 
+  // Funciones de paginación
   const goNext = () => page < totalPages && setPage(page + 1);
   const goPrev = () => page > 1 && setPage(page - 1);
 
@@ -44,7 +50,7 @@ const Home = () => {
         </h1>
       </div>
 
-      {/* Search Bar componente and the buttom */}
+      {/* Search Bar componente y el boton - boton solo para admin*/}
       <div className="w-full px-6 mt-4 flex items-center gap-3">
         <div className="flex-grow">
           <SearchBar
@@ -87,9 +93,11 @@ const Home = () => {
         )}
       </div>
 
+      {/* Paginacion */}
       {totalPages > 1 && (
         <div className="py-6 flex justify-center items-center gap-6">
 
+          {/* Boton pagina anterior */}
           <button
             onClick={goPrev}
             disabled={page === 1}
@@ -107,6 +115,7 @@ const Home = () => {
             <FiChevronLeft />
           </button>
 
+          {/* Numero de página actual */}
           <span className="px-4 py-2 rounded-full text-sm title font-semibold"
             style={{
               border: `2px solid #706788`,
@@ -118,6 +127,7 @@ const Home = () => {
             {page} de {totalPages}
           </span>
 
+          {/* Boton siguiente pagina */}
           <button
             onClick={goNext}
             disabled={page === totalPages}

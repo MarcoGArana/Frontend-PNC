@@ -18,7 +18,8 @@ const Card = ({ data, rol }) => {
     imageUrl ||
     "http://localhost:5173/src/assets/images/landscape-placeholder.svg";
 
-  const handleDelete = () => {
+    // Alerta visual - sweet alert
+    const handleDelete = () => {
     deleteMateria({ materiaId: id });
     setDeleted(true);
     Swal.fire({
@@ -49,6 +50,7 @@ const Card = ({ data, rol }) => {
       materiaUpdate: { id, nombre: name, imagen: imageUrl, isVisible: true },
     });
 
+    // Notifica éxito sweet alert
     Swal.fire({
       icon: "success",
       title: "Materia actualizada correctamente",
@@ -60,11 +62,13 @@ const Card = ({ data, rol }) => {
   };
 
   return (
+
+    // Contenedor general 
     <div className={`w-full max-w-full sm:max-w-[480px] mx-auto ${display}`}>
 
       <div className="border-[2.5px] w-full bg-white/200 rounded-xl shadow-md border-[var(--color-titles-purple)]  relative p-2 sm:p-0">
 
-        {/* If a person is admin this buttoms will be visible */}
+        {/* botones visibles solo si el usuario es admin y no esta editando */}
         {rol === "admin" && !editable && (
           <div className="absolute right-3 top-3 flex gap-3 z-30">
             <button
@@ -75,6 +79,7 @@ const Card = ({ data, rol }) => {
               <FaEdit />
             </button>
 
+            {/* Botón para eliminar */}
             <button
               onClick={handleDelete}
               className="p-2 bg-fuchsia-300 rounded-full text-white text-base hover:bg-amber-50 transition"
@@ -85,7 +90,7 @@ const Card = ({ data, rol }) => {
           </div>
         )}
 
-        {/* Edit mode */}
+        {/* Modo editar */}
         {editable && (
           <form onSubmit={handleUpdate} className="p-4 flex flex-col gap-3 items-center">
             <img
@@ -119,7 +124,7 @@ const Card = ({ data, rol }) => {
           </form>
         )}
 
-        {/* Normal view */}
+        {/* Vista normal cuando no esta editando */}
         {!editable && (
           <Link to={`./materia/${name}/${id}`} className="block">
 
@@ -134,6 +139,7 @@ const Card = ({ data, rol }) => {
                 />
               </div>
 
+              {/* Imagen circular de la materia */}
               <div className="relative -ml-10 sm:-ml-12 shrink-0 z-20">
                 <img
                   src={imageUrl}

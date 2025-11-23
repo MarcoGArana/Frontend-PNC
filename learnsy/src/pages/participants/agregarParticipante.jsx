@@ -28,6 +28,7 @@ const AgregarParticipante = () => {
        buttonsStyling: false,
   });
 
+   // Si el usuario confirma se agrega el participante
   if (result.isConfirmed) {
     await addUserByName({ userName, materiaId });
     Swal.fire({
@@ -46,7 +47,7 @@ const AgregarParticipante = () => {
       {/* Tarjeta principal */}
       <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl border border-gray-300 px-8 py-12 md:px-16 md:py-14">
 
-        {/* Titulo */}
+        {/* Titulo de la pagina */}
         <h1 className="text-center text-3xl md:text-4xl title font-medium uppercase mb-12">
           Añadir Participante
         </h1>
@@ -54,6 +55,7 @@ const AgregarParticipante = () => {
         {/* Formulario con campos */}
         <form onSubmit={handleSubmit} className="flex flex-col items-center gap-10">
 
+          {/* Campo: Nombre de usuario */}
           <div className="w-full flex flex-col md:flex-row md:items-center gap-2 md:gap-1 md:space-x-1">
             <label className="font-semibold body text-medium md:w-[28%]">
               Nombre del usuario:
