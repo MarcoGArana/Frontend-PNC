@@ -20,7 +20,7 @@ const Grades = () => {
         queryFn: () => getMateriaWithDetails({ materiaId }),
     });
 
-    // Query para usuarios normales
+    // Query para usuarios normales - obtener calificaciones
     const { data: gradesData, isError: gradesError, isPending: gradesPending } = useQuery(
         {
             queryKey: ["grades", materiaId],
@@ -28,6 +28,20 @@ const Grades = () => {
             enabled: rol !== 'admin'
         }
     );
+
+    // Query para obtener todos los exámenes de la materia (usuarios normales)
+    const { data: allExamsData, isPending: examsPending } = useQuery({
+        queryKey: ["materia-exams", materiaId],
+        queryFn: async () => {
+            const response = await fetch(`http://localhost:8080/api/materia/${materiaId}/exams`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            return response.json();
+        },
+        enabled: rol !== 'admin'
+    });
 
     // Query para admins
     const { data: adminData, isError: adminError, isPending: adminPending } = useQuery(
@@ -161,26 +175,84 @@ const Grades = () => {
         );
     }
 
-    // Vista para USUARIO NORMAL (código original)
-    return (
-        <>
-            <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 shadow-lg border border-gray-200 rounded-2xl">
-                <h3>Notas</h3>
-                <hr className="h-0.5 border-0 bg-primary"></hr>
-                {gradesPending && <p>loading...</p>}
-                {!gradesPending && gradesData?.data.map((g) => {
-                    const nota = g.calificacion;
-                    const examen = g.examen;
+    // Vista para USUARIO NORMAL
+    // Combinar todos los exámenes con las calificaciones del usuario
+    const allGrades = allExamsData?.data ? allExamsData.data.map(exam => {
+        const userGrade = gradesData?.data?.find(g => g.examId === exam.id);
+        return {
+            id: exam.id,
+            examen: exam.name,
+            calificacion: userGrade?.calificacion,
+            realizado: !!userGrade
+        };
+    }) : [];
 
-                    return (
-                        <div key={g.id} className="flex gap-3">
-                            <div>{examen}</div>
-                            <div>{nota}</div>
-                        </div>
-                    )
-                })}
+    return (
+        <div className="w-full flex flex-col items-center gap-8 mt-2 px-4 pb-18">
+            {/* Titulo de la materia */}
+            <div className="w-full max-w-5xl bg-white shadow-xl rounded-2xl border-[1px] border-gray-300 px-6 py-10">
+                {!materiaPending && (
+                    <h1 className="text-center text-3xl md:text-4xl title font-medium uppercase">
+                        {materiaDetails?.nombre}
+                    </h1>
+                )}
             </div>
-        </>
+
+            {/* Tarjeta de calificaciones */}
+            <div className="w-full max-w-5xl bg-white shadow-xl rounded-2xl border-[1px] border-gray-300 p-6 md:p-10">
+                <h2 className="text-2xl title font-light mb-8">CALIFICACIONES</h2>
+
+                {(gradesPending || examsPending) && (
+                    <p className="text-gray-500 text-center">Cargando...</p>
+                )}
+
+                {!gradesPending && !examsPending && allGrades.length === 0 && (
+                    <p className="text-gray-500 text-center">No hay exámenes registrados para esta materia.</p>
+                )}
+
+                {!gradesPending && !examsPending && allGrades.length > 0 && (
+                    <div className="overflow-x-auto">
+                        <table className="w-full min-w-[400px]">
+                            <thead>
+                                <tr className="body text-base">
+                                    <th className="text-left pb-4 font-semibold">Evaluación</th>
+                                    <th className="text-center pb-4 font-semibold">Nota</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {allGrades.map((g, index) => (
+                                    <tr 
+                                        key={g.id} 
+                                        className={`${index % 2 === 0 ? 'bg-[#EFE9FF]' : 'bg-white'}`}
+                                    >
+                                        <td className="p-4 body text-base font-medium">
+                                            {g.examen}
+                                        </td>
+                                        <td className="p-4 body text-base text-center font-semibold">
+                                            {g.realizado 
+                                                ? (g.calificacion !== null && g.calificacion !== undefined 
+                                                    ? g.calificacion.toFixed(1)
+                                                    : '-')
+                                                : 'No se ha realizado'}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+
+                {/* Botón regresar al tablero */}
+                <div className="mt-8 text-center">
+                    <button
+                        onClick={() => navigate(`/dashboard/materia/${materiaDetails?.nombre}/${materiaId}`)}
+                        className="btn-primary py-2.5 px-6 rounded-md transition"
+                    >
+                        REGRESAR AL TABLERO
+                    </button>
+                </div>
+            </div>
+        </div>
     )
 }
 
