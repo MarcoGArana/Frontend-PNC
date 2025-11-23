@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ContentCard from "../../components/materia-content/contents/contentCard";
 import { deleteTema, getMateriaById, savePdf } from "../../services/materiaService";
 import PDFUploadForm from "../../components/materia-content/temaUpload/temaForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "../../store/authStore";
 import ExamForm from "../../components/materia-content/examUpload/ExamForm";
 import { useDeleteContent } from "../../hooks/useDeleteContent";
@@ -15,12 +15,20 @@ const Materia = () => {
     const user = useAuthStore((state) => state.user);
     const [temaModalOpen, setTemaModalOpen] = useState(false);
     const [examModalOpen, setExamModalOpen] = useState(false);
+    const navigate = useNavigate();
 
-    const { data: content, isPending } = useQuery({
+    const { data: content, isPending, error } = useQuery({
         queryKey: ["content", materiaId],
         queryFn: () => getMateriaById({ id: materiaId }),
-        staleTime: 1000 * 60 * 5,
+        staleTime: 1000 * 60 * 2,
+        retry: false
     });
+
+    useEffect(() => {
+        if (error) {
+            navigate("/", { replace: true });
+        }
+    }, [error]);
 
     const addTemaMutation = useAddContent({
         materiaId,
@@ -104,7 +112,7 @@ const Materia = () => {
                 </div>
             )}
 
-            {!isPending && (
+            {!isPending && !error && (
                 <>
                     <ContentCard
                         data={content.temas.data}

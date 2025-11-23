@@ -4,7 +4,7 @@ import { getExamenesUsuarios, getMateriaWithDetails } from "../../services/mater
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Grades = () => {
     const { materiaId } = useParams();
@@ -15,7 +15,7 @@ const Grades = () => {
     const [search, setSearch] = useState("");
 
     // Query para obtener detalles de la materia (nombre)
-    const { data: materiaDetails, isPending: materiaPending } = useQuery({
+    const { data: materiaDetails, isPending: materiaPending, error: errorMateria } = useQuery({
         queryKey: ["materiaDetails", materiaId],
         queryFn: () => getMateriaWithDetails({ materiaId }),
     });
@@ -30,7 +30,7 @@ const Grades = () => {
     );
 
     // Query para obtener todos los exámenes de la materia (usuarios normales)
-    const { data: allExamsData, isPending: examsPending } = useQuery({
+    const { data: allExamsData, isPending: examsPending, error: allExamsError } = useQuery({
         queryKey: ["materia-exams", materiaId],
         queryFn: async () => {
             const response = await fetch(`http://localhost:8080/api/materia/${materiaId}/exams`, {
@@ -51,6 +51,13 @@ const Grades = () => {
             enabled: rol === 'admin'
         }
     );
+
+    useEffect(() => {
+        if (adminError || allExamsError || errorMateria || gradesError) {
+            navigate("/", { replace: true });
+        }
+    }, [adminError, allExamsError, errorMateria, gradesError]);
+
 
     // Vista para ADMIN
     if (rol === 'admin') {
@@ -155,7 +162,7 @@ const Grades = () => {
                                             </td>
                                             {adminData.data.examenes.map((examen) => (
                                                 <td key={examen.examenId} className="p-4 body text-base">
-                                                    {usuario.calificaciones[examen.examenId] !== undefined 
+                                                    {usuario.calificaciones[examen.examenId] != undefined 
                                                         ? usuario.calificaciones[examen.examenId].toFixed(1)
                                                         : '-'}
                                                 </td>
