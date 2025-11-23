@@ -3,18 +3,18 @@ import { saveMateria } from "../../services/materiaService";
 import { useAuthStore } from "../../store/authStore";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import previa from "../../../src/assets/images/landscape-placeholder.svg";
 
 const MateriaCreator = () => {
   const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
   const preview =
     imageUrl ||
-    "http://localhost:5173/src/assets/images/landscape-placeholder.svg";
+    previa;
 
   const handleSubmit = (e) => {
     e.preventDefault();

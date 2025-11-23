@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { deleteMateria, updateMateria } from "../../../services/materiaService";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import courseBg from "../../../assets/images/courses-background.png";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+import previa from "../../../../src/assets/images/landscape-placeholder.svg";
 
 const Card = ({ data, rol }) => {
   const { id, nombre, imagen: image } = data;
@@ -15,8 +15,7 @@ const Card = ({ data, rol }) => {
 
   const display = deleted ? "hidden" : "";
   const previewImage =
-    imageUrl ||
-    "http://localhost:5173/src/assets/images/landscape-placeholder.svg";
+    imageUrl || previa;
 
   const handleDelete = () => {
     deleteMateria({ materiaId: id });

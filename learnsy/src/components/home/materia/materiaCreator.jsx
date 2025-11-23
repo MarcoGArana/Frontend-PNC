@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { saveMateria } from "../../../services/materiaService";
 import { toast } from "react-toastify";
+import previa from "../../../../src/assets/images/landscape-placeholder.svg";
 
 const MateriaCreator = ({ userId }) => {
     const [name, setName] = useState("");
     const [imageUrl, setImageUrl] = useState("");
 
-    const previewImage = imageUrl != "" ? imageUrl : "http://localhost:5173/src/assets/images/landscape-placeholder.svg";    
+    const previewImage = imageUrl != "" ? imageUrl : previa;    
 
     const handleSubmit = (e) => {
         e.preventDefault();
