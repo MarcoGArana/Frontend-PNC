@@ -24,12 +24,12 @@ const Layout = () => {
   const navItems = [
     {
       route: '/dashboard',
-      label: 'Dashboard',
+      label: 'Tablero',
       icon: 'home'
     },
     {
       route: '/profile',
-      label: 'Profile',
+      label: 'Perfil',
       icon: 'profile'
     },
     participants,
@@ -48,20 +48,20 @@ const Layout = () => {
       })
       setGrades({
         route: `./materia/${materiaId}/grades`,
-        label: 'Grades',
+        label: 'Notas',
         icon: 'grades'
       })
     }
     if (location.pathname.includes('participantes')) {
       setActive('participantes')
     } else if (location.pathname.includes('grades')) {
-      setActive('grades')
+      setActive('notas')
     } else if (location.pathname.includes('materia')) {
-      setActive('dashboard')
+      setActive('tablero')
     } else if (location.pathname.includes('profile')) {
-      setActive('profile')
+      setActive('perfil')
     } else if (location.pathname.includes('dashboard')) {
-      setActive('dashboard')
+      setActive('tablero')
     }
 
   }, [location]);
