@@ -5,7 +5,7 @@ import { login } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import logo from "../../../src/assets/circulos.png";
+import logo from "../../../src/assets/Circulos.png";
 
 const Login = () => {
     const navigate = useNavigate();
