@@ -3,19 +3,26 @@ import { getMateriaWithDetails } from "../../services/materiaService";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Participantes = () => {
   const { materiaId } = useParams();
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
- 
+
   const [search, setSearch] = useState("");
 
-  const { data: content, isPending } = useQuery({
+  const { data: content, isPending, error } = useQuery({
     queryKey: ["materiaDetails", materiaId],
     queryFn: () => getMateriaWithDetails({ materiaId }),
+    retry: false
   });
+
+  useEffect(() => {
+    if (error) {
+      navigate("/", { replace: true });
+    }
+  }, [error]);
 
   return (
     <div className="w-full flex flex-col items-center gap-8 mt-2 px-4 pb-18">
@@ -86,7 +93,7 @@ const Participantes = () => {
             </thead>
 
             <tbody>
-              {!isPending &&
+              {!isPending && !error &&
                 [...content?.usuarios]
                   .filter(
                     (u) =>
@@ -97,9 +104,8 @@ const Participantes = () => {
                   .map((u, index) => (
                     <tr
                       key={u.id}
-                      className={`${
-                        index % 2 === 0 ? "bg-[#EFE9FF]" : "bg-white"
-                      } text-center`}
+                      className={`${index % 2 === 0 ? "bg-[#EFE9FF]" : "bg-white"
+                        } text-center`}
                     >
                       {/* Foto */}
                       <td className="p-4">
