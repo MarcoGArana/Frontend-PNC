@@ -33,29 +33,30 @@ const ExamInfo = ({ user, examId }) => {
     const handleFinish = async () => {
         Swal.fire({
             title: '¿Quieres terminar el examen?',
+            icon: "question",
             showDenyButton: true,
             confirmButtonText: 'Si',
             denyButtonText: 'No',
+            reverseButtons: true,
             customClass: {
-                actions: 'my-actions',
-                confirmButton: 'order-2 btn-secondary confirm',
-                denyButton: 'order-1 btn-secondary confirm',
-                popup: 'custom-popup',
-                title: 'popup-title'
+                confirmButton: "btn-primary px-6 py-2 rounded-lg",
+                denyButton: "btn-secondary px-6 py-2 rounded-lg",
+                actions: "flex gap-4 justify-center"
             },
+            buttonsStyling: false,
         }).then(async (result) => {
             if (result.isConfirmed) {
                 let correct = 0;
-                
+
                 //Se verifican las respuestas correctas del usuario y se obtiene la calificacion
                 questions.forEach(q => {
                     const userAnswer = respuestas[q.id];
                     const answerExist = q.responses.find(ans => ans.id == userAnswer);
                     if (answerExist?.isCorrect) correct++;
                 });
-        
+
                 const calificacion = (correct * 10) / (questions.length);
-        
+
                 //Si el usuario es admin, no se registra su calificacion
                 if (user.rol != 'admin') {
                     await completeExam({

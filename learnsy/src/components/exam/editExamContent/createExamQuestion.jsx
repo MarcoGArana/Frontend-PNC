@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { createQuestionWithAnswers } from "../../../services/examService";
 import Swal from "sweetalert2";
-import useQuestionsStore from "../../../store/questions";
 
 const CreateExamContent = ({ idExam, onClose }) => {
     const [question, setQuestion] = useState('');
@@ -87,12 +86,7 @@ const CreateExamContent = ({ idExam, onClose }) => {
 
         const response = await createQuestionWithAnswers({ questionData: questionData }, questionAnswers);
 
-        if (response) {  
-            const question = {
-                ...questionData,
-                responses: questionAnswers
-            }
-            
+        if (response) {              
             Swal.fire('Pregunta creada exitosamente!', '', 'success');
             clearForm();
         }
