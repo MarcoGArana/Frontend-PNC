@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import logo from "../../../src/assets/OpcionLogo2.PNG";
+import student from "../../../src/assets/images/young-hispanic-student-girl-smiling-happy-university.png";
 
 const Landing = () => {
   return (
@@ -8,7 +10,7 @@ const Landing = () => {
       <nav className="w-full bg-white flex justify-between items-center px-6 md:px-12 py-4 shadow-sm relative z-20">
         <div className="flex items-center gap-3">
           <img
-            src="../../../src/assets/OpcionLogo2.PNG"
+            src={logo}
             className="h-[40px] md:h-[50px] object-contain"
           />
         </div>
@@ -55,7 +57,7 @@ const Landing = () => {
         {/* Imagen */}
         <div className="flex justify-center lg:justify-start pr-0 lg:pr-10">
           <img
-            src="../../../src/assets/images/young-hispanic-student-girl-smiling-happy-university.png"
+            src={student}
             className="w-full max-w-[380px] md:max-w-[500px] lg:h-full lg:w-auto object-cover rounded-lg lg:rounded-none"
           />
         </div>
