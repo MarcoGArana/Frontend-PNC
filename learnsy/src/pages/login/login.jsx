@@ -5,6 +5,7 @@ import { login } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import logo from "../../../src/assets/circulos.png";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -58,7 +59,7 @@ const Login = () => {
 
                 {/* Logo */}
                 <img
-                    src="/src/assets/circulos.png"
+                    src={logo}
                     alt="Learnsy"
                     className="w-28 absolute top-6 left-1/2 -translate-x-1/2"
                 />

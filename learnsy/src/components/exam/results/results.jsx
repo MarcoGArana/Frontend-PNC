@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useQuestionsStore from "../../../store/questions";
+import previa from "../../../../src/assets/icons/d2014145c2108618a066776973b552c1d0088844.png";
 
 const Results = () => {
   const { materiaId, nombre } = useParams();
@@ -28,7 +29,7 @@ const Results = () => {
   return (
     <div className="p-8 text-xl font-normal grid grid-cols-1 gap-5 justify-items-center">
       <h2 className="text-4xl title">Tus resultados</h2>
-      <img src="../../../../../../src/assets/icons/d2014145c2108618a066776973b552c1d0088844.png" className="max-w-16 h-auto" />
+      <img src={previa} className="max-w-16 h-auto" />
 
       <div className="grid grid-cols-4 grid-rows-2 bg-gray body font-medium justify-items-center items-center rounded-2xl border-2 border-purple mb-5">
         <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-semibold text-base">Respuestas correctas</p>
