@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 import useQuestionsStore from "../../../store/questions";
 
 const CreateExamContent = ({ idExam, onClose }) => {
-    const addQuestion = useQuestionsStore(state => state.addQuestion);
     const [question, setQuestion] = useState('');
     const [loading, setLoading] = useState(false);
     const [correct, setCorrect] = useState(-1);
@@ -93,8 +92,7 @@ const CreateExamContent = ({ idExam, onClose }) => {
                 ...questionData,
                 responses: questionAnswers
             }
-
-            addQuestion({addedQuestion: question});
+            
             Swal.fire('Pregunta creada exitosamente!', '', 'success');
             clearForm();
         }

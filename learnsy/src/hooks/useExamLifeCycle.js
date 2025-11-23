@@ -13,6 +13,7 @@ export default function useExamLifecycle(examId) {
         resetQuestionsStore();
         setExamStarted(false);
         setEditExam(false);
+        
     }, [examId]);
 
     const startExam = () => setExamStarted(true);

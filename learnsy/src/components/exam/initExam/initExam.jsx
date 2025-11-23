@@ -15,7 +15,6 @@ const InitExam = ({ examName, user, examId, materiaId, handleStartExam }) => {
     const { data: examData, isLoading, error  } = useQuery({
         queryKey: ['exam', examId],
         queryFn: () => getExam({ examId, materiaId }),
-        staleTime: 1000 * 60 * 2,
         retry: false
     });
 
@@ -31,11 +30,11 @@ const InitExam = ({ examName, user, examId, materiaId, handleStartExam }) => {
 
             navigate("/", { replace: true });
             return;
-        }
+        }        
 
         if (examData) {
             fetchQuestions({
-                data: examData.preguntaOpcionMultipleList,
+                data: [...examData.preguntaOpcionMultipleList],
                 duration: examData.duration
             });
         }
