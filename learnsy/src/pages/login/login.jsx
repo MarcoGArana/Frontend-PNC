@@ -60,7 +60,7 @@ const Login = () => {
                 <img
                     src="/src/assets/circulos.png"
                     alt="Learnsy"
-                    className="w-40 absolute top-0 left-1/2 -translate-x-1/2"
+                    className="w-28 absolute top-6 left-1/2 -translate-x-1/2"
                 />
 
                 {/* Titulo */}
@@ -82,28 +82,43 @@ const Login = () => {
                             value={nameOrEmail}
                             onChange={(e) => setNameOrEmail(e.target.value)}
                             placeholder="correo@correo.com"
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#585B56B2] placeholder-[#585B56B2] text-[#585B56B2]"
+                            className="w-full title-font font-light text-[var(--color-border-shadow)] placeholder:text-gray-400 border 
+                                    border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#C65BCF]"
                         />
                     </div>
 
-                    <div className="flex flex-col w-full">
-                        <label className="text-sm font-semibold text-gray-700 mb-1">Contraseña</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="**************"
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#585B56B2] placeholder-[#585B56B2] text-[#585B56B2]"
-                        />
+                    <div className="flex flex-col w-full relative">
+                        <label className="text-sm font-semibold body text-medium mb-1">Contraseña</label>
+
+                        <div className="relative w-full">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="**************"
+                                className="w-full title-font font-light text-[var(--color-border-shadow)] placeholder:text-gray-400 border 
+                                        border-gray-300 rounded-md px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-purple-400"
+                            />
+
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                            >
+                                {showPassword ? <FaEye size={18} className="text-gray-500" /> : <FaEyeSlash size={18} className="text-gray-500" />}
+                            </button>
+                        </div>
                     </div>
 
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="bg-[#C65BCF] text-white font-semibold py-2 rounded-lg mt-4 hover:bg-[#b152c0] transition w-1/2 mx-auto"
-                    >
-                        {isLoading ? 'Ingresando...' : 'INICIAR SESIÓN'}
-                    </button>
+                    <div className="flex justify-center">
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="btn-primary py-2.5 rounded-lg mt-4 transition w-50"
+                        >
+                            {isLoading ? 'Ingresando...' : 'INICIAR SESION'}
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
