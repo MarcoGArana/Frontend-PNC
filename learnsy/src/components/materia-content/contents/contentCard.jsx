@@ -4,6 +4,7 @@ import { getPdf } from "../../../services/materiaService";
 import { toast } from "react-toastify";
 import pdfIcon from '../../../assets/icons/PDFicon.png';
 import examIcon from '../../../assets/icons/EXAMicon.png';
+import Swal from "sweetalert2";
 
 const ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAddClick }) => {
     const navigate = useNavigate();
@@ -21,12 +22,26 @@ const ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAddC
 
     const handleDeleteTema = ({ temaId }) => {
         deleteTopic(temaId);
-        toast.success('El tema ha sido eliminado exitosamente');
+
+        Swal.fire({
+            icon: "success",
+            title: "Tema eliminado",
+            text: "El tema ha sido eliminado correctamente",
+            timer: 1500,
+            showConfirmButton: false
+        });
     }
 
     const handleDeleteExam = ({ examId }) => {
         deleteExamen(examId);
-        toast.success('El examen ha sido eliminado exitosamente');
+
+        Swal.fire({
+            icon: "success",
+            title: "Examen eliminado",
+            text: "El examen ha sido eliminado correctamente",
+            timer: 1500,
+            showConfirmButton: false
+        });
     }
 
     return (

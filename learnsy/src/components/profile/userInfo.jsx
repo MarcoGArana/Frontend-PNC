@@ -5,55 +5,52 @@ const UserInfo = ({ data, openModal }) => {
     const logout = useAuthStore((state) => state.logout);
 
     return (
-        <div className="w-full flex justify-center px-4 py-12">
+        <div className="w-full flex justify-center px-4 py-0 mb-20">
 
-            {/* TARJETA ÚNICA - IGUAL AL DISEÑO */}
+            {/* Tarjeta contenedora */}
             <div className="
-    w-full max-w-8xl 
-    bg-white 
-    rounded-3xl 
-    border border-gray-300 
-    shadow-[0_8px_35px_rgba(0,0,0,0.12)]
-    py-1 sm:py-2
-    px-3 sm:px-4
-">
+                            w-full max-w-8xl 
+                          bg-white 
+                            rounded-2xl shadow-xl
+                            border border-gray-200 
+                            pt-2 pb-10 sm:pb-12
+                            px-3 sm:px-4
+                            ">
 
-
-
-                {/* Título */}
-                <h2 className="text-center text-2xl sm:text-3xl font-bold text-[#3C2062] mb-10">
+                {/* Titulo */}
+                <h2 className="text-center text-4xl sm:text-3xl font-medium title mt-6 mb-8">
                     MI PERFIL
                 </h2>
 
                 {/* Contenido */}
                 <div className="flex flex-col sm:flex-row items-center sm:items-start w-full">
 
-                    {/* Avatar + Botón */}
+                    {/* Avatar/boton */}
                     <div className="flex flex-col items-center gap-6 sm:ml-40">
                         <img
                             src={avatar}
-                            className="h-48 w-48 sm:h-56 sm:w-56 object-cover rounded-full border-4 border-[#D9D9D9]"
+                            className="h-48 w-48 sm:h-56 sm:w-56 object-cover rounded-full border-[3px] border-[var(--color-titles-purple)]"
                         />
 
                         <button
                             onClick={openModal}
-                            className="px-8 py-3 bg-[#C661C6] text-white font-semibold rounded-lg hover:opacity-90 transition"
+                            className="px-8 py-3 btn-primary rounded-md transition"
                         >
                             CAMBIAR FOTO
                         </button>
                     </div>
 
-                    {/* Información */}
-                    <div className="flex flex-col gap-6 text-center sm:text-left mt-4 sm:mt-10 space-y-30 sm:ml-40">
+                    {/* Informacion del usuario */}
+                    <div className="flex flex-col gap-6 text-center sm:text-left mt-10 sm:mt-20 space-y-30 sm:ml-40">
 
                         <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-4 sm:mb-6 space-x-40 sm:text-left">
-                            <span className="font-semibold text-gray-800">Usuario:</span>
-                            <span className="text-[#C661C6] font-medium">{username}</span>
+                            <span className="font-semibold text-base body">Usuario:</span>
+                            <span className="body text-base font-medium">{username}</span>
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 space-x-20 ">
-                            <span className="font-semibold text-gray-800">Correo electrónico:</span>
-                            <span className="text-[#C661C6] font-medium break-all">{correo}</span>
+                            <span className="font-semibold text-base body">Correo electrónico:</span>
+                            <span className="body text-base font-medium break-all">{correo}</span>
                         </div>
 
 
