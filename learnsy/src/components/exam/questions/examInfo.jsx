@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useQuestionsStore from "../../../store/questions";
 import Controls from "../controls/controls";
-import UpdateExamContent from "../editExamContent.jsx/updateExamQuestion";
+import UpdateExamContent from "../editExamContent/updateExamQuestion";
 import Question from "./question";
 import Swal from "sweetalert2";
 import { completeExam } from "../../../services/examService";
@@ -47,6 +47,7 @@ const ExamInfo = ({ user, examId }) => {
             if (result.isConfirmed) {
                 let correct = 0;
                 
+                //Se verifican las respuestas correctas del usuario y se obtiene la calificacion
                 questions.forEach(q => {
                     const userAnswer = respuestas[q.id];
                     const answerExist = q.responses.find(ans => ans.id == userAnswer);
@@ -55,6 +56,7 @@ const ExamInfo = ({ user, examId }) => {
         
                 const calificacion = (correct * 10) / (questions.length);
         
+                //Si el usuario es admin, no se registra su calificacion
                 if (user.rol != 'admin') {
                     await completeExam({
                         examId: examId,
@@ -63,6 +65,7 @@ const ExamInfo = ({ user, examId }) => {
                     });
                 }
 
+                //Finaliza el examen y modifica el estado
                 Swal.fire('Examen terminado!', '', 'success');
 
                 finishExam();
@@ -72,7 +75,7 @@ const ExamInfo = ({ user, examId }) => {
 
     return (
         <>
-
+            {/* Preguntas y controles del examen */}
             {!editQuestion &&
                 (
                     <div className="flex flex-col gap-14 w-full">
@@ -82,6 +85,7 @@ const ExamInfo = ({ user, examId }) => {
                 )
             }
 
+            {/* Admin: Boton para comenzar a modificar una pregunta */}
             {user?.rol == 'admin' && !editQuestion && (
                 <div className=" w-full flex">
                     <button className="cursor-pointer" onClick={() => { setEditQuestion(true) }}>
@@ -90,10 +94,12 @@ const ExamInfo = ({ user, examId }) => {
                 </div>
             )}
 
+            {/* Boton para finalizar el examen */}
             {currentQuestion === (questions.length - 1) && !editQuestion &&
                 <button className="btn-primary rounded-sm p-2 relative -top-[2.7rem] -right-[21.75rem] font-light" onClick={() => handleFinish()}>Finalizar examen</button>
             }
 
+            {/* Formulario para modificar el contendio de una pregunta */}
             {editQuestion && <UpdateExamContent onClose={() => setEditQuestion(false)} questionInfo={questionInfo} />}
         </>
     )

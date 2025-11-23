@@ -1,48 +1,21 @@
 import { useState } from "react";
-import { createQuestionWithAnswers } from "../../../services/examService";
-import { toast } from "react-toastify";
-import Swal from "sweetalert2";
+import { updateQuestionWithAnswers } from "../../../services/examService";
 import useQuestionsStore from "../../../store/questions";
+import Swal from "sweetalert2";
 
-const CreateExamContent = ({ idExam, onClose }) => {
-    const addQuestion = useQuestionsStore(state => state.addQuestion);
-    const [question, setQuestion] = useState('');
+const UpdateExamContent = ({ onClose, questionInfo }) => {
+    const [question, setQuestion] = useState(questionInfo.statement);
     const [loading, setLoading] = useState(false);
-    const [correct, setCorrect] = useState(-1);
-    const [answers, setAnswers] = useState(['', '', '', '']);
-    const [imageUrl, setImageUrl] = useState('https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_768,h_484/https://anahisalgado.com/wp-content/uploads/2022/07/image-12-1024x645.png');
+    const [correct, setCorrect] = useState(questionInfo.responses.findIndex((e) => e.isCorrect) + 1);
+    const [answers, setAnswers] = useState(questionInfo.responses.map((e) => e.description));
+    const [imageUrl, setImageUrl] = useState(questionInfo.image);
+    const updateQuestion = useQuestionsStore(state => state.updateQuestion);
 
     const handleAnswerChange = (index, value) => {
         const newAnswers = [...answers];
         newAnswers[index] = value;
         setAnswers(newAnswers);
     };
-
-    const handleDeleteAnswer = (index) => {
-        const newAnswers = answers.filter((_, i) => i !== index);
-        setAnswers(newAnswers);
-    };
-
-    const handleAddOption = () => {
-        if (answers.length === 6) {
-            Swal.fire({
-                icon: "info",
-                title: "Máximo de opciones de respuesta alcanzado",
-                timer: 1500,
-                showConfirmButton: false
-            });
-
-            return
-        }
-        setAnswers([...answers, '']);
-    };
-
-    const clearForm = () => {
-        setQuestion('');
-        setAnswers(['', '', '', '']);
-        setImageUrl('');
-        setCorrect(-1);
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -65,39 +38,31 @@ const CreateExamContent = ({ idExam, onClose }) => {
             return;
         }
 
-        if (correct == -1) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Debe agregar una respuesta correcta",
-            });
-            return;
-        }
-
         const questionData = {
             image: imageUrl == '' ? 'https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_768,h_484/https://anahisalgado.com/wp-content/uploads/2022/07/image-12-1024x645.png' : imageUrl,
             statement: question,
-            idExam: idExam
+            id: questionInfo.id
         }
 
         const questionAnswers = answers.map((e, i) => ({
             image: '',
             description: e,
             isCorrect: correct == i + 1,
-            idPreguntaOpcionMultiple: -1
+            id: questionInfo.responses.at(i).id
         }))
 
-        const response = await createQuestionWithAnswers({ questionData: questionData }, questionAnswers);
+        const response = await updateQuestionWithAnswers({ questionData: questionData }, questionAnswers);
 
-        if (response) {  
-            const question = {
-                ...questionData,
-                responses: questionAnswers
-            }
+        const newResponse = {
+            ...questionData,
+            responses: questionAnswers
+        }
 
-            addQuestion({addedQuestion: question});
-            Swal.fire('Pregunta creada exitosamente!', '', 'success');
-            clearForm();
+        updateQuestion({ updatedQuestion: newResponse });
+
+        if (response) {
+            Swal.fire('Pregunta guardada correctamente!', '', 'success');
+            onClose();
         }
     }
 
@@ -106,36 +71,36 @@ const CreateExamContent = ({ idExam, onClose }) => {
             <div className="font-light flex gap-10 min-h-52 items-center">
                 <form className="flex flex-col gap-3.5 w-[40rem] justify-center" onSubmit={handleSubmit}>
                     <div className="mb-8">
-                        <label className="block body font-semibold mb-4 text-lg">
+                        <label className="block text-gray-700 font-semibold mb-3 text-lg">
                             Pregunta:
                         </label>
-                        <div className="bg-white rounded-md p-1 border border-gray-300">
+                        <div className="bg-gray-50 rounded-lg p-1 border border-gray-200">
                             <textarea
                                 value={question}
                                 onChange={(e) => setQuestion(e.target.value)}
                                 placeholder="Escriba la pregunta aquí. Ej: ¿Qué son los principios SOLID?"
-                                className="w-full p-4 bg-transparent border-none outline-none resize-none title-font font-light text-[var(--color-border-shadow)]"
+                                className="w-full p-4 bg-transparent border-none outline-none resize-none text-gray-600"
                                 rows="3"
                             />
                         </div>
                     </div>
 
                     <div className="mb-8">
-                        <label className="block body font-semibold mb-4 text-lg">
+                        <label className="block text-gray-700 font-semibold mb-3 text-lg">
                             Imagen de la pregunta:
                         </label>
-                        <div className="bg-white rounded-md p-1 border border-gray-300">
+                        <div className="bg-gray-50 rounded-lg p-1 border border-gray-200">
                             <input
                                 value={imageUrl}
                                 onChange={(e) => setImageUrl(e.target.value)}
                                 placeholder="Url de la imagen"
-                                className="w-full p-4 bg-transparent border-none outline-none resize-none title-font font-light text-[var(--color-border-shadow)]"
+                                className="w-full p-4 bg-transparent border-none outline-none resize-none text-gray-600"
                             />
                         </div>
                     </div>
 
                     <div>
-                        <label className="block body font-semibold mb-4 text-lg">
+                        <label className="block text-gray-700 font-semibold mb-4 text-lg">
                             Respuestas:
                         </label>
                         <div className="space-y-4">
@@ -151,68 +116,43 @@ const CreateExamContent = ({ idExam, onClose }) => {
                                         </svg>
 
                                     </button>
-                                    <button
-                                        type="button"
-                                        className="flex-shrink-0 text-gray-400 cursor-pointer"
-                                        onClick={() => handleDeleteAnswer(index)}
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="none"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" /></svg>
-                                    </button>
                                     <input
                                         type="text"
                                         value={answer}
                                         onChange={(e) => handleAnswerChange(index, e.target.value)}
                                         placeholder="Escriba la opción de respuesta acá"
-                                        className="flex-1 px-4 py-3 border border-gray-300 rounded-md outline-none focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all title-font font-light text-[var(--color-border-shadow)]"
+                                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 transition-all text-gray-600 placeholder-gray-400"
                                     />
                                 </div>
                             ))}
-                        </div>
-
-                        <div className="my-6 flex justify-end">
-                            <button
-                                type="button"
-                                onClick={handleAddOption}
-                                className="text-[0.75em] px-4 py-2 btn-secondary cursor-pointer text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
-                            >
-                                AGREGAR OPCIÓN
-                            </button>
                         </div>
                     </div>
 
                     <div className="flex justify-center w-full gap-16">
                         <button
                             type="button"
-                            onClick={clearForm}
+                            onClick={onClose}
                             disabled={loading}
-                            className="btn-primary py-2 px-5 rounded-md text-base"
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
                         >
-                            Limpiar
+                            Cancelar
                         </button>
                         <button
                             type="button"
                             onClick={handleSubmit}
                             disabled={loading}
-                            className="btn-primary py-2 px-3 rounded-md text-base"
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
                         >
                             {loading ? (
                                 <>
-                                    <div className="rounded-full h-4 w-4 border-b-2"></div>
+                                    <div className="rounded-full h-4 w-4"></div>
                                     Creando...
                                 </>
                             ) : (
                                 <>
-                                    Guardar pregunta
+                                    Guardar cambios
                                 </>
                             )}
-                        </button>
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            disabled={loading}
-                            className="btn-primary py-2 px-4 rounded-md min-w-36"
-                        >
-                            Finalizar examen
                         </button>
                     </div>
                 </form>
@@ -221,4 +161,4 @@ const CreateExamContent = ({ idExam, onClose }) => {
     )
 }
 
-export default CreateExamContent
+export default UpdateExamContent;

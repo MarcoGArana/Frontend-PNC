@@ -1,26 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import useQuestionsStore from "../../../store/questions";
-import { useAuthStore } from "../../../store/authStore";
 
-const Results = ({examId, userId}) => {
+const Results = () => {
   
   const questions = useQuestionsStore(state => state.questions);
   const respuestas = useQuestionsStore(state => state.respuestas);
-  const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
 
-  let correct = 0
-  let incorrect = 0
-  let unanswered = 0
-
+  let correct = 0;
+  let incorrect = 0;
+  let unanswered = 0;
+  
   questions.forEach(q => {
-    const userAnswer = respuestas[q.id]
-    if(!userAnswer) unanswered++
-    else if(q.responses.find(ans => ans.id == userAnswer).isCorrect) correct++
-    else incorrect++
+    const userAnswer = respuestas[q.id];
+    if(!userAnswer) unanswered++;
+    else if(q.responses.find(ans => ans.id == userAnswer).isCorrect) correct++;
+    else incorrect++;
   });
 
   const calificacion = (correct*10)/(questions.length);
+
   const handleClick = () => {
     navigate('/dashboard');
   }
