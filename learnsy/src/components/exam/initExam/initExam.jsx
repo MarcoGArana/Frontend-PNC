@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
 import useQuestionsStore from "../../../store/questions";
-import { getExam } from "../../../services/examService";
+import { beginExam, getExam } from "../../../services/examService";
 import { useNavigate } from "react-router-dom";
 
 const InitExam = ({ examName, user, examId, materiaId, handleStartExam }) => {
