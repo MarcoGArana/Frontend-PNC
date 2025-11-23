@@ -3,26 +3,43 @@ import { useEffect } from "react";
 import Swal from "sweetalert2";
 import useQuestionsStore from "../../../store/questions";
 import { getExam } from "../../../services/examService";
+import { useNavigate } from "react-router-dom";
 
 const InitExam = ({ examName, user, examId, materiaId, handleStartExam }) => {
+
+    const navigate = useNavigate();
 
     const fetchQuestions = useQuestionsStore(state => state.fetchQuestions);
     const questions = useQuestionsStore(state => state.questions);
 
-    const { data: examData, isLoading } = useQuery({
+    const { data: examData, isLoading, error  } = useQuery({
         queryKey: ['exam', examId],
         queryFn: () => getExam({ examId, materiaId }),
         staleTime: 1000 * 60 * 2,
+        retry: false
     });
 
     useEffect(() => {
-            if (!examData) return;
-    
+        if (!isLoading && (!examData || error)) {
+            Swal.fire({
+                icon: "error",
+                title: "El examen no existe",
+                text: "Serás redirigido al inicio",
+                timer: 2000,
+                showConfirmButton: false
+            });
+
+            navigate("/", { replace: true });
+            return;
+        }
+
+        if (examData) {
             fetchQuestions({
                 data: examData.preguntaOpcionMultipleList,
                 duration: examData.duration
             });
-        }, [examData]);
+        }
+    }, [examData, isLoading, error]);
 
     const startExam = () => {
         if (questions.length === 0) {
