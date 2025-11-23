@@ -36,7 +36,7 @@ const UserInfo = ({ data, openModal }) => {
                             onClick={openModal}
                             className="px-8 py-3 btn-primary rounded-md transition"
                         >
-                            CAMBIAR FOTO
+                            Cambiar foto
                         </button>
                     </div>
 

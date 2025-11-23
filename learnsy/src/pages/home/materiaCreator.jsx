@@ -87,6 +87,8 @@ const MateriaCreator = () => {
                   border title-font border-gray-300 p-2 rounded-lg w-full
                   text-[var(--color-border-shadow)] font-light
                   placeholder:text-gray-400 placeholder:font-light
+                  focus:outline-none focus:ring-2 focus:ring-purple-400 
+                  focus:border-transparent
                 "
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -104,6 +106,8 @@ const MateriaCreator = () => {
                   border title-font border-gray-300 p-2 rounded-lg w-full
                   text-[var(--color-border-shadow)] font-light
                   placeholder:text-gray-400 placeholder:font-light
+                  focus:outline-none focus:ring-2 focus:ring-purple-400 
+                  focus:border-transparent
                 "
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
@@ -117,21 +121,21 @@ const MateriaCreator = () => {
         <div className="
           flex gap-4 pt-2 
           justify-center md:justify-end 
-          md:pr-[10px]
+          md:pr-[40px]
         ">
           <button
             type="button"
             onClick={() => navigate(-1)}
             className="btn-secondary py-2 px-8 rounded-lg transition min-w-[160px]"
           >
-            CANCELAR
+            Cancelar
           </button>
 
           <button
             type="submit"
             className="btn-primary py-2 px-8 rounded-lg transition min-w-[160px]"
           >
-            CREAR CURSO
+            Crear curso
           </button>
         </div>
 

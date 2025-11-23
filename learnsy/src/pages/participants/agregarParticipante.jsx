@@ -46,7 +46,7 @@ const AgregarParticipante = () => {
       {/* Tarjeta principal */}
       <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl border border-gray-300 px-8 py-12 md:px-16 md:py-14">
 
-        {/* Título */}
+        {/* Titulo */}
         <h1 className="text-center text-3xl md:text-4xl title font-medium uppercase mb-12">
           Añadir Participante
         </h1>
@@ -87,14 +87,14 @@ const AgregarParticipante = () => {
               onClick={() => navigate(-1)}
               className="btn-secondary py-2 px-10 rounded-lg transition min-w-[140px]"
             >
-              CANCELAR
+              Cancelar
             </button>
 
             <button
               type="submit"
               className="btn-primary py-2 px-10 rounded-lg transition min-w-[140px]"
             >
-              AÑADIR
+              Añadir
             </button>
           </div>
 

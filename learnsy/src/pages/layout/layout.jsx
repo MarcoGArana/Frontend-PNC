@@ -81,18 +81,18 @@ const Layout = () => {
           </li>
           <li>
             <div className="flex gap-4 items-center">
-              <Link to="/profile" className="max-[480px]:hidden">{user?.username}</Link>
+              <Link to="/profile" className="max-[480px]:hidden body-font font-medium text-var(--color-primary) uppercase">{user?.username}</Link>
               <img src={user?.avatar} className="w-14 h-14 rounded-full object-contain border-2 border-secondary  max-[480px]:hidden"></img>
             </div>
           </li>
         </ul>
       </nav>
-      <div id="layout" className="grid min-h-screen grid-cols-[auto_1fr] font-montserrat">
+      <div id="layout" className="grid min-h-screen grid-cols-[auto_1fr] font-title">
         <aside id="sidebar" className={`${asideState}`}>
           <ul>
             <li>
               <div id="top">
-                <span className="font-bold">Menu</span>
+                <span className="font-bold title">Menu</span>
                 <button id="toggle-btn" onClick={toggleAside}>
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m242-200 200-280-200-280h98l200 280-200 280h-98Zm238 0 200-280-200-280h98l200 280-200 280h-98Z" /></svg>
                 </button>
@@ -110,7 +110,7 @@ const Layout = () => {
               );
             })}
 
-            <li className="mt-auto flex items-center gap-2 cursor-pointer pb-5" onClick={logout}>
+            <li className="mt-auto flex items-center gap-2 cursor-pointer pb-5 title" onClick={logout}>
               <BiLogOutCircle size={70}/>
               <h3>Cerrar sesión</h3>
             </li>
@@ -121,7 +121,7 @@ const Layout = () => {
             <Outlet />
           </div>
 
-         <footer className="w-full bg-dark-purple text-white flex flex-col items-center justify-center gap-1 py-6 px-4 text-center">
+         <footer className="w-full bg-dark-purple title-font text-base font-normal text-white flex flex-col items-center justify-center gap-1 py-6 px-4 text-center">
             <h3 className="text-xl">Learnsy</h3>
             <p>learnsy@gmail.com</p>
           </footer>
