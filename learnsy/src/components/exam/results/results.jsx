@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useQuestionsStore from "../../../store/questions";
 
 const Results = () => {
-  
+  const { materiaId, nombre } = useParams();
+
   const questions = useQuestionsStore(state => state.questions);
   const respuestas = useQuestionsStore(state => state.respuestas);
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const Results = () => {
   const calificacion = (correct*10)/(questions.length);
 
   const handleClick = () => {
-    navigate('/dashboard');
+    navigate(`/dashboard/materia/${nombre}/${materiaId}`);
   }
 
   return (

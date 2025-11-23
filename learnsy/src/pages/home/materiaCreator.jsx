@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { saveMateria } from "../../services/materiaService";
 import { useAuthStore } from "../../store/authStore";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const MateriaCreator = () => {
-  const userId = useAuthStore((state) => state.user?.usuarioId);
+  const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -29,10 +30,8 @@ const MateriaCreator = () => {
 
     saveMateria({
       materiaData: { nombre: name, imagen: imageUrl },
-      userId,
+      userId: user?.usuarioId,
     });
-
-
 
     Swal.fire({
       icon: "success",
@@ -44,6 +43,16 @@ const MateriaCreator = () => {
 
     setTimeout(() => navigate("/dashboard"), 800);
   };
+
+
+  if (user?.rol !== "admin") {
+    return (
+      <Navigate
+        to={"/"}
+        replace
+      />
+    );
+  }
 
   return (
     <div className="flex justify-center items-start px-3 sm:px-4 pt-6 pb-20">
