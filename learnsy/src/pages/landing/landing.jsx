@@ -8,7 +8,7 @@ const Landing = () => {
       <nav className="w-full bg-white flex justify-between items-center px-6 md:px-12 py-4 shadow-sm relative z-20">
         <div className="flex items-center gap-3">
           <img
-            src="http://localhost:5173/src/assets/OpcionLogo2.PNG"
+            src="../../../src/assets/OpcionLogo2.PNG"
             className="h-[40px] md:h-[50px] object-contain"
           />
         </div>
@@ -55,7 +55,7 @@ const Landing = () => {
         {/* Imagen */}
         <div className="flex justify-center lg:justify-start pr-0 lg:pr-10">
           <img
-            src="http://localhost:5173/src/assets/images/young-hispanic-student-girl-smiling-happy-university.png"
+            src="../../../src/assets/images/young-hispanic-student-girl-smiling-happy-university.png"
             className="w-full max-w-[380px] md:max-w-[500px] lg:h-full lg:w-auto object-cover rounded-lg lg:rounded-none"
           />
         </div>
