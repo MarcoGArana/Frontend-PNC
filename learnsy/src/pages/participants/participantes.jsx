@@ -69,7 +69,7 @@ const Participantes = () => {
               }
               className="btn-primary py-2.5 px-4 rounded-md transition min-w-[110px]  text-base "
             >
-              AGREGAR PARTICIPANTE
+              Agregar participante
             </button>
           )}
         </div>

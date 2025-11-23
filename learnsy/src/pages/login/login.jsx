@@ -116,7 +116,7 @@ const Login = () => {
                             disabled={isLoading}
                             className="btn-primary py-2.5 rounded-lg mt-4 transition w-50"
                         >
-                            {isLoading ? 'Ingresando...' : 'INICIAR SESION'}
+                            {isLoading ? 'Ingresando...' : 'Iniciar sesion'}
                         </button>
                     </div>
                 </form>

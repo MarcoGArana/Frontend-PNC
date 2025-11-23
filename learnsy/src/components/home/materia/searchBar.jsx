@@ -8,7 +8,7 @@ const SearchBar = ({ value, onChange, fullWidth }) => {
         placeholder="Buscar"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full border title-font font-light text-[var(--color-border-shadow)] border-gray-300 rounded-md px-4 py-2 pr-10"
+        className="w-full border title-font font-light text-[var(--color-border-shadow)] border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent px-4 py-2 pr-10"
       />
       <AiOutlineSearch
         size={18}
