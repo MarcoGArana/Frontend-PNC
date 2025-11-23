@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: 'https://backend-pnc-production-d8ff.up.railway.app/api',
 });
 
 API.interceptors.request.use((conf) => {

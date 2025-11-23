@@ -33,7 +33,7 @@ const Grades = () => {
     const { data: allExamsData, isPending: examsPending, error: allExamsError } = useQuery({
         queryKey: ["materia-exams", materiaId],
         queryFn: async () => {
-            const response = await fetch(`http://localhost:8080/api/materia/${materiaId}/exams`, {
+            const response = await fetch(`https://backend-pnc-production-d8ff.up.railway.app/api/materia/${materiaId}/exams`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
