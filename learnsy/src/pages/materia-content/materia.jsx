@@ -65,6 +65,7 @@ const Materia = () => {
     if (temaModalOpen) {
         return (
             <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 shadow-lg border border-gray-200 rounded-2xl">
+                {/*Abrir form de PDF*/}
                 <PDFUploadForm
                     materiaId={materiaId}
                     onClose={() => setTemaModalOpen(false)}
@@ -77,6 +78,7 @@ const Materia = () => {
     if (examModalOpen) {
         return (
             <div className="bg-white p-8 flex flex-col gap-10 min-w-5xl min-h-64 shadow-lg border border-gray-200 rounded-2xl">
+                {/*Abrir form de examen*/}
                 <ExamForm
                     materiaId={materiaId}
                     onClose={() => setExamModalOpen(false)}
@@ -106,6 +108,7 @@ const Materia = () => {
 
             {!isPending && (
                 <>
+                    {/*Carga la card del contenido*/}
                     <ContentCard
                         data={content.temas.data}
                         label="Contenido de clase"
@@ -114,7 +117,8 @@ const Materia = () => {
                         rol={user?.rol}
                         onAddClick={user?.rol === 'admin' ? () => setTemaModalOpen(true) : null}
                     />
-
+                    
+                    {/*Carga la card de los examenes*/}
                     <ContentCard
                         data={content.examenes.data}
                         label="Evaluaciones"

@@ -14,7 +14,7 @@ const Grades = () => {
     
     const [search, setSearch] = useState("");
 
-    // Query para obtener detalles de la materia (nombre)
+    // Query para obtener detalles de la materia
     const { data: materiaDetails, isPending: materiaPending } = useQuery({
         queryKey: ["materiaDetails", materiaId],
         queryFn: () => getMateriaWithDetails({ materiaId }),
@@ -54,9 +54,9 @@ const Grades = () => {
 
     // Vista para ADMIN
     if (rol === 'admin') {
+        
         // Obtener lista única de usuarios de todos los exámenes
         const usuariosMap = new Map();
-        
         if (adminData?.data) {
             adminData.data.examenes.forEach((examen) => {
                 examen.usuarios.forEach((usuario) => {
