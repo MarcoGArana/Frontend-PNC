@@ -33,8 +33,8 @@ const ChangeAvatarModal = ({ onClose }) => {
             setUserInfo(res.data);
             Swal.fire({
                 icon: "success",
-                title: "Materia eliminada",
-                text: "Materia eliminada correctamente.",
+                title: "Avatar actualizado",
+                text: "Avatar actualizado correctamente.",
                 timer: 1200,
                 showConfirmButton: false,
             });
