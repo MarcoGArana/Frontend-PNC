@@ -29,19 +29,19 @@ const Landing = () => {
       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-20 h-20 md:w-36 md:h-36 bg-[#CF92C6] rounded-full translate-x-1/2 hidden sm:block"></div>
 
       {/* Contenido de landing */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 h-auto lg:h-[calc(100vh-100px)] items-center px-6 md:px-10 py-10 lg:py-0 relative z-10 gap-10">
+      <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 h-[calc(100vh-80px)] items-center px-8 md:px-16 lg:px-20 relative z-10 gap-8 lg:gap-16">
 
         {/* textos - titulos y descripcion */}
-        <div className="flex flex-col justify-center lg:pl-32 lg:-mt-20 text-center lg:text-left">
-          <h1 className="text-[2rem] md:text-[3.2rem] lg:text-[4rem] text-[var(--color-landing)] title-font font-normal leading-tight mb-1">
+        <div className="flex flex-col justify-center text-left">
+          <h1 className="text-[3rem] md:text-[4rem] lg:text-[5.5rem] xl:text-[6.5rem] text-[var(--color-landing)] title-font font-normal leading-[1.1] mb-2">
             APRENDIENDO
           </h1>
 
-          <h2 className="text-[1.4rem] md:text-[2rem] lg:text-[2.5rem] title-font font-normal text-[var(--color-sub-landing)] tracking-wide mb-6">
+          <h2 className="text-[2rem] md:text-[2.8rem] lg:text-[3.5rem] xl:text-[4rem] title-font font-normal text-[var(--color-sub-landing)] tracking-wide mb-8 lg:mb-12">
             EN LÍNEA
           </h2>
 
-          <p className="body-font font-normal text-[var(--color-dark-text)] text-base md:text-[15px] leading-relaxed max-w-md mx-auto lg:mx-0">
+          <p className="body-font font-normal text-[var(--color-dark-text)] text-[1rem] md:text-[1.1rem] lg:text-[1.15rem] leading-relaxed max-w-xl">
             Bienvenido a Learnsy, tu espacio académico inteligente.
             Acá estudiantes y docentes encuentran una plataforma
             centralizada para compartir, revisar y gestionar trabajos
@@ -53,10 +53,10 @@ const Landing = () => {
         </div>
 
         {/* Imagen */}
-        <div className="flex justify-center lg:justify-start pr-0 lg:pr-10">
+        <div className="flex justify-center lg:justify-end items-center h-full">
           <img
             src="http://localhost:5173/src/assets/images/young-hispanic-student-girl-smiling-happy-university.png"
-            className="w-full max-w-[380px] md:max-w-[500px] lg:h-full lg:w-auto object-cover rounded-lg lg:rounded-none"
+            className="w-full h-full object-cover"
           />
         </div>
 
