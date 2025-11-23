@@ -40,7 +40,7 @@ const Layout = () => {
     setParticipants({})
     setGrades({})
 
-    if (location.pathname.includes('materia')) {
+    if (location.pathname.includes('/materia/')) {
       setParticipants({
         route: `./materia/${materiaId}/participantes`,
         label: 'Participantes',

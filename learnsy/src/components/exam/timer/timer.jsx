@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import useQuestionsStore from "../../../store/questions";
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 const Timer = ({ duration }) => {
@@ -17,7 +16,6 @@ const Timer = ({ duration }) => {
         const countdownInterval = setInterval(() => {
             const currentTime = new Date();
 
-            //TODO: colocar el duration time del backend
             const limitTime = startTime.getTime() + duration
             let timeLeft = limitTime - currentTime.getTime();
 
