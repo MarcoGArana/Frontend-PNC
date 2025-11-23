@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import { deleteMateria, updateMateria } from "../../../services/materiaService";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import courseBg from "../../../assets/images/courses-background.png";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Card = ({ data, rol }) => {
   const { id, nombre, imagen: image } = data;
@@ -11,104 +14,148 @@ const Card = ({ data, rol }) => {
   const [imageUrl, setImageUrl] = useState(image);
 
   const display = deleted ? "hidden" : "";
-  const previewImage = imageUrl != "" ? imageUrl : "http://localhost:5173/src/assets/images/landscape-placeholder.svg"; 
+  const previewImage =
+    imageUrl ||
+    "http://localhost:5173/src/assets/images/landscape-placeholder.svg";
 
   const handleDelete = () => {
-    try {
-      deleteMateria({ materiaId: id });
-      setDeleted(true);
-      toast.success('Materia eliminada correctamente!');
+    deleteMateria({ materiaId: id });
+    setDeleted(true);
+    Swal.fire({
+      icon: "success",
+      title: "Materia eliminada",
+      text: "Materia eliminada correctamente.",
+      timer: 1200,
+      showConfirmButton: false,
+    });
+  };
 
-    } catch (error) {
-      console.log(error);
-
-    }
-  }
-
-  const toggleUpdate = () => {
-    setEditable((state) => !state);
-  }
+  const toggleUpdate = () => setEditable(!editable);
 
   const handleUpdate = (e) => {
     e.preventDefault();
 
     if (!name || !imageUrl) {
-      toast.error('Por favor ingresa un nombre y una URL de imagen');
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Por favor ingresa un nombre y una URL de imagen",
+      });
+
       return;
     }
 
-    updateMateria(
-      {
-        materiaUpdate: {
-          id: id,
-          nombre: name,
-          isVisible: true,
-          imagen: imageUrl
-        }
-      });
+    updateMateria({
+      materiaUpdate: { id, nombre: name, imagen: imageUrl, isVisible: true },
+    });
 
-    toast.success('Materia actualizada correctamente!');
+    Swal.fire({
+      icon: "success",
+      title: "Materia actualizada correctamente",
+      timer: 1200,
+      showConfirmButton: false,
+    });
+
     setEditable(false);
-  }
+  };
 
   return (
-    <div className={`grid ${display}`}>
+    <div className={`w-full max-w-full sm:max-w-[480px] mx-auto ${display}`}>
 
-      {rol == 'admin' && (
-        <div className="flex gap-0.5 relative justify-end -bottom-7">
-          <button className="cursor-pointer" onClick={toggleUpdate}>
-            <svg xmlns="http://www.w3.org/2000/svg" id="delete" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" /></svg>
-          </button>
-          <button className="cursor-pointer" onClick={handleDelete}>
-            <svg xmlns="http://www.w3.org/2000/svg" id="modify" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" /></svg>
-          </button>
-        </div>
-      )}
+      <div className="border-[2.5px] w-full bg-white/200 rounded-xl shadow-md border-[var(--color-titles-purple)]  relative p-2 sm:p-0">
 
-      {editable && (
-        <form onSubmit={handleUpdate} className="flex h-44">
-          <div className="w-1/10">
-            <img src={previewImage} className="w-44 h-44 rounded-full absolute border-primary border-4 border-solid bg-white" />
+        {/* If a person is admin this buttoms will be visible */}
+        {rol === "admin" && !editable && (
+          <div className="absolute right-3 top-3 flex gap-3 z-30">
+            <button
+              onClick={toggleUpdate}
+              className="p-2 bg-fuchsia-300 rounded-full text-white text-base hover:bg-amber-50 transition"
+              title="Editar"
+            >
+              <FaEdit />
+            </button>
+
+            <button
+              onClick={handleDelete}
+              className="p-2 bg-fuchsia-300 rounded-full text-white text-base hover:bg-amber-50 transition"
+              title="Eliminar"
+            >
+              <FaTrashAlt />
+            </button>
           </div>
-          <div className="w-5xl">
-            <div className="h-1/5 w-full"></div>
-            <input className="h-2/5 w-full border-r-4 border-t-4 border-b-2 border-primary border-solid flex items-center pl-24"
+        )}
+
+        {/* Edit mode */}
+        {editable && (
+          <form onSubmit={handleUpdate} className="p-4 flex flex-col gap-3 items-center">
+            <img
+              src={previewImage}
+              className="w-28 h-28 rounded-full border-[2.5px] border-[var(--color-titles-purple)] object-cover"
+            />
+
+            <input
               type="url"
-              placeholder="imagen"
+              className="border title-font border-gray-300 p-2 rounded w-full text-[var(--color-border-shadow)] font-light
+                  placeholder:text-gray-400 placeholder:font-light"
+              placeholder="URL de imagen"
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
               required
-            ></input>
-            <input className="h-2/5 w-full border-b-4 border-r-4 border-primary border-solid flex items-center pl-24 text-2xl"
+            />
+
+            <input
               type="text"
-              placeholder="nombre"
+              className="border title-font border-gray-300 p-2 rounded w-full text-[var(--color-border-shadow)] font-light
+                  placeholder:text-gray-400 placeholder:font-light"
+              placeholder="Nombre"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-            >
-            </input>
-            <button type="submit" className="hidden">Enviar</button>
-          </div>
-        </form>
-      )}
+            />
 
-      {!editable && (
-        <Link to={`./materia/${name}/${id}`} className="flex h-44">
-          <div className="w-1/10">
-            <img src={`${imageUrl}`} className="w-44 h-44 rounded-full absolute border-primary border-4 border-solid bg-white" />
-          </div>
-          <div className="w-5xl">
-            <div className="h-1/5 w-full"></div>
-            <div className="h-2/5 w-full border-r-4 border-t-4 border-primary border-solid bg-[url(https://cdn.pixabay.com/photo/2024/05/30/08/48/pattern-8798134_1280.png)]"></div>
-            <div className="h-2/5 w-full border-b-4 border-r-4 border-primary border-solid flex items-center pl-24 text-2xl">
-              {name}
+            <button className="btn-primary py-2 rounded w-full">
+              Guardar
+            </button>
+          </form>
+        )}
+
+        {/* Normal view */}
+        {!editable && (
+          <Link to={`./materia/${name}/${id}`} className="block">
+
+            <div className="relative flex flex-wrap items-center gap-0">
+
+              <div className="absolute top-0 left-0 right-0 h-16 overflow-hidden rounded-t-xl z-0">
+                <div
+                  className="w-full h-full bg-cover bg-center"
+                  style={{
+                    backgroundImage: `url(${courseBg})`,
+                  }}
+                />
+              </div>
+
+              <div className="relative -ml-10 sm:-ml-12 shrink-0 z-20">
+                <img
+                  src={imageUrl}
+                  className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-[var(--color-titles-purple)] object-cover bg-white"
+                />
+              </div>
+
+              <div className="flex-1 z-10">
+
+                <div className="pt-16"></div>
+
+                <div className="py-3 pl-4 text-sm sm:text-base text-[var(--color-titles-purple)] body-font bg-white rounded-b-xl">
+                  {name}
+                </div>
+              </div>
+
             </div>
-          </div>
-        </Link>
-      )}
-
+          </Link>
+        )}
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default Card;

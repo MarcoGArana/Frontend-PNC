@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { createExam } from "../../../services/examService";
+import Swal from "sweetalert2";
 
-const ExamForm = ({ materiaId, onClose }) => {
+const ExamForm = ({ materiaId, onClose, saveExam }) => {
     const [formData, setFormData] = useState({
         name: '',
         isVisible: true,
@@ -27,26 +26,109 @@ const ExamForm = ({ materiaId, onClose }) => {
 
         try {
             const { name, isVisible, description, duration, daysDuration } = formData;
+
+            if (!name || name.trim().length === 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El nombre del examen es obligatorio",
+                });
+                return;
+            }
+
+            if (name.trim().length < 3) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El nombre debe tener al menos 3 caracteres",
+                });
+                return;
+            }
+
+            if (!description || description.trim().length === 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La descripción es obligatoria",
+                });
+                return;
+            }
+
+            if (description.trim().length < 10) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La descripción debe tener al menos 10 caracteres",
+                });
+                return;
+            }
+
+            if (duration === "" || duration === null) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La duración es obligatoria",
+                });
+                return;
+            }
+
+            if (isNaN(duration) || duration <= 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "La duración debe ser un número mayor a 0",
+                });
+                return;
+            }
+
+            if (daysDuration === "" || daysDuration === null) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El número de días es obligatorio",
+                });
+                return;
+            }
+
+            if (isNaN(daysDuration) || daysDuration < 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Los días deben ser un número mayor o igual a 0",
+                });
+                return;
+            }
+
             const DateHourBegin = new Date();
             const DateHourEnd = new Date(DateHourBegin);
 
-            //Conversiones:
             const durationMillis = duration * 60 * 60 * 1000;
             DateHourEnd.setDate(DateHourEnd.getDate() + daysDuration);
             const examData = {
-                    name: name,
-                    isVisible: isVisible,
-                    description: description,
-                    duration: durationMillis,
-                    DateHourBegin: DateHourBegin,
-                    DateHourEnd: DateHourEnd,
-                    idMateria: materiaId
-                }
-            const res = createExam({examData: examData});
+                name: name,
+                isVisible: isVisible,
+                description: description,
+                duration: durationMillis,
+                DateHourBegin: DateHourBegin,
+                DateHourEnd: DateHourEnd,
+                idMateria: materiaId
+            }
+
+            saveExam({ examData: examData });
             onClose();
-            toast.success('Examen creado!');
+            Swal.fire({
+                icon: "success",
+                title: "!Examen creado!",
+                text: "El examen fue creado correctamente.",
+                timer: 1200,
+                showConfirmButton: false,
+            });
         } catch (e) {
-            console.log(e);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error al crear el examen",
+            });
 
         } finally {
             setLoading(false);
@@ -54,16 +136,16 @@ const ExamForm = ({ materiaId, onClose }) => {
     };
 
     return (
-        <div className=" modal-overlay">
-            <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg">
-                <div className="flex items-center gap-2 mb-6">
-                    <h2 className="text-2xl font-bold text-gray-800">Crear examen</h2>
+        <div className="">
+            <div className="p-6 bg-white rounded-lg">
+                <div className="flex items-center justify-center pb-10">
+                    <h2 className="text-4xl font-medium title uppercase">Crear un nuevo examen</h2>
                 </div>
 
-                <div className="space-y-4">
-                    <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                            Nombre:
+                <div className="w-full grid gap-8">
+                    <div className="grid grid-cols-2 items-center px-4">
+                        <label htmlFor="name" className="text-base font-semibold body pl-20">
+                            Nombre del parcial:
                         </label>
                         <input
                             type="text"
@@ -71,13 +153,14 @@ const ExamForm = ({ materiaId, onClose }) => {
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
-                            placeholder="Nombre del examen"
+                            className="w-[30rem] px-4 py-2.5 border border-gray-300 rounded-md title-font font-light
+                                      text-[var(--color-border-shadow)] focus:outline-none focus:ring-2 focus:ring-purple-400"
+                            placeholder="Ej. Parcial final"
                             required
                         />
                     </div>
-                    <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="grid grid-cols-2 items-center px-4">
+                        <label htmlFor="description" className="text-base font-semibold body pl-20">
                             Descripcion:
                         </label>
                         <input
@@ -86,13 +169,14 @@ const ExamForm = ({ materiaId, onClose }) => {
                             name="description"
                             value={formData.description}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
-                            placeholder="Descripcion"
+                            className="w-[30rem] px-4 py-2.5 border border-gray-300 rounded-md title-font font-light
+                                     text-[var(--color-border-shadow)] focus:outline-none focus:ring-2 focus:ring-purple-400"
+                            placeholder="Ej. Este es el parcial final, equivale al 40% de la nota final"
                             required
                         />
                     </div>
-                    <div>
-                        <label htmlFor="duration" className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="grid grid-cols-2 items-center px-4">
+                        <label htmlFor="duration" className="text-base font-semibold body pl-20">
                             Duracion en horas:
                         </label>
                         <input
@@ -102,12 +186,13 @@ const ExamForm = ({ materiaId, onClose }) => {
                             name="duration"
                             value={formData.duration}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+                            className="w-20 px-4 py-2.5 border border-gray-300 rounded-md title-font font-light
+                                     text-[var(--color-border-shadow)] focus:outline-none focus:ring-2 focus:ring-purple-400"
                             required
                         />
                     </div>
-                    <div>
-                        <label htmlFor="daysDuration" className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="grid grid-cols-2 items-center px-4">
+                        <label htmlFor="daysDuration" className="text-base font-semibold body pl-20">
                             Fecha maxima en dias:
                         </label>
                         <input
@@ -117,28 +202,40 @@ const ExamForm = ({ materiaId, onClose }) => {
                             name="daysDuration"
                             value={formData.daysDuration}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+                            className="w-20 px-4 py-2.5 border border-gray-300 rounded-md title-font font-light
+                                      text-[var(--color-border-shadow)] placeholder:text-gray-400 
+                            focus:outline-none focus:ring-2 focus:ring-purple-400"
                             required
                         />
                     </div>
 
-                    <button
-                        type="button"
-                        onClick={handleSubmit}
-                        disabled={loading}
-                        className="cursor-pointer w-full flex items-center justify-center gap-2 bg-secondary text-white py-2 px-4 rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {loading ? (
-                            <>
-                                <div className="rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                Creando...
-                            </>
-                        ) : (
-                            <>
-                                Crear examen
-                            </>
-                        )}
-                    </button>
+                    <div className="flex justify-center w-full gap-16">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            disabled={loading}
+                            className="btn-secondary py-2 px-4 rounded-md min-w-36"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleSubmit}
+                            disabled={loading}
+                            className="btn-primary py-2 px-4 rounded-md min-w-36"
+                        >
+                            {loading ? (
+                                <>
+                                    <div className="rounded-full h-4 w-4 border-b-2"></div>
+                                    Creando...
+                                </>
+                            ) : (
+                                <>
+                                    Crear examen
+                                </>
+                            )}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

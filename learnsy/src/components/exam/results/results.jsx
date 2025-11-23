@@ -1,48 +1,49 @@
-import { useNavigate } from "react-router-dom";
-import useQuestionsStore from "../../../store/questions"
-import { useEffect } from "react";
-import { finishExam } from "../../../services/examService";
+import { useNavigate, useParams } from "react-router-dom";
+import useQuestionsStore from "../../../store/questions";
 
-const Results = ({examId, userId}) => {
-  
-  const questions = useQuestionsStore(state => state.questions)
-  const respuestas = useQuestionsStore(state => state.respuestas)
+const Results = () => {
+  const { materiaId, nombre } = useParams();
+
+  const questions = useQuestionsStore(state => state.questions);
+  const respuestas = useQuestionsStore(state => state.respuestas);
   const navigate = useNavigate();
 
-  let correct = 0
-  let incorrect = 0
-  let unanswered = 0
-
+  let correct = 0;
+  let incorrect = 0;
+  let unanswered = 0;
+  
   questions.forEach(q => {
-    const userAnswer = respuestas[q.id]
-    if(!userAnswer) unanswered++
-    else if(q.responses.find(ans => ans.id == userAnswer).isCorrect) correct++
-    else incorrect++
+    const userAnswer = respuestas[q.id];
+    if(!userAnswer) unanswered++;
+    else if(q.responses.find(ans => ans.id == userAnswer).isCorrect) correct++;
+    else incorrect++;
   });
 
   const calificacion = (correct*10)/(questions.length);
-  const handleClick = async () => {
-    await finishExam({
-      examId: examId,
-      userId: userId,
-      calificacion: calificacion
-    });
-    navigate('/dashboard');
+
+  const handleClick = () => {
+    navigate(`/dashboard/materia/${nombre}/${materiaId}`);
   }
 
   return (
-    <div className="p-8 text-xl font-normal grid grid-cols-1 gap-5">
-      <h1>¡Tus resultados</h1>
+    <div className="p-8 text-xl font-normal grid grid-cols-1 gap-5 justify-items-center">
+      <h2 className="text-4xl title">Tus resultados</h2>
+      <img src="../../../../../../src/assets/icons/d2014145c2108618a066776973b552c1d0088844.png" className="max-w-16 h-auto" />
 
-      <strong className="flex gap-3.5">
-        <p>✅ {correct} Correctas,</p>
-        <p>❌ {incorrect} Incorrectas,</p>
-        <p> {unanswered} Sin responder</p>
-      </strong>
-      <p>Calificacion: {calificacion}</p>
+      <div className="grid grid-cols-4 grid-rows-2 bg-gray body font-medium justify-items-center items-center rounded-2xl border-2 border-purple mb-5">
+        <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-semibold text-base">Respuestas correctas</p>
+        <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-semibold text-base">Respuestas incorrectas</p>
+        <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-semibold text-base">Preguntas sin responder</p>
+        <p className="p-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-semibold text-base">Calificacion</p>
 
-      <button className="cursor-pointer bg-ligthBlue text-white rounded w-fit p-3" onClick={handleClick}>
-          Volver al dashboard
+        <p className="border-r-2 border-purple w-full h-full grid justify-center items-center">{correct}</p>
+        <p className="border-r-2 border-purple w-full h-full grid justify-center items-center">{incorrect}</p>
+        <p className="border-r-2 border-purple w-full h-full grid justify-center items-center">{unanswered}</p>
+        <p className="border-purple w-full h-full grid justify-center items-center font-bold">{calificacion.toFixed(2)}</p>
+      </div>
+
+      <button className="btn-primary rounded-md w-fit py-4 px-8" onClick={handleClick}>
+          Regresar al tablero
       </button>
     </div>
   )
