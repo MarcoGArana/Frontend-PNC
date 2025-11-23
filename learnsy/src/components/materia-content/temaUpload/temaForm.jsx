@@ -18,6 +18,7 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
         }));
     };
 
+    {}
     const handleFileChange = (e) => {
         const file = e.target.files[0];
 
@@ -142,6 +143,7 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
                             Nombre del contenido:
                         </label>
 
+                        {/*Input del nombre del contenido*/}
                         <input
                             type="text"
                             id="nombre"
@@ -164,6 +166,7 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
                             Archivo PDF:
                         </label>
 
+                        {/*Input del archivo PDF*/}
                         <input
                             type="file"
                             id="archivo"

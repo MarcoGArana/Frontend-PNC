@@ -50,6 +50,7 @@ const ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAddC
                 <h4 className="title-font font-normal text-white text-2xl uppercase tracking-wide">
                     {label}
                 </h4>
+                {/* Agrega los botones si el usuario es administrador */}
                 {rol === 'admin' && onAddClick && (
                     <button
                         onClick={onAddClick}
@@ -60,6 +61,7 @@ const ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAddC
                 )}
             </div>
             <div className="bg-[#F5F5F5] p-6">
+                {/*Carga el contenido y los examenes*/}
                 {data && data.length > 0 ? (
                     <div className="flex flex-col gap-3">
                         {data.map((content, index) => {
@@ -96,6 +98,7 @@ const ContentCard = ({ data, label, type, deleteTopic, deleteExamen, rol, onAddC
                                             {index + 1}. {name}
                                         </span>
                                     </button>
+                                    {/* Boton de borrar temas y examenes solo si el usuario es admin */}
                                     {rol === 'admin' && (
                                         <button
                                             className="cursor-pointer p-1 hover:bg-gray-200 rounded transition-colors flex-shrink-0"
