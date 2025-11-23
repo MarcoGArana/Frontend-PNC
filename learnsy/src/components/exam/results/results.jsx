@@ -26,14 +26,14 @@ const Results = () => {
 
   return (
     <div className="p-8 text-xl font-normal grid grid-cols-1 gap-5 justify-items-center">
-      <h2 className="text-4xl text-purple">Tus resultados</h2>
+      <h2 className="text-4xl title">Tus resultados</h2>
       <img src="../../../../../../src/assets/icons/d2014145c2108618a066776973b552c1d0088844.png" className="max-w-16 h-auto" />
 
-      <div className="grid grid-cols-4 grid-rows-2 bg-gray text-dark-text justify-items-center items-center rounded-2xl border-2 border-purple mb-5">
-        <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-bold">Respuestas correctas</p>
-        <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-bold">Respuestas incorrectas</p>
-        <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-bold">Preguntas sin responder</p>
-        <p className="p-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-bold">Calificacion</p>
+      <div className="grid grid-cols-4 grid-rows-2 bg-gray body font-medium justify-items-center items-center rounded-2xl border-2 border-purple mb-5">
+        <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-semibold text-base">Respuestas correctas</p>
+        <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-semibold text-base">Respuestas incorrectas</p>
+        <p className="p-2 border-r-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-semibold text-base">Preguntas sin responder</p>
+        <p className="p-2 border-b-2 border-purple w-full h-full grid justify-center items-center text-center font-semibold text-base">Calificacion</p>
 
         <p className="border-r-2 border-purple w-full h-full grid justify-center items-center">{correct}</p>
         <p className="border-r-2 border-purple w-full h-full grid justify-center items-center">{incorrect}</p>
@@ -41,7 +41,7 @@ const Results = () => {
         <p className="border-purple w-full h-full grid justify-center items-center font-bold">{calificacion.toFixed(2)}</p>
       </div>
 
-      <button className="btn-primary rounded-xl w-fit py-4 px-8" onClick={handleClick}>
+      <button className="btn-primary rounded-md w-fit py-4 px-8" onClick={handleClick}>
           Regresar al tablero
       </button>
     </div>

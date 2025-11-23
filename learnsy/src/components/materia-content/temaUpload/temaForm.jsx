@@ -72,9 +72,12 @@ const PDFUploadForm = ({ materiaId, onClose, saveTema }) => {
             showCancelButton: true,
             confirmButtonText: "Subir",
             cancelButtonText: "Cancelar",
-            confirmButtonColor: "#C65CB1",
-            cancelButtonColor: "#C65CB1",
-            reverseButtons: true
+            reverseButtons: true,
+            customClass: {
+                confirmButton: "btn-primary px-6 py-2 rounded-lg",
+                cancelButton: "btn-secondary px-6 py-2 rounded-lg",
+                actions: "flex gap-4 justify-center",
+            },
         });
 
         if (!result.isConfirmed) return;

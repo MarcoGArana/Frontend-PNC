@@ -79,7 +79,7 @@ const InitExam = ({ examName, user, examId, materiaId, handleStartExam }) => {
                 type="button"
                 onClick={startExam}
             >
-                INICIAR EVALUACION
+                Iniciar evaluacion
             </button>
         </div>
     )
