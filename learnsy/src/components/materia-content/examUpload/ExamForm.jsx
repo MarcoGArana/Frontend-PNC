@@ -99,7 +99,7 @@ const ExamForm = ({ materiaId, onClose, saveExam }) => {
                 return;
             }
 
-            const DateHourBegin = new Date();
+            const DateHourBegin = new Date() + 1000;
             const DateHourEnd = new Date(DateHourBegin);
 
             const durationMillis = duration * 60 * 60 * 1000;
